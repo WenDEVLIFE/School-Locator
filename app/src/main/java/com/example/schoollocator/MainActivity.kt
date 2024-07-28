@@ -5,12 +5,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,23 +38,34 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun Splash(modifier: Modifier = Modifier) {
+    var loading by remember { mutableStateOf(false) }
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        Text(
-            text = "Hello, text",
-            modifier = Modifier.padding(16.dp),
-            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-            color = Color.White
-        )
-        CircularProgressIndicator(
-            color = Color.Blue,
-            modifier = Modifier.align(Alignment.Center)
-        )
 
+        // This is a simple example of a loading screen
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Hello, text",
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                color = Color.Black
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CircularProgressIndicator(
+                color = Color.Blue,
+                strokeWidth = 5.dp,
+                progress = 0.5f
+            )
+        }
     }
 }
 
