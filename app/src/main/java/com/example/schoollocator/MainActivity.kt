@@ -11,6 +11,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,8 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import kotlinx.coroutines.delay
@@ -50,8 +54,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-
 @Composable
 fun Splash(modifier: Modifier = Modifier) {
     var progress by remember { mutableStateOf(0f) }
@@ -60,29 +62,36 @@ fun Splash(modifier: Modifier = Modifier) {
         while (progress < 1f) {
             progress += 0.01f
             delay(50) // Adjust the delay to control the speed of the progress
-
         }
 
         if (progress >= 1) {
             Toast.makeText(context, "Loading complete", Toast.LENGTH_SHORT).show()
         }
-
     }
-
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(Green1) // Apply the Green1 color here
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(16.dp)
         ) {
+
+
+            Image(
+                painter = painterResource(id = R.drawable.school_locator),
+                contentDescription = "Icon",
+                modifier = Modifier.size(204.dp) // Adjust the size as needed
+            )
+
             Text(
-                text = "Hello, text",
+                text = "School Locator",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = Color.White,
-                fontSize = MaterialTheme.typography.bodyLarge.fontSize
+               fontSize = 25.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -90,11 +99,13 @@ fun Splash(modifier: Modifier = Modifier) {
             CircularProgressIndicator(
                 color = Color.White,
                 strokeWidth = 5.dp,
-                progress = progress
+                progress = progress,
+                modifier = Modifier.size(70.dp)
             )
         }
     }
 }
+
 @Composable
 fun LoadingScreen() {
     Splash()
@@ -104,7 +115,6 @@ fun LoadingScreen() {
 @Composable
 fun GreetingPreview() {
     SchoolLocatorTheme {
-        Splash(modifier = Modifier.fillMaxWidth().
-        background(Green1))
+        Splash(modifier = Modifier.fillMaxWidth())
     }
 }
