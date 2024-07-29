@@ -1,16 +1,11 @@
-package com.example.schoollocator
+package com.example.schoollocator.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import kotlinx.coroutines.delay
@@ -66,6 +62,8 @@ fun Splash(modifier: Modifier = Modifier) {
 
         if (progress >= 1) {
             Toast.makeText(context, "Loading complete", Toast.LENGTH_SHORT).show()
+            context.startActivity(Intent(context, Login::class.java))
+            (context as? ComponentActivity)?.finish()
         }
     }
 
