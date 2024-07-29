@@ -54,6 +54,8 @@ class MainActivity : ComponentActivity() {
 fun Splash(modifier: Modifier = Modifier) {
     var progress by remember { mutableStateOf(0f) }
     val context = LocalContext.current
+
+    // This is for the function of loading of circular indicator
     LaunchedEffect(Unit) {
         while (progress < 1f) {
             progress += 0.01f
