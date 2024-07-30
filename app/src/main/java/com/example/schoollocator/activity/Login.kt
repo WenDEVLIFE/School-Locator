@@ -172,9 +172,9 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 },
                 trailingIcon = {
                     val image = if (passwordVisible)
-                        painterResource(id = R.drawable.baseline_visibility_24)
+                        painterResource(id = R.drawable.see)
                     else
-                        painterResource(id = R.drawable.baseline_visibility_off_24)
+                        painterResource(id = R.drawable.eye)
 
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(painter = image, contentDescription = "Toggle password visibility")
@@ -208,7 +208,7 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             // Added text button for sign up
             TextButton(
@@ -218,10 +218,10 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 }
             ){
                 Text(
-                    text = "Don't have an acccount, click me to sign up?",
+                    text = "Don't have an acccount? click me to sign up",
                     fontFamily = MaterialTheme.typography.labelSmall.fontFamily,
                     color = Color.White,
-                    fontSize = 20.sp
+                    fontSize = 15.sp
                 )
             }
         }
