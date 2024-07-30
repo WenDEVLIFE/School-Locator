@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
@@ -311,6 +314,25 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 )
             }
 
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Enter OTP",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+            item {
+                OTPTextField( otpLength = 6, onOtpComplete = {})
+            }
 
             item { Spacer(modifier = Modifier.height(20.dp)) }
 
@@ -337,7 +359,45 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OTPTextField(
+    otpLength: Int = 6,
+    onOtpComplete: (String) -> Unit
+) {
+    var otpValues by remember { mutableStateOf(List(otpLength) { "" }) }
 
+    Row {
+        otpValues.forEachIndexed { index, value ->
+            TextField(
+                value = value,
+                onValueChange = { newValue ->
+                    if (newValue.length <= 1) {
+                        otpValues = otpValues.toMutableList().apply { this[index] = newValue }
+                        if (newValue.isNotEmpty() && index < otpLength - 1) {
+                            // Move focus to the next TextField
+                        }
+                        if (otpValues.all { it.isNotEmpty() }) {
+                            onOtpComplete(otpValues.joinToString(""))
+                        }
+                    }
+                },
+                placeholder = { Text(text = "") },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .size(45.dp)
+                    .padding(4.dp),
+                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
+    }
+}
 @Composable
 fun loadSignUp() {
     SignUpForm()
@@ -348,5 +408,13 @@ fun GreetingPreview3() {
     SchoolLocatorTheme {
         SignUpForm(modifier = Modifier.fillMaxWidth())
 
+    }
+}
+
+@Preview
+@Composable
+fun OTPPreview() {
+    SchoolLocatorTheme {
+        OTPTextField( otpLength = 6, onOtpComplete = {})
     }
 }
