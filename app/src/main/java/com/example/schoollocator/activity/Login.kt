@@ -82,7 +82,7 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // Image
             Image(
-                painter = painterResource(id = R.drawable.school_locator),
+                painter = painterResource(id = R.drawable.location),
                 contentDescription = "Icon",
                 modifier = Modifier.size(
                     width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
@@ -104,7 +104,9 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // Username text view
             Text(
-                modifier = Modifier.align(Alignment.Start),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
                 text = "Username",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = Color.White,
@@ -146,7 +148,9 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // Password text view
             Text(
-                modifier = Modifier.align(Alignment.Start),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
                 text = "Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = Color.White,
