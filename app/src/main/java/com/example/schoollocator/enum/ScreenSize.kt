@@ -1,4 +1,4 @@
-package com.example.schoollocator.ENUM
+package com.example.schoollocator.enum
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -9,9 +9,13 @@ enum class ScreenSize {
 @Composable
 fun getScreenSize(): ScreenSize {
     val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+    val screenHeight = configuration.screenHeightDp
+    val smallestWidth = minOf(screenWidth, screenHeight)
+
     return when {
-        configuration.screenWidthDp < 600 -> ScreenSize.SMALL
-        configuration.screenWidthDp < 840 -> ScreenSize.MEDIUM
+        smallestWidth < 600 -> ScreenSize.SMALL
+        smallestWidth < 840 -> ScreenSize.MEDIUM
         else -> ScreenSize.LARGE
     }
 }
