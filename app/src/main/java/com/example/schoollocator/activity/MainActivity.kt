@@ -33,6 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.schoollocator.ENUM.ScreenSize
+import com.example.schoollocator.ENUM.getScreenSize
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
@@ -52,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Splash(modifier: Modifier = Modifier) {
+    val screenSize = getScreenSize()
     var progress by remember { mutableStateOf(0f) }
     val context = LocalContext.current
 
@@ -84,14 +87,17 @@ fun Splash(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.school_locator),
                 contentDescription = "Icon",
-                modifier = Modifier.size(204.dp) // Adjust the size as needed
+                modifier = Modifier.size(
+                    width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
+                    height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
+                )// Adjust the size as needed
             )
 
             Text(
                 text = "School Locator",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = Color.White,
-               fontSize = 25.sp
+                fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -100,7 +106,10 @@ fun Splash(modifier: Modifier = Modifier) {
                 color = Color.White,
                 strokeWidth = 5.dp,
                 progress = progress,
-                modifier = Modifier.size(70.dp)
+                modifier = Modifier.size(
+                    width = if (screenSize == ScreenSize.SMALL) 60.dp else 70.dp,
+                    height = if (screenSize == ScreenSize.SMALL) 60.dp else 70.dp
+                )
             )
         }
     }
