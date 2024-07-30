@@ -1,4 +1,4 @@
-package com.example.schoollocator.enum
+package com.example.schoollocator.windowEnum
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
