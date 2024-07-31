@@ -72,21 +72,19 @@ class SignUp : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+
+    // get the conntext
     val context = LocalContext.current
+
+    // get the screen size  and set the variables
     val screenSize = getScreenSize()
+
+    // set the variables for the text fields
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var time by remember { mutableStateOf(0) }
 
-
-    LaunchedEffect(Unit) {
-        while (time > 0) {
-            delay(1000L) // 1 second delay
-            time--
-        }
-    }
 
     Box(
         modifier = modifier
@@ -259,79 +257,12 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         )
                     },
 
-                    trailingIcon = {
-                        val image = painterResource(id = R.drawable.baseline_send_24)
-                        IconButton(onClick = {
-                            if (time == 0){
-                                time = 60
-                                Toast.makeText(
-                                    context,
-                                    "Email sent",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }else{
-                                Toast.makeText(
-                                    context,
-                                    "Wait for $time seconds",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                        }) {
-                            Icon(
-                                painter = image,
-                                contentDescription = "Toggle password visibility",
-                                modifier = Modifier.size(
-                                    width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
-                                    height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
-                                )
-                            )
-                        }
-                    },
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     )
                 )
-            }
-
-            item { Spacer(modifier = Modifier.height(5.dp)) }
-
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp),
-                    text = if (time == 0) {
-                        ""
-                    } else {
-                        "Resend Email in $time seconds"
-                    },
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(5.dp)) }
-
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp),
-                    text = "Enter OTP",
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(5.dp)) }
-
-            item {
-                OTPTextField( otpLength = 6, onOtpComplete = {})
             }
 
             item { Spacer(modifier = Modifier.height(20.dp)) }
@@ -365,24 +296,35 @@ fun OTPTextField(
     otpLength: Int = 6,
     onOtpComplete: (String) -> Unit
 ) {
+
+    // remember is used to store the state of the otp values
     var otpValues by remember { mutableStateOf(List(otpLength) { "" }) }
 
+    // Row is used to display the otp text fields in a row
     Row {
         otpValues.forEachIndexed { index, value ->
             TextField(
                 value = value,
+
+                // onValueChange is called when the value of the TextField changes
                 onValueChange = { newValue ->
                     if (newValue.length <= 1) {
                         otpValues = otpValues.toMutableList().apply { this[index] = newValue }
+
+                        // Move focus to the previous TextField
                         if (newValue.isNotEmpty() && index < otpLength - 1) {
                             // Move focus to the next TextField
                         }
+
+                        // Call the onOtpComplete function when all the otp values are entered
                         if (otpValues.all { it.isNotEmpty() }) {
                             onOtpComplete(otpValues.joinToString(""))
                         }
                     }
                 },
-                placeholder = { Text(text = "") },
+
+                // placeholder is used to display the hint text in the TextField
+                placeholder = { Text(text = "Enter your OTP") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .size(45.dp)
@@ -398,10 +340,66 @@ fun OTPTextField(
         }
     }
 }
+
+
 @Composable
 fun loadSignUp() {
     SignUpForm()
 }
+
+@Composable
+fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
+
+    // This will get the screen size
+    val screenSize = getScreenSize()
+
+    var time by remember { mutableStateOf(0) }
+
+
+    LaunchedEffect(Unit) {
+        while (time > 0) {
+            delay(1000L) // 1 second delay
+            time--
+        }
+    }
+
+    // Box and LazyColumn together with the items compose the UI
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Green1)
+            .padding(16.dp)
+    ) {
+
+        // LazyColumn is used to display the items in a vertical list
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            // text
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Enter your OTP",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+            
+            // otp text field
+            item {
+                OTPTextField(otpLength = 6, onOtpComplete = {})
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview3() {
@@ -416,5 +414,13 @@ fun GreetingPreview3() {
 fun OTPPreview() {
     SchoolLocatorTheme {
         OTPTextField( otpLength = 6, onOtpComplete = {})
+    }
+}
+
+@Preview
+@Composable
+fun GreetingPreview4() {
+    SchoolLocatorTheme {
+        LoadOTP(modifier = Modifier.fillMaxWidth())
     }
 }
