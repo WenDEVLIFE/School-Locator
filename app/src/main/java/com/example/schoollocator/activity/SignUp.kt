@@ -135,6 +135,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(5.dp)) }
 
+            // This is for the username text field
             item {
                 TextField(
                     value = username,
@@ -164,6 +165,8 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(5.dp)) }
 
+
+            // This is for the password text
             item {
                 Text(
                     modifier = Modifier
@@ -176,8 +179,10 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 )
             }
 
+
             item { Spacer(modifier = Modifier.height(5.dp)) }
 
+            // This is for the password text field
             item {
                 TextField(
                     value = password,
@@ -214,6 +219,8 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                             )
                         }
                     },
+
+                    // This is to hide the password and unnhide the password
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
@@ -225,8 +232,11 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(5.dp)) }
 
+
+            // This is for the email text
             item {
                 Text(
+
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp),
@@ -237,17 +247,22 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 )
             }
 
+            // This is for the email text field where the user willl type the valid email
             item {
                 TextField(
                     value = email,
                     onValueChange = { email = it },
                     placeholder = { Text(text = "Enter your email") },
+
+                    // added rounded shape
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(14.dp)
                         .background(Color.Transparent),
                     textStyle = TextStyle(color = Color.Black, fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp),
+
+                    // This is to add the icon to the text field
                     leadingIcon = {
                         Icon(
                             modifier = Modifier.padding(end = 10.dp),
@@ -257,6 +272,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         )
                     },
 
+                    // This is for the colors of the text field
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
@@ -267,6 +283,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(20.dp)) }
 
+            // This is for the button registration
             item {
                 Button(
                     onClick = { onClick() },
@@ -356,6 +373,7 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
     var time by remember { mutableStateOf(0) }
 
 
+    // This will launch the the time
     LaunchedEffect(Unit) {
         while (time > 0) {
             delay(1000L) // 1 second delay
@@ -378,13 +396,39 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
             modifier = Modifier.padding(16.dp)
         ) {
 
+            // This is for the image
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.otp),
+                    contentDescription = "Icon",
+                    modifier = Modifier.size(
+                        width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
+                        height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
+                    )
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(26.dp)) }
+
+            // This is for OTP title
+            item {
+                Text(
+                    text = "OTP Verification",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(26.dp)) }
+
             // text
             item {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp),
-                    text = "Enter your OTP",
+                    text = "Enter your one time pin",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
                     fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
