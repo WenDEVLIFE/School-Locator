@@ -9,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,9 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -85,11 +82,12 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
+    // This is a boolean variable that will be used to show the OTP
     var showOTP by remember { mutableStateOf(false) }
 
 
     if (showOTP) {
-        loadOTP()
+        loadOTP(username,email,password)
     } else {
         // This are the  box and lazy column that will compose the UI
         Box(
@@ -305,7 +303,11 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 item {
                     Button(
                         onClick = {
-                            showOTP = true
+                            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                                showOTP = true
+                            } else {
+                                Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(20.dp),
@@ -364,12 +366,12 @@ fun OTPTextField(
                 },
 
                 // placeholder is used to display the hint text in the TextField
-                placeholder = { Text(text = "Enter your OTP") },
+                placeholder = { Text(text = "") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
-                    .size(45.dp)
+                    .size(40.dp)
                     .padding(4.dp),
-                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
@@ -388,12 +390,18 @@ fun loadSignUp() {
 }
 
 @Composable
-fun loadOTP() {
-    LoadOTP()
+fun loadOTP(username: String, email: String, password: String) {
+    LoadOTP(username = username, email = email, password = password)
 }
 
 @Composable
-fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
+fun LoadOTP(
+    username: String,
+    email: String,
+    password: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     // get the conntext
     val context = LocalContext.current
 
@@ -551,6 +559,6 @@ fun OTPPreview() {
 @Composable
 fun GreetingPreview4() {
     SchoolLocatorTheme {
-        LoadOTP(modifier = Modifier.fillMaxWidth())
+        LoadOTP(username = "username", email = "email", password = "password", modifier = Modifier.fillMaxWidth())
     }
 }
