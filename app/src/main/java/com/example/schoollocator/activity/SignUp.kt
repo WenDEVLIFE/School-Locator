@@ -380,10 +380,13 @@ fun loadOTP() {
 
 @Composable
 fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
+    // get the conntext
+    val context = LocalContext.current
 
     // This will get the screen size
     val screenSize = getScreenSize()
 
+    // This is time variable
     var time by remember { mutableStateOf(0) }
 
 
@@ -427,7 +430,7 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
             // This is for OTP title
             item {
                 Text(
-                    text = "OTP Verification",
+                    text = "Email OTP Verification",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
                     fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
@@ -463,6 +466,52 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
                     color = Color.White,
                     fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
                 )
+            }
+
+            // This is for the button registration
+            item {
+                Button(
+                    onClick = {
+                        if (time == 0) {
+                            time = 60
+                            Toast.makeText(context, "Code Resend Successfully", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(context, "Please wait for the time to elapse", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Resend the code",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
+            }
+
+            // This is for the button registration
+            item {
+                Button(
+                    onClick = { onClick() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Confim OTP",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
             }
         }
     }
