@@ -69,6 +69,7 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     // get the screen size
     val screenSize = getScreenSize()
 
+    // get the context
     val context = LocalContext.current
 
     // get the username and password

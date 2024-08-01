@@ -120,6 +120,8 @@ fun LoadingScreen() {
     Splash()
 }
 
+
+// This is for the preview of the Splash screen
 @Preview
 @Composable
 fun GreetingPreview() {

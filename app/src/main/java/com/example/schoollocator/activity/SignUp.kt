@@ -86,6 +86,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     var passwordVisible by remember { mutableStateOf(false) }
 
 
+    // This are the  box and lazy column that will compose the UI
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -97,6 +98,8 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
+
+            // This is for the image
             item {
                 Image(
                     painter = painterResource(id = R.drawable.location),
@@ -110,6 +113,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(26.dp)) }
 
+            // This is for the registration text
             item {
                 Text(
                     text = "Registration",
@@ -121,6 +125,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             item { Spacer(modifier = Modifier.height(26.dp)) }
 
+            // This is for the username text
             item {
                 Text(
                     modifier = Modifier
@@ -203,6 +208,8 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         )
                     },
                     trailingIcon = {
+
+                        // This will check if the password is visible or not
                         val image = if (passwordVisible)
                             painterResource(id = R.drawable.see)
                         else
@@ -307,6 +314,8 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
         }
     }
 }
+
+// Otp text field
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPTextField(
@@ -444,6 +453,16 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
             // otp text field
             item {
                 OTPTextField(otpLength = 6, onOtpComplete = {})
+            }
+
+            // This is for OTP title
+            item {
+                Text(
+                    text = "Time remaining : $time",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
             }
         }
     }
