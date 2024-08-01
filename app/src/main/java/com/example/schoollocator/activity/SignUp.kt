@@ -365,6 +365,11 @@ fun loadSignUp() {
 }
 
 @Composable
+fun loadOTP() {
+    LoadOTP()
+}
+
+@Composable
 fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
 
     // This will get the screen size
@@ -444,6 +449,7 @@ fun LoadOTP(modifier: Modifier = Modifier,onClick: () -> Unit = {}) {
     }
 }
 
+// This below here  are the previews for the composable functions
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview3() {

@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -63,9 +65,16 @@ class Login : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+
+    // get the screen size
     val screenSize = getScreenSize()
+
+    val context = LocalContext.current
+
+    // get the username and password
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     // This is for the password text field
     var passwordVisible by remember { mutableStateOf(false) }
     Box(
@@ -222,6 +231,8 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                     .padding(14.dp)
 
             ) {
+
+                // Login text
                 Text(
                     text = "Login",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
@@ -236,9 +247,14 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
             TextButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    onClick()
+
+                    // This will go to sign up screen
+                    context.startActivity(Intent(context, SignUp::class.java))
+                    (context as? ComponentActivity)?.finish()
                 }
             ){
+
+                // text label
                 Text(
                     text = "Don't have an acccount? click me to sign up",
                     fontFamily = MaterialTheme.typography.labelSmall.fontFamily,
