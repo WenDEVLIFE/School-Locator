@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,8 +37,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -332,6 +336,7 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 }
 
 // Otp text field
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPTextField(
@@ -339,40 +344,50 @@ fun OTPTextField(
     onOtpComplete: (String) -> Unit
 ) {
 
+    val context = LocalContext.current
+
     // remember is used to store the state of the otp values
     var otpValues by remember { mutableStateOf(List(otpLength) { "" }) }
+    val focusRequesters = List(otpLength) { FocusRequester() }
+    val focusManager = LocalFocusManager.current
 
     // Row is used to display the otp text fields in a row
     Row {
         otpValues.forEachIndexed { index, value ->
             TextField(
                 value = value,
-
-                // onValueChange is called when the value of the TextField changes
                 onValueChange = { newValue ->
                     if (newValue.length <= 1) {
                         otpValues = otpValues.toMutableList().apply { this[index] = newValue }
 
-                        // Move focus to the previous TextField
+                        // Move focus to the next TextField
                         if (newValue.isNotEmpty() && index < otpLength - 1) {
-                            // Move focus to the next TextField
+                            focusRequesters[index + 1].requestFocus()
+                            Toast.makeText(context, "OTP is $otpValues", Toast.LENGTH_SHORT).show()
                         }
 
                         // Call the onOtpComplete function when all the otp values are entered
                         if (otpValues.all { it.isNotEmpty() }) {
                             onOtpComplete(otpValues.joinToString(""))
+                            Toast.makeText(context, "OTP is $otpValues", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
-
-                // placeholder is used to display the hint text in the TextField
                 placeholder = { Text(text = "") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
-                    .size(40.dp)
-                    .padding(4.dp),
-                textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+                    .size(45.dp)
+                    .padding(4.dp)
+                    .focusRequester(focusRequesters[index]),
+                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        if (index == otpLength - 1) {
+                            focusManager.clearFocus()
+                        }
+                    }
+                ),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
@@ -382,7 +397,6 @@ fun OTPTextField(
         }
     }
 }
-
 
 @Composable
 fun loadSignUp() {
