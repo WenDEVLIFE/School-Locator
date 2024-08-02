@@ -3,6 +3,7 @@ package com.example.schoollocator.activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
@@ -418,7 +419,21 @@ fun LoadOTP(
     // This will get the screen size
     val screenSize = getScreenSize()
 
+    // This is for the timer
     var time by remember { mutableStateOf(60) }
+
+    // This will show the success screen
+    var showSuccess by remember { mutableStateOf(false) }
+
+
+
+
+    // Handle back press
+    BackHandler {
+        // Define the action to be taken on back press
+        Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
+
+    }
 
     // This will launch the timer
     LaunchedEffect(time) {
@@ -428,115 +443,131 @@ fun LoadOTP(
         }
     }
 
-    // Box and LazyColumn together with the items compose the UI
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Green1)
-            .padding(16.dp)
-    ) {
-
-        // LazyColumn is used to display the items in a vertical list
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(16.dp)
+    if (showSuccess) {
+        // Load the success screen
+        LoadSuccess()
+    } else {
+        // Box and LazyColumn together with the items compose the UI
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Green1)
+                .padding(16.dp)
         ) {
-            // This is for OTP title
-            item {
-                Text(
-                    text = "Email OTP Verification",
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
-                )
-            }
-            // This is for the image
-            item {
-                Image(
-                    painter = painterResource(id = R.drawable.otp),
-                    contentDescription = "Icon",
-                    modifier = Modifier.size(
-                        width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
-                        height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
-                    )
-                )
-            }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // text
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp),
-                    text = "We have sent a verification code to your email address",
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                )
-            }
-            item { Spacer(modifier = Modifier.height(15.dp)) }
-
-            // otp text field
-            item {
-                OTPTextField(otpLength = 4, onOtpComplete = {})
-            }
-
-            // This is for OTP title
-            item {
-                Text(
-                    text = "Time remaining : $time",
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                )
-            }
-
-            // This is for the button registration
-            item {
-                Button(
-                    onClick = {
-                        if (time == 0) {
-                            time = 60
-                            Toast.makeText(context, "Code Resend Successfully", Toast.LENGTH_SHORT).show()
-                        }
-                        else{
-                            Toast.makeText(context, "Please wait for the time to elapse", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(14.dp)
-                ) {
+            // LazyColumn is used to display the items in a vertical list
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                // This is for OTP title
+                item {
                     Text(
-                        text = "Resend the code",
+                        text = "Email OTP Verification",
                         fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Green1,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                        color = Color.White,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
                     )
                 }
-            }
-
-            // This is for the button registration
-            item {
-                Button(
-                    onClick = { onClick() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(14.dp)
-                ) {
-                    Text(
-                        text = "Confim OTP",
-                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Green1,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                // This is for the image
+                item {
+                    Image(
+                        painter = painterResource(id = R.drawable.otp),
+                        contentDescription = "Icon",
+                        modifier = Modifier.size(
+                            width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
+                            height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
+                        )
                     )
+                }
+
+                item { Spacer(modifier = Modifier.height(16.dp)) }
+
+                // text
+                item {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp),
+                        text = "We have sent a verification code to your email address",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Color.White,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                    )
+                }
+                item { Spacer(modifier = Modifier.height(15.dp)) }
+
+                // otp text field
+                item {
+                    OTPTextField(otpLength = 4, onOtpComplete = {})
+                }
+
+                // This is for OTP title
+                item {
+                    Text(
+                        text = "Time remaining : $time",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Color.White,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                    )
+                }
+
+                // This is for the button registration
+                item {
+                    Button(
+                        onClick = {
+                            if (time == 0) {
+                                time = 60
+                                Toast.makeText(
+                                    context,
+                                    "Code Resend Successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Please wait for the time to elapse",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp)
+                    ) {
+                        Text(
+                            text = "Resend the code",
+                            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                            color = Green1,
+                            fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                        )
+                    }
+                }
+
+                // This is for the button registration
+                item {
+                    Button(
+                        onClick = {
+
+                            // set the boolean to true to show the success screen
+                            showSuccess = true
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp)
+                    ) {
+                        Text(
+                            text = "Submit",
+                            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                            color = Green1,
+                            fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                        )
+                    }
                 }
             }
         }
