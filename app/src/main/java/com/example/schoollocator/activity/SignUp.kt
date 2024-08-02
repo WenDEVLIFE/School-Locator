@@ -336,11 +336,10 @@ fun SignUpForm(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 }
 
 // Otp text field
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPTextField(
-    otpLength: Int = 6,
+    otpLength: Int = 4,
     onOtpComplete: (String) -> Unit
 ) {
 
@@ -363,20 +362,18 @@ fun OTPTextField(
                         // Move focus to the next TextField
                         if (newValue.isNotEmpty() && index < otpLength - 1) {
                             focusRequesters[index + 1].requestFocus()
-                            Toast.makeText(context, "OTP is $otpValues", Toast.LENGTH_SHORT).show()
                         }
 
                         // Call the onOtpComplete function when all the otp values are entered
                         if (otpValues.all { it.isNotEmpty() }) {
                             onOtpComplete(otpValues.joinToString(""))
-                            Toast.makeText(context, "OTP is $otpValues", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
                 placeholder = { Text(text = "") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
-                    .size(45.dp)
+                    .size(60.dp)
                     .padding(4.dp)
                     .focusRequester(focusRequesters[index]),
                 textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
@@ -397,7 +394,6 @@ fun OTPTextField(
         }
     }
 }
-
 @Composable
 fun loadSignUp() {
     SignUpForm()
@@ -446,7 +442,15 @@ fun LoadOTP(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
-
+            // This is for OTP title
+            item {
+                Text(
+                    text = "Email OTP Verification",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
+                )
+            }
             // This is for the image
             item {
                 Image(
@@ -459,19 +463,7 @@ fun LoadOTP(
                 )
             }
 
-            item { Spacer(modifier = Modifier.height(26.dp)) }
-
-            // This is for OTP title
-            item {
-                Text(
-                    text = "Email OTP Verification",
-                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(26.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
             // text
             item {
@@ -479,17 +471,17 @@ fun LoadOTP(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp),
-                    text = "Enter your one time pin",
+                    text = "We have sent a verification code to your email address",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
                     fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
                 )
             }
-            item { Spacer(modifier = Modifier.height(5.dp)) }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
 
             // otp text field
             item {
-                OTPTextField(otpLength = 6, onOtpComplete = {})
+                OTPTextField(otpLength = 4, onOtpComplete = {})
             }
 
             // This is for OTP title
@@ -565,7 +557,7 @@ fun GreetingPreview3() {
 @Composable
 fun OTPPreview() {
     SchoolLocatorTheme {
-        OTPTextField( otpLength = 6, onOtpComplete = {})
+        OTPTextField( otpLength = 4, onOtpComplete = {})
     }
 }
 
