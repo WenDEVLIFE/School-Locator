@@ -543,6 +543,111 @@ fun LoadOTP(
     }
 }
 
+// This method wil load to success screen
+@Composable
+fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+
+    // get the screenn size
+    val screenSize = getScreenSize()
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Green1)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+
+    ) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(16.dp),
+        ) {
+            item {
+                Text(
+                    text = "Registration Successful",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+
+
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.success),
+                    contentDescription = "Icon",
+                    modifier = Modifier.size(
+                        width = if (screenSize == ScreenSize.SMALL) 120.dp else 150.dp,
+                        height = if (screenSize == ScreenSize.SMALL) 120.dp else 150.dp
+                    )
+                )
+            }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+
+            // text
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "You have successfully registered to School Locator",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+
+            // This is for the button registration
+            item {
+                Button(
+                    onClick = {
+
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Create a new one",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = {
+
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Go to login",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
+
+
+            }
+        }
+    }
+
+}
+
 // This below here  are the previews for the composable functions
 @Preview(showBackground = true)
 @Composable
@@ -566,5 +671,13 @@ fun OTPPreview() {
 fun GreetingPreview4() {
     SchoolLocatorTheme {
         LoadOTP(username = "username", email = "email", password = "password", modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Preview
+@Composable
+fun GreetingPreview5() {
+    SchoolLocatorTheme {
+        LoadSuccess(modifier = Modifier.fillMaxWidth())
     }
 }
