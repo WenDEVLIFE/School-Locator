@@ -28,10 +28,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,11 +39,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.R
-import com.example.schoollocator.windowEnum.ScreenSize
-import com.example.schoollocator.windowEnum.getScreenSize
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
+import com.example.schoollocator.viewmodel.LoginViewModel
+import com.example.schoollocator.windowEnum.ScreenSize
+import com.example.schoollocator.windowEnum.getScreenSize
 
 // This is used for screenn resizing
 class Login : ComponentActivity() {
@@ -72,12 +70,9 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     // get the context
     val context = LocalContext.current
 
-    // get the username and password
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    // This is for the view model
+    val viewModel: LoginViewModel = viewModel()
 
-    // This is for the password text field
-    var passwordVisible by remember { mutableStateOf(false) }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -127,8 +122,8 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // This is for the username text field
             TextField(
-                value = username,
-                onValueChange = { username = it },
+                value = viewModel.username.value,
+                onValueChange = { viewModel.setUsername(it) },
                 placeholder = {
                     Text(text = "Enter your username")
                 },
@@ -171,8 +166,8 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // This is for the password text field
             TextField(
-                value = password,
-                onValueChange = { password = it },
+                value = viewModel.password.value,
+                onValueChange = { viewModel.setPassword(it) },
                 placeholder = {
                     Text(text = "Enter your password")
                 },
@@ -194,12 +189,12 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
                 // added a trailing icon to toggle password visibility
                 trailingIcon = {
-                    val image = if (passwordVisible)
+                    val image = if (viewModel.isPasswordVisible.value)
                         painterResource(id = R.drawable.see)
                     else
                         painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    IconButton(onClick = { viewModel.passwordToogle() }) {
                         Icon(
                             painter = image,
                             contentDescription = "Toggle password visibility",
@@ -212,7 +207,7 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 },
 
                 // Use visualTransformation to hide the password
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White, // background color
                     focusedIndicatorColor = Color.Transparent, // focused border color

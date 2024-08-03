@@ -60,7 +60,6 @@ import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-import kotlinx.coroutines.delay
 
 class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -668,7 +667,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 30.sp
                     )
                 }
-
+8
                 item { Spacer(modifier = Modifier.height(16.dp)) }
 
                 // This is for the button registration
