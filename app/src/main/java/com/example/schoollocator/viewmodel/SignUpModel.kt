@@ -41,7 +41,7 @@ class SignUpModel : ViewModel() {
     val showSuccess: State<Boolean> = _showSuccess
 
     // This will go back to the previous screen
-    var backPressed3 = mutableStateOf(false)
+    private var backPressed3 = mutableStateOf(false)
     val isBackPressed3: State<Boolean> = backPressed3
 
 
