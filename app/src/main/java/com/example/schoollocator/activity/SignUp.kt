@@ -58,7 +58,6 @@ import com.example.schoollocator.R
 import com.example.schoollocator.activity.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.SignUpModel
-import com.example.schoollocator.viewmodel.SignUpViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import kotlinx.coroutines.delay
@@ -96,8 +95,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
     }
 
 
-    if (viewModel.showOTP) {
-        loadOTP(viewModel.username,email,password)
+    if (viewModel.showOTP.value) {
+        loadOTP(viewModel.username.value, viewModel.email.value, viewModel.password.value)
     } else {
         // This are the  box and lazy column that will compose the UI
         Box(
@@ -156,8 +155,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                 // This is for the username text field
                 item {
                     TextField(
-                        value = username,
-                        onValueChange = { username = it },
+                        value = viewModel.username.value,
+                        onValueChange = { viewModel.setUsername(it) },
                         placeholder = { Text(text = "Enter your username") },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
@@ -206,8 +205,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                 // This is for the password text field
                 item {
                     TextField(
-                        value = password,
-                        onValueChange = { password = it },
+                        value = viewModel.password.value,
+                        onValueChange = { viewModel.setPassword(it) },
                         placeholder = { Text(text = "Enter your password") },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
@@ -226,12 +225,12 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                         trailingIcon = {
 
                             // This will check if the password is visible or not
-                            val image = if (passwordVisible)
+                            val image = if (viewModel.isPasswordVisible.value)
                                 painterResource(id = R.drawable.see)
                             else
                                 painterResource(id = R.drawable.eye)
 
-                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            IconButton(onClick = { viewModel.togglePasswordVisible() }) {
                                 Icon(
                                     painter = image,
                                     contentDescription = "Toggle password visibility",
@@ -244,7 +243,7 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                         },
 
                         // This is to hide the password and unnhide the password
-                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Color.White,
                             focusedIndicatorColor = Color.Transparent,
@@ -273,8 +272,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                 // This is for the email text field where the user willl type the valid email
                 item {
                     TextField(
-                        value = email,
-                        onValueChange = { email = it },
+                        value = viewModel.email.value,
+                        onValueChange = { viewModel.setEmail(it) },
                         placeholder = { Text(text = "Enter your email") },
 
                         // added rounded shape
@@ -313,8 +312,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
                 item {
                     Button(
                         onClick = {
-                            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                                showOTP = true
+                            if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
+                                viewModel.setShowOTP(true)
                             } else {
                                 Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                             }

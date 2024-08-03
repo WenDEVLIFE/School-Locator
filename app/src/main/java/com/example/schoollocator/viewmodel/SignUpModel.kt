@@ -17,13 +17,16 @@ class SignUpModel : ViewModel() {
     private val _password = mutableStateOf("")
     val password: State<String> = _password
 
+    private var _passwordVisible = mutableStateOf(false)
+    val isPasswordVisible: State<Boolean> = _passwordVisible
+
     private val _showOTP = mutableStateOf(false)
     val showOTP: State<Boolean> = _showOTP
 
     private val _time = mutableStateOf(60)
     val time: State<Int> = _time
 
-    private val _showSuccess = mutableStateOf(false)
+    private var _showSuccess = mutableStateOf(false)
     val showSuccess: State<Boolean> = _showSuccess
 
     fun setUsername(value: String) {
@@ -42,6 +45,12 @@ class SignUpModel : ViewModel() {
         _showOTP.value = value
     }
 
+    // get the toogle password visible
+    fun togglePasswordVisible() {
+        _passwordVisible.value = !_passwordVisible.value
+    }
+
+    // This will start the timer once it is called
     fun startTimer() {
         viewModelScope.launch {
             while (_time.value > 0) {
@@ -51,7 +60,9 @@ class SignUpModel : ViewModel() {
         }
     }
 
+    // This will set the time to 60
     fun setShowSuccess(value: Boolean) {
         _showSuccess.value = value
     }
+
 }
