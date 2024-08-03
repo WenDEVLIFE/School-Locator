@@ -79,7 +79,7 @@ class SignUp : ComponentActivity() {
 fun SignUpForm(username1: String, email1: String, password1: String,modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     // Added the view model
-    val viewModel: SignUpModel = viewModel()
+   val viewModel: SignUpModel = viewModel()
 
     // get the conntext
     val context = LocalContext.current
@@ -423,39 +423,38 @@ fun LoadOTP(
     // This will get the screen size
     val screenSize = getScreenSize()
 
-    // This is for the timer
-    var time by remember { mutableStateOf(60) }
+    // This is for the view model
+    val viewModel: SignUpModel = viewModel()
 
-    // This will show the success screen
-    var showSuccess by remember { mutableStateOf(false) }
-    
-    // This will go back to the previous screen
-    var backPressed by remember { mutableStateOf(false) }
-    
+    // Start the timer when the composable is first displayed
+    LaunchedEffect(Unit) {
+        viewModel.startTimer()
+    }
+
     // Handle back press
     BackHandler {
         // Define the action to be taken on back press
         Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
-        backPressed = true
+        viewModel.setBackPressed3(true)
 
     }
 
-    // This will launch the timer
-    LaunchedEffect(time) {
-        while (time > 0) {
-            delay(1000L) // 1 second delay
-            time--
-        }
-    }
 
-    if (showSuccess) {
+    if (viewModel.showSuccess.value) {
         // Load the success screen
         LoadSuccess()
+        viewModel.setShowSuccess(true)
     }
 
-    else if (backPressed) {
+    else if (viewModel.isBackPressed3.value) {
         // Go back to the previous screen
-        SignUpForm(username1= username, email1 = email, password1 = password, modifier = Modifier.fillMaxWidth())
+        SignUpForm(
+            username1 = username,
+            email1 = email,
+            password1 = password,
+            modifier = Modifier.fillMaxWidth()
+        )
+        viewModel.setBackPressed3(true)
     }
     else {
         // Box and LazyColumn together with the items compose the UI
@@ -517,7 +516,7 @@ fun LoadOTP(
                 // This is for OTP title
                 item {
                     Text(
-                        text = "Time remaining : $time",
+                        text = "Time remaining : ${viewModel.time.value}",
                         fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                         color = Color.White,
                         fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -528,8 +527,8 @@ fun LoadOTP(
                 item {
                     Button(
                         onClick = {
-                            if (time == 0) {
-                                time = 60
+                            if (viewModel.time.value == 0) {
+                                viewModel.startTimer()
                                 Toast.makeText(
                                     context,
                                     "Code Resend Successfully",
@@ -564,7 +563,7 @@ fun LoadOTP(
                         onClick = {
 
                             // set the boolean to true to show the success screen
-                            showSuccess = true
+                            viewModel.setShowSuccess(true)
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(20.dp),
@@ -592,24 +591,31 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     // This is for the context
     val context = LocalContext.current
 
+    // This is for the view model
+    val viewModel: SignUpModel = viewModel()
+
     // get the screenn size
     val screenSize = getScreenSize()
 
-    // This will go back to the previous screen
-    var backPressed1 by remember { mutableStateOf(false) }
-    var backPressed2 by remember { mutableStateOf(false) }
-
+    // TODO: Fix the bug on the state and host here in the load screen
     BackHandler {
         context.startActivity(Intent(context, Login::class.java))
         (context as? ComponentActivity)?.finish()
+        viewModel.setBackPressed2(true)
     }
 
-    if (backPressed1) {
+    // This will check if the back is pressed
+    if (viewModel.isBackPressed1.value) {
         SignUpForm(username1 = "", email1 = "", password1 = "", modifier = Modifier.fillMaxWidth())
+        viewModel.setBackPressed1(true)
+
     }
-    else if (backPressed2) {
+    
+    // This will check if the back is pressed
+    else if (viewModel.isBackPressed2.value) {
         context.startActivity(Intent(context, Login::class.java))
         (context as? ComponentActivity)?.finish()
+        viewModel.setBackPressed3(true)
     }
     else {
 
@@ -631,7 +637,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         text = "Registration Successful",
                         fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                         color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
+                        fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 35.sp
                     )
                 }
 
@@ -659,7 +665,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         text = "You have successfully registered to School Locator",
                         fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                         color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                        fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 30.sp
                     )
                 }
 
@@ -669,7 +675,10 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 item {
                     Button(
                         onClick = {
-                            backPressed2 = true
+
+                            // set the boolean to true to show the success screen
+                            viewModel.setBackPressed1(true)
+
 
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -690,7 +699,8 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                 item {
                     Button(
                         onClick = {
-                            backPressed1 = true
+                            // This will go back to the previous screen
+                            viewModel.setBackPressed1(true)
 
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
