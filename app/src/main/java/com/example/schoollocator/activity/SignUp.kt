@@ -53,9 +53,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.viewmodel.SignUpModel
+import com.example.schoollocator.viewmodel.SignUpViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import kotlinx.coroutines.delay
@@ -76,20 +79,14 @@ class SignUp : ComponentActivity() {
 @Composable
 fun SignUpForm(username1: String, email1: String, password1: String,modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
+    // Added the view model
+    val viewModel: SignUpModel = viewModel()
+
     // get the conntext
     val context = LocalContext.current
 
     // get the screen size  and set the variables
     val screenSize = getScreenSize()
-
-    // set the variables for the text fields
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    // This is a boolean variable that will be used to show the OTP
-    var showOTP by remember { mutableStateOf(false) }
 
     
     // This is for the back press
@@ -99,8 +96,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
     }
 
 
-    if (showOTP) {
-        loadOTP(username,email,password)
+    if (viewModel.showOTP) {
+        loadOTP(viewModel.username,email,password)
     } else {
         // This are the  box and lazy column that will compose the UI
         Box(
