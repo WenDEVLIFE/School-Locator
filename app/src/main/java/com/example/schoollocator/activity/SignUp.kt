@@ -614,7 +614,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     else if (viewModel.isBackPressed2.value) {
         context.startActivity(Intent(context, Login::class.java))
         (context as? ComponentActivity)?.finish()
-        viewModel.setBackPressed3(true)
+        viewModel.setBackPressed2(true)
     }
     else {
 
@@ -699,7 +699,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                     Button(
                         onClick = {
                             // This will go back to the previous screen
-                            viewModel.setBackPressed1(true)
+                            viewModel.setBackPressed2(true)
 
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
