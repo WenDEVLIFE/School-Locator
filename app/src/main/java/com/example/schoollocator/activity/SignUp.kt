@@ -54,6 +54,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.ui.theme.Green1
@@ -69,7 +73,7 @@ class SignUp : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                loadSignUp()
+                AppNavigation()
             }
         }
     }
@@ -77,7 +81,7 @@ class SignUp : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpForm(username1: String, email1: String, password1: String,modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> Unit = {}) {
 
     // Added the view model
    val viewModel: SignUpModel = viewModel()
@@ -97,7 +101,8 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
 
 
     if (viewModel.showOTP.value) {
-        loadOTP()
+        navController.navigate("otp")
+        viewModel.setShowOTP(true)
     } else {
         // This are the  box and lazy column that will compose the UI
         Box(
@@ -402,9 +407,7 @@ fun OTPTextField(
 }
 @Composable
 fun LoadOTP(
-    username: String,
-    email: String,
-    password: String,
+    navController: NavController,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -416,7 +419,6 @@ fun LoadOTP(
 
     // This is for the view model
     val viewModel: OTPViewModel = viewModel()
-    val viewModel1:  SignUpModel = viewModel()
 
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
@@ -439,9 +441,9 @@ fun LoadOTP(
 
     if (viewModel.showSuccess.value) {
         // Load the success screen
-        LoadSuccess()
        try{
            viewModel.setShowSuccess(true)
+           navController.navigate("success")
        }
        catch (e: Exception) {
            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -450,8 +452,8 @@ fun LoadOTP(
 
     else if (viewModel.isBackPressed3.value) {
         // Go back to the previous screen
-        loadSignUp()
       try{
+          navController.navigate("signUp")
           viewModel.setBackPressed3(true)
       }
       catch (e: Exception) {
@@ -588,14 +590,13 @@ fun LoadOTP(
 
 // This method wil load to success screen
 @Composable
-fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun LoadSuccess(navController: NavController,modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     // This is for the context
     val context = LocalContext.current
 
     // This is for the view model
     val viewModel: SuccessViewModel = viewModel()
-    val viewModel1:  SignUpModel = viewModel()
 
     // get the screenn size
     val screenSize = getScreenSize()
@@ -609,8 +610,8 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     // This will check if the back is pressed
     if (viewModel.isBackPressed1.value) {
-        loadSignUp()
         viewModel.setBackPressed1(true)
+        navController.navigate("signUp")
 
     }
     
@@ -704,6 +705,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
                         onClick = {
                             // This will go back to the previous screen
                             viewModel.setBackPressed2(true)
+                            navController.navigate("signUp")
 
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -727,26 +729,41 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     }
 }
 
-// This is used to load the sign up screen
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun loadSignUp() {
-    SignUpForm(username1 = "username", email1 = "email", password1 = "password", modifier = Modifier.fillMaxWidth())
+fun AppNavigation() {
+
+    // This is for the nav controller
+    val navController = rememberNavController()
+
+    // use navhost to navigate between the composable functions
+    NavHost(navController = navController, startDestination = "signUp") {
+
+        // added the composable functions
+        composable("signUp") {
+            SignUpForm(navController = navController, modifier = Modifier.fillMaxSize())
+        }
+
+        // added the composable functions
+        composable("otp") {
+            LoadOTP(navController = navController, modifier = Modifier.fillMaxSize())
+        }
+
+        // added the composable functions
+        composable("success") {
+            LoadSuccess(navController = navController,modifier = Modifier.fillMaxSize())
+        }
+    }
 }
 
-@Composable
-fun loadOTP() {
-    LoadOTP(username = "username", email = "email", password = "password")
-}
+
 
 // This below here  are the previews for the composable functions
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview3() {
     SchoolLocatorTheme {
-        val viewModel: SignUpModel = viewModel()
-
-        SignUpForm(username1 = viewModel.username.value, email1 = viewModel.email.value, password1 = viewModel.password.value, modifier = Modifier.fillMaxWidth())
-
+        SignUpForm(navController = rememberNavController(), modifier = Modifier.fillMaxWidth())
     }
 }
 
@@ -762,7 +779,7 @@ fun OTPPreview() {
 @Composable
 fun GreetingPreview4() {
     SchoolLocatorTheme {
-        LoadOTP(username = "username", email = "email", password = "password", modifier = Modifier.fillMaxWidth())
+        LoadOTP(navController = rememberNavController(), modifier = Modifier.fillMaxWidth())
     }
 }
 
@@ -770,6 +787,6 @@ fun GreetingPreview4() {
 @Composable
 fun GreetingPreview5() {
     SchoolLocatorTheme {
-        LoadSuccess(modifier = Modifier.fillMaxWidth())
+        LoadSuccess(navController = rememberNavController(),modifier = Modifier.fillMaxWidth())
     }
 }
