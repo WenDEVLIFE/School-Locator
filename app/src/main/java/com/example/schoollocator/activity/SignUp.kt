@@ -59,6 +59,7 @@ import com.example.schoollocator.activity.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel
 import com.example.schoollocator.viewmodel.SignUpModel
+import com.example.schoollocator.viewmodel.SuccessViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -592,7 +593,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     val context = LocalContext.current
 
     // This is for the view model
-    val viewModel: SignUpModel = viewModel()
+    val viewModel: SuccessViewModel = viewModel()
 
     // get the screenn size
     val screenSize = getScreenSize()

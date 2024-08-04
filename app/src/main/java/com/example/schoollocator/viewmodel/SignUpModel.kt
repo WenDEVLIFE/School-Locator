@@ -29,11 +29,6 @@ class SignUpModel : ViewModel() {
     private val _showOTP = mutableStateOf(false)
     val showOTP: State<Boolean> = _showOTP
 
-    // This will go back to the previous screen
-    private var backPressed1 = mutableStateOf(false)
-    val isBackPressed1: State<Boolean> = backPressed1
-    private var backPressed2 = mutableStateOf(false)
-    val isBackPressed2: State<Boolean> = backPressed2
 
     // This is for the username
     fun setUsername(value: String) {
@@ -60,14 +55,5 @@ class SignUpModel : ViewModel() {
         _passwordVisible.value = !_passwordVisible.value
     }
 
-    // This will set the back pressed 1
-    fun setBackPressed1(value: Boolean) {
-        backPressed1.value = value
-    }
-
-    // This will set the back pressed 2
-    fun setBackPressed2(value: Boolean) {
-        backPressed2.value = value
-    }
 
 }
