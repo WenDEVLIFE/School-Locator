@@ -97,7 +97,7 @@ fun SignUpForm(username1: String, email1: String, password1: String,modifier: Mo
 
 
     if (viewModel.showOTP.value) {
-        loadOTP(viewModel.username.value, viewModel.email.value, viewModel.password.value)
+        loadOTP()
     } else {
         // This are the  box and lazy column that will compose the UI
         Box(
@@ -401,16 +401,6 @@ fun OTPTextField(
     }
 }
 @Composable
-fun loadSignUp() {
-    SignUpForm(username1 = "", email1 = "", password1 = "", modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-fun loadOTP(username: String, email: String, password: String) {
-    LoadOTP(username = username, email = email, password = password)
-}
-
-@Composable
 fun LoadOTP(
     username: String,
     email: String,
@@ -426,6 +416,7 @@ fun LoadOTP(
 
     // This is for the view model
     val viewModel: OTPViewModel = viewModel()
+    val viewModel1:  SignUpModel = viewModel()
 
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
@@ -435,8 +426,13 @@ fun LoadOTP(
     // Handle back press
     BackHandler {
         // Define the action to be taken on back press
-        Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
-        viewModel.setBackPressed3(true)
+       try {
+           Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
+           viewModel.setBackPressed3(true)
+       }
+         catch (e: Exception) {
+              Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+         }
 
     }
 
@@ -444,18 +440,23 @@ fun LoadOTP(
     if (viewModel.showSuccess.value) {
         // Load the success screen
         LoadSuccess()
-        viewModel.setShowSuccess(true)
+       try{
+           viewModel.setShowSuccess(true)
+       }
+       catch (e: Exception) {
+           Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+       }
     }
 
     else if (viewModel.isBackPressed3.value) {
         // Go back to the previous screen
-        SignUpForm(
-            username1 = username,
-            email1 = email,
-            password1 = password,
-            modifier = Modifier.fillMaxWidth()
-        )
-        viewModel.setBackPressed3(true)
+        loadSignUp()
+      try{
+          viewModel.setBackPressed3(true)
+      }
+      catch (e: Exception) {
+          Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+      }
     }
     else {
         // Box and LazyColumn together with the items compose the UI
@@ -594,6 +595,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     // This is for the view model
     val viewModel: SuccessViewModel = viewModel()
+    val viewModel1:  SignUpModel = viewModel()
 
     // get the screenn size
     val screenSize = getScreenSize()
@@ -607,7 +609,7 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     // This will check if the back is pressed
     if (viewModel.isBackPressed1.value) {
-        SignUpForm(username1 = "", email1 = "", password1 = "", modifier = Modifier.fillMaxWidth())
+        loadSignUp()
         viewModel.setBackPressed1(true)
 
     }
@@ -725,12 +727,25 @@ fun LoadSuccess(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     }
 }
 
+// This is used to load the sign up screen
+@Composable
+fun loadSignUp() {
+    SignUpForm(username1 = "username", email1 = "email", password1 = "password", modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun loadOTP() {
+    LoadOTP(username = "username", email = "email", password = "password")
+}
+
 // This below here  are the previews for the composable functions
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview3() {
     SchoolLocatorTheme {
-        SignUpForm(username1 = "", email1 = "", password1 = "", modifier = Modifier.fillMaxWidth())
+        val viewModel: SignUpModel = viewModel()
+
+        SignUpForm(username1 = viewModel.username.value, email1 = viewModel.email.value, password1 = viewModel.password.value, modifier = Modifier.fillMaxWidth())
 
     }
 }
