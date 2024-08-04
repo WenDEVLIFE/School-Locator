@@ -57,6 +57,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.viewmodel.OTPViewModel
 import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -423,7 +424,7 @@ fun LoadOTP(
     val screenSize = getScreenSize()
 
     // This is for the view model
-    val viewModel: SignUpModel = viewModel()
+    val viewModel: OTPViewModel = viewModel()
 
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
