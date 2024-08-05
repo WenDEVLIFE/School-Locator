@@ -102,8 +102,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
 
     if (viewModel.showOTP.value) {
         navController.navigate("otp")
-        viewModel.setShowOTP(true)
-    } else {
+    }
         // This are the  box and lazy column that will compose the UI
         Box(
             modifier = modifier
@@ -320,6 +319,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
                         onClick = {
                             if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
                                 viewModel.setShowOTP(true)
+                                viewModel.performSignUp()
                             } else {
                                 Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                             }
@@ -343,7 +343,6 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
 
             }
         }
-    }
 }
 
 // Otp text field
@@ -438,31 +437,21 @@ fun LoadOTP(
 
     }
 
-
-    if (viewModel.showSuccess.value) {
-        // Load the success screen
-       try{
-           viewModel.setShowSuccess(true)
-           navController.navigate("success")
-       }
-       catch (e: Exception) {
-           Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-       }
+    // Navigation and state checks
+    LaunchedEffect(viewModel.showSuccess.value) {
+        if (viewModel.showSuccess.value) {
+            navController.navigate("success")
+        }
     }
 
-    else if (viewModel.isBackPressed3.value) {
-        // Go back to the previous screen
-      try{
-          navController.navigate("signUp")
-          viewModel.setBackPressed3(true)
-      }
-      catch (e: Exception) {
-          Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-      }
+    LaunchedEffect(viewModel.isBackPressed3.value) {
+        if (viewModel.isBackPressed3.value) {
+            navController.navigate("signUp")
+        }
     }
-    else {
-        // Box and LazyColumn together with the items compose the UI
-        Box(
+
+    // Box and LazyColumn together with the items compose the UI
+    Box(
             modifier = modifier
                 .fillMaxSize()
                 .background(Green1)
@@ -568,6 +557,7 @@ fun LoadOTP(
 
                             // set the boolean to true to show the success screen
                             viewModel.setShowSuccess(true)
+                            viewModel.performOTP()
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(20.dp),
@@ -585,7 +575,6 @@ fun LoadOTP(
                 }
             }
         }
-    }
 }
 
 // This method wil load to success screen
@@ -609,19 +598,22 @@ fun LoadSuccess(navController: NavController,modifier: Modifier = Modifier, onCl
     }
 
     // This will check if the back is pressed
-    if (viewModel.isBackPressed1.value) {
-        viewModel.setBackPressed1(true)
-        navController.navigate("signUp")
+    LaunchedEffect(viewModel.isBackPressed1.value) {
+        if (viewModel.isBackPressed1.value) {
+            viewModel.setBackPressed1(true)
+            navController.navigate("signUp")
 
+        }
     }
-    
+
     // This will check if the back is pressed
-    else if (viewModel.isBackPressed2.value) {
-        context.startActivity(Intent(context, Login::class.java))
-        (context as? ComponentActivity)?.finish()
-        viewModel.setBackPressed2(true)
-    }
-    else {
+   LaunchedEffect(viewModel.isBackPressed2.value) {
+       if (viewModel.isBackPressed2.value) {
+           context.startActivity(Intent(context, Login::class.java))
+           (context as? ComponentActivity)?.finish()
+           viewModel.setBackPressed2(true)
+       }
+   }
 
         Box(
             modifier = Modifier
@@ -726,7 +718,6 @@ fun LoadSuccess(navController: NavController,modifier: Modifier = Modifier, onCl
                 }
             }
         }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

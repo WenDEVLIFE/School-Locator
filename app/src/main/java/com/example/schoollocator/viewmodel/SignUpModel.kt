@@ -4,8 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignUpModel : ViewModel() {
 
@@ -55,5 +57,22 @@ class SignUpModel : ViewModel() {
         _passwordVisible.value = !_passwordVisible.value
     }
 
+    fun performSignUp() {
+        viewModelScope.launch {
+            // Simulate a long-running task (like network request)
+            withContext(Dispatchers.IO) {
+                // Perform your network or database operation here
+                // Example: networkRequest()
+                delay(1000) // Simulating delay for demonstration
+            }
+
+            // Update the UI on the main thread
+            withContext(Dispatchers.Main) {
+                // Update the showOTP state or other UI state
+                setShowOTP(true)
+
+            }
+        }
+    }
 
 }

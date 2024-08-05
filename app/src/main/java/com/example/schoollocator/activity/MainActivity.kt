@@ -61,7 +61,7 @@ fun Splash(modifier: Modifier = Modifier) {
     // This is for the function of loading of circular indicator
     LaunchedEffect(Unit) {
         while (progress < 1f) {
-            progress += 0.01f
+            progress += 0.1f
             delay(50) // Adjust the delay to control the speed of the progress
         }
 
