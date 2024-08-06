@@ -92,7 +92,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
                     text = "Registration Successful",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 35.sp
+                    fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
                 )
             }
 
@@ -120,7 +120,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
                     text = "You have successfully registered to School Locator",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 30.sp
+                    fontSize = if (screenSize == ScreenSize.SMALL) 15.sp else 18.sp
                 )
             }
             8
