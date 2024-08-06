@@ -52,7 +52,7 @@ fun LoadOTP(
 
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
-
+        viewModel.startTimer()
     }
 
     // Handle back press
@@ -140,7 +140,7 @@ fun LoadOTP(
             // This is for OTP title
             item {
                 Text(
-                    text = "Time remaining :",
+                    text = "Time remaining :${viewModel.time.value}",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Color.White,
                     fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -151,6 +151,12 @@ fun LoadOTP(
             item {
                 Button(
                     onClick = {
+                        if (viewModel.time.value == 0) {
+                            viewModel.startTimer()
+                        }
+                        else {
+                            Toast.makeText(context, "Please wait for the timer to finish", Toast.LENGTH_SHORT).show()
+                        }
 
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
