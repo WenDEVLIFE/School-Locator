@@ -2,6 +2,7 @@ package com.example.schoollocator.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -219,7 +220,14 @@ fun LoginForm1(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
             // Login Button
             Button(
-                onClick = { onClick() },
+                onClick = {
+
+                    // This will check if the username and password is not empty
+                    if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
+                        // This will go to the home screen
+                        Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 shape = RoundedCornerShape(20.dp), // Adjust the corner radius as needed
                 modifier = Modifier
