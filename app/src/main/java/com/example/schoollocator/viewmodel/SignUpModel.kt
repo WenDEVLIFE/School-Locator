@@ -1,11 +1,13 @@
 package com.example.schoollocator.viewmodel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -13,23 +15,23 @@ class SignUpModel : ViewModel() {
 
     // username and state
     private val _username = mutableStateOf("")
-    val username: State<String> = _username
+    val username: MutableState<String> = _username
 
     // email and state
     private val _email = mutableStateOf("")
-    val email: State<String> = _email
+    val email: MutableState<String> = _email
 
     // password and state
     private val _password = mutableStateOf("")
-    val password: State<String> = _password
+    val password: MutableState<String> = _password
 
     // password visible and state
     private var _passwordVisible = mutableStateOf(false)
-    val isPasswordVisible: State<Boolean> = _passwordVisible
+    val isPasswordVisible: MutableState<Boolean> = _passwordVisible
 
     // OTP and state
     private val _showOTP = mutableStateOf(false)
-    val showOTP: State<Boolean> = _showOTP
+    val showOTP: MutableState<Boolean> = _showOTP
 
 
     // This is for the username

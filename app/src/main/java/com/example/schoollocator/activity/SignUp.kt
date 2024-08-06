@@ -96,10 +96,6 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
         (context as? ComponentActivity)?.finish()
     }
 
-
-    if (viewModel.showOTP.value) {
-        navController.navigate("otp")
-    }
         // This are the  box and lazy column that will compose the UI
         Box(
             modifier = modifier
@@ -315,8 +311,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
                     Button(
                         onClick = {
                             if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
-                                viewModel.setShowOTP(true)
-                                viewModel.performSignUp()
+                                navController.navigate("otp")
                             } else {
                                 Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                             }

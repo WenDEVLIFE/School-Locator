@@ -1,5 +1,6 @@
 package com.example.schoollocator.viewmodel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,12 +18,12 @@ class OTPViewModel: ViewModel() {
 
     // success and state
     private var _showSuccess = mutableStateOf(false)
-    val showSuccess: State<Boolean> = _showSuccess
+    val showSuccess: MutableState<Boolean> = _showSuccess
 
 
     // This will go back to the previous screen
     private var backPressed3 = mutableStateOf(false)
-    val isBackPressed3: State<Boolean> = backPressed3
+    val isBackPressed3: MutableState<Boolean> = backPressed3
 
     /* This will start the timer once it is called
     fun startTimer() {
@@ -61,8 +62,6 @@ class OTPViewModel: ViewModel() {
             // Update the UI on the main thread
             withContext(Dispatchers.Main) {
                 // Update the showOTP state or other UI state
-                setBackPressed3(true)
-                setShowSuccess(true)
                 //startTimer()
             }
         }
