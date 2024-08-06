@@ -69,7 +69,7 @@ class SignUpModel : ViewModel() {
             // Update the UI on the main thread
             withContext(Dispatchers.Main) {
                 // Update the showOTP state or other UI state
-                setShowOTP(true)
+
 
             }
         }

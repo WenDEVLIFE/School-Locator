@@ -12,8 +12,8 @@ import kotlinx.coroutines.withContext
 class OTPViewModel: ViewModel() {
 
     // time and state
-    private val _time = mutableStateOf(60)
-    val time: State<Int> = _time
+    //private val _time = mutableStateOf(60)
+    //val time: State<Int> = _time
 
     // success and state
     private var _showSuccess = mutableStateOf(false)
@@ -24,7 +24,7 @@ class OTPViewModel: ViewModel() {
     private var backPressed3 = mutableStateOf(false)
     val isBackPressed3: State<Boolean> = backPressed3
 
-    // This will start the timer once it is called
+    /* This will start the timer once it is called
     fun startTimer() {
         _time.value = 60 // Reset the timer to 60
         viewModelScope.launch {
@@ -34,6 +34,8 @@ class OTPViewModel: ViewModel() {
             }
         }
     }
+
+     */
 
     // This will set the time to 60
     fun setShowSuccess(value: Boolean) {
@@ -61,7 +63,7 @@ class OTPViewModel: ViewModel() {
                 // Update the showOTP state or other UI state
                 setBackPressed3(true)
                 setShowSuccess(true)
-                startTimer()
+                //startTimer()
             }
         }
     }
