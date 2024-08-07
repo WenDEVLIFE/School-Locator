@@ -22,6 +22,9 @@ class LoginViewModel : ViewModel() {
     var _passwordVisible = mutableStateOf(false)
     val isPasswordVisible: MutableState<Boolean> = _passwordVisible
 
+    var Success = mutableStateOf(false)
+    val isSuccess: MutableState<Boolean> = Success
+
     // This is for the password visibility
     fun passwordToogle() {
         _passwordVisible.value = !_passwordVisible.value
