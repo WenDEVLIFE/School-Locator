@@ -42,6 +42,8 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
+
+                // call the app navigation
                 AppNavigation1()
             }
         }
@@ -51,16 +53,25 @@ class Login : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+   
+ // Get the screen size
     val screenSize = getScreenSize()
+
+    // Get the context
     val context = LocalContext.current
+
+    //  Get the view model
     val viewModel: LoginViewModel = viewModel()
 
+
+    // launched the  effect
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
             navController.navigate("school")
         }
     }
 
+    // Box annd all the components text, columns, button and text Field
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -235,20 +246,19 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
 fun AppNavigation1() {
     val navController = rememberNavController()
 
+    // Our navhost
     NavHost(navController = navController, startDestination = "login") {
+        
+        // This is for login
         composable("login") {
             LoginForm1(navController = navController)
         }
+
+        // This is for  proceeding to map
         composable("school") {
             SchoolController()
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SchoolControllerPreview() {
-    SchoolController()
 }
 
 
