@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity
+package com.example.schoollocator.activity.FirstLayer
 
 import android.content.Intent
 import android.os.Bundle
