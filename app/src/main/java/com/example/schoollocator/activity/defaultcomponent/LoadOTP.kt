@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.FirstLayer
+package com.example.schoollocator.activity.defaultcomponent
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
