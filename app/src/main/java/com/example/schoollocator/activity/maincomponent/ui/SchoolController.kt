@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.WhiteCus
 
 
 @Composable
@@ -32,7 +33,7 @@ fun SchoolController() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    NavigationBar(containerColor = Color.White) {
+    NavigationBar(containerColor = WhiteCus) {
         NavigationBarItem(
             icon = {
                 Icon(
@@ -48,11 +49,55 @@ fun BottomNavigationBar(navController: NavHostController) {
 
                     colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color.Green, // Change to desired color
-            unselectedIconColor = Color.Black, // Change to desired color
+            unselectedIconColor = Color.White, // Change to desired color
             selectedTextColor = Color.Green, // Change to desired color
             unselectedTextColor = Color.Black, // Change to desired color
             indicatorColor = Green1 // Change to desired color
         )
+        )
+
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Map",
+                )
+            },
+            label = { Text("Map", color = Color.Black) },
+            selected = true,
+            onClick = {
+                navController.navigate("Map")
+            },
+
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Green, // Change to desired color
+                unselectedIconColor = Color.White, // Change to desired color
+                selectedTextColor = Color.Green, // Change to desired color
+                unselectedTextColor = Color.Black, // Change to desired color
+                indicatorColor = Green1 // Change to desired color
+            )
+        )
+
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Map",
+                )
+            },
+            label = { Text("Map", color = Color.Black) },
+            selected = true,
+            onClick = {
+                navController.navigate("Map")
+            },
+
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Green, // Change to desired color
+                unselectedIconColor = Color.White, // Change to desired color
+                selectedTextColor = Color.Green, // Change to desired color
+                unselectedTextColor = Color.Black, // Change to desired color
+                indicatorColor = Green1 // Change to desired color
+            )
         )
     }
 }
