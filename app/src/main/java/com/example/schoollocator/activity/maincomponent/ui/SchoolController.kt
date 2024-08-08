@@ -2,6 +2,7 @@ package com.example.schoollocator.activity.maincomponent.ui
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -40,6 +41,7 @@ fun BottomNavigationBar(navController: NavHostController) {
     NavigationBar(containerColor = WhiteCus) {
         val selectedItem = remember { mutableStateOf("Map") }
 
+        // This is the first NavigationBarItem  or map
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
@@ -71,6 +73,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             )
         )
 
+        // This is  the second NavigationBarItem or home
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
@@ -110,7 +113,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues) {
     NavHost(navController = navController, startDestination = "Map") {
         composable("Map") {
-            Text("Map Screen", modifier = Modifier.padding(contentPadding))
+            Text("Map Screen", modifier = Modifier.fillMaxWidth())
         }
         // Add other composable destinations here
     }
