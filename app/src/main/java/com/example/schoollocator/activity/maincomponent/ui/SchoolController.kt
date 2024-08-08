@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,71 +38,71 @@ fun SchoolController() {
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     NavigationBar(containerColor = WhiteCus) {
-        NavigationBarItem(
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Map",
-                )
-            },
-            label = { Text("Map", color = Color.Black) },
-            selected = true,
-            onClick = {
-                navController.navigate("Map")
-            },
-
-                    colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Green, // Change to desired color
-            unselectedIconColor = Color.White, // Change to desired color
-            selectedTextColor = Color.Green, // Change to desired color
-            unselectedTextColor = Color.Black, // Change to desired color
-            indicatorColor = Green1 // Change to desired color
-        )
-        )
+        val selectedItem = remember { mutableStateOf("Map") }
 
         NavigationBarItem(
             icon = {
+                val iconColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Map") Color.Green else Color.Black
+                )
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Map",
+                    tint = iconColor
                 )
             },
-            label = { Text("Map", color = Color.Black) },
-            selected = true,
+            label = {
+                val textColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Map") Color.Green else Color.Black
+                )
+                Text("Map", color = textColor)
+            },
+            selected = selectedItem.value == "Map",
             onClick = {
+                selectedItem.value = "Map"
                 navController.navigate("Map")
             },
-
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green, // Change to desired color
-                unselectedIconColor = Color.White, // Change to desired color
-                selectedTextColor = Color.Green, // Change to desired color
-                unselectedTextColor = Color.Black, // Change to desired color
-                indicatorColor = Green1 // Change to desired color
+                selectedIconColor = Color.Green,
+                unselectedIconColor = Color.Black,
+                selectedTextColor = Color.Green,
+                unselectedTextColor = Color.Black,
+                indicatorColor = Green1
             )
         )
 
         NavigationBarItem(
             icon = {
+                val iconColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Home") Color.Green else Color.Black
+                )
                 Icon(
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Map",
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home",
+                    tint = iconColor
                 )
             },
-            label = { Text("Map", color = Color.Black) },
-            selected = true,
-            onClick = {
-                navController.navigate("Map")
+            label = {
+                val textColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Home") Color.Green else Color.Black
+                )
+                Text("Home", color = textColor)
             },
+            selected = selectedItem.value == "Home",
+            onClick = {
+                selectedItem.value = "Home"
 
+            },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green, // Change to desired color
-                unselectedIconColor = Color.White, // Change to desired color
-                selectedTextColor = Color.Green, // Change to desired color
-                unselectedTextColor = Color.Black, // Change to desired color
-                indicatorColor = Green1 // Change to desired color
+                selectedIconColor = Color.Green,
+                unselectedIconColor = Color.Black,
+                selectedTextColor = Color.Green,
+                unselectedTextColor = Color.Black,
+                indicatorColor = Green1
             )
         )
+
+        // Add more NavigationBarItems as needed
     }
 }
 
