@@ -59,6 +59,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                 )
                 Text("Map", color = textColor)
             },
+            // The select value to set the item
             selected = selectedItem.value == "Map",
             onClick = {
                 selectedItem.value = "Map"
@@ -91,6 +92,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                 )
                 Text("Home", color = textColor)
             },
+
+            // The select value to set the item
             selected = selectedItem.value == "Home",
             onClick = {
                 selectedItem.value = "Home"
