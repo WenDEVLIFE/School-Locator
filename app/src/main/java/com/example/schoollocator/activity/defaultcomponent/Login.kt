@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.ui.SchoolController
 import com.example.schoollocator.ui.theme.Green1
@@ -35,6 +36,8 @@ import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
+import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.WellKnownTileServer
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +45,9 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
+
+                // Initialize the mapbox
+                Mapbox.getInstance(this)
 
                 // call the app navigation
                 AppNavigation1()

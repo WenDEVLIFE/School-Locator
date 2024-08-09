@@ -18,9 +18,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.WhiteCus
+import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.WellKnownTileServer
 
 
 @Composable
@@ -40,6 +44,8 @@ fun SchoolController() {
 fun BottomNavigationBar(navController: NavHostController) {
     NavigationBar(containerColor = WhiteCus) {
         val selectedItem = remember { mutableStateOf("Map") }
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
 
         // This is the first NavigationBarItem  or map
         NavigationBarItem(
@@ -63,7 +69,10 @@ fun BottomNavigationBar(navController: NavHostController) {
             selected = selectedItem.value == "Map",
             onClick = {
                 selectedItem.value = "Map"
-                navController.navigate("Map")
+                navController.navigate("Map") {
+                    launchSingleTop = true
+                    restoreState = true
+                }
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
@@ -116,7 +125,10 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues) {
     NavHost(navController = navController, startDestination = "Map") {
         composable("Map") {
-            Text("Map Screen", modifier = Modifier.fillMaxWidth())
+
+
+
+            Map(Modifier.fillMaxWidth(), OnClick = {})
         }
         // Add other composable destinations here
     }
