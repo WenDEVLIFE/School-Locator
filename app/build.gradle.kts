@@ -15,6 +15,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val mapTilerApiKey = project.findProperty("MAPTILER_API_KEY") as String?
+        if (mapTilerApiKey != null) {
+            buildConfigField("String", "MAPTILER_API_KEY", mapTilerApiKey)
+        }
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -29,15 +35,19 @@ android {
             )
         }
     }
+
+    // Enable BuildConfig fields
+    buildFeatures {
+        compose = true
+        buildConfig = true  // This line enables custom BuildConfig fields
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -67,6 +77,10 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
+
+    // Mapbox dependencies
+    implementation ("org.maplibre.gl:android-sdk:10.0.2")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
