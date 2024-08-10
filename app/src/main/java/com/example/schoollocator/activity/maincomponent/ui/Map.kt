@@ -59,9 +59,11 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 @Composable
 fun Map(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    var userLocation by remember { mutableStateOf<Location?>(null) }
     var mapReady by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
+
+    // our view model
+    val mapModel: MapViewModel = viewModel()
 
     // Initialize Mapbox
     remember { Mapbox.getInstance(context) }
@@ -72,8 +74,8 @@ fun Map(modifier: Modifier = Modifier) {
         permissionGranted = isGranted
         if (isGranted) {
             Log.d("MapDebug", "Location permission granted.")
-            getUserLocation(context) { location ->
-                userLocation = location
+            mapModel.getUserLocation(context) { location ->
+                mapModel.userLocation.value = location
                 mapReady = true
             }
         } else {
@@ -86,8 +88,8 @@ fun Map(modifier: Modifier = Modifier) {
         when {
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 permissionGranted = true
-                getUserLocation(context) { location ->
-                    userLocation = location
+                mapModel.getUserLocation(context) { location ->
+                    mapModel.userLocation.value = location
                     mapReady = true
                 }
             }
@@ -116,10 +118,10 @@ fun Map(modifier: Modifier = Modifier) {
                     Log.d("MapDebug", "Style loaded successfully.")
 
                     if (permissionGranted) {
-                        enableLocationComponent(mapboxMap, context)
+                        mapModel.enableLocationComponent(mapboxMap, context)
                     }
 
-                    userLocation?.let { location ->
+                    mapModel.userLocation.value?.let { location ->
                         val userLatLng = LatLng(location.latitude, location.longitude)
                     } ?: run {
                         Log.d("MapDebug", "User location is null.")
@@ -146,128 +148,6 @@ fun Map(modifier: Modifier = Modifier) {
 }
 
 
-// get the user location and enable location component
-@SuppressLint("MissingPermission")
-private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
-    val locationComponent = mapboxMap.locationComponent
-
-    val locationComponentOptions = LocationComponentOptions.builder(context)
-        .build()
-
-    val locationComponentActivationOptions = LocationComponentActivationOptions.builder(context, mapboxMap.style!!).apply {
-        locationComponentOptions(locationComponentOptions)
-    }.build()
-
-    // activate location component
-    locationComponent.activateLocationComponent(locationComponentActivationOptions)
-
-    // enable location component
-    if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-        locationComponent.isLocationComponentEnabled = true
-        locationComponent.cameraMode = CameraMode.TRACKING
-        locationComponent.renderMode = RenderMode.COMPASS
-
-        val lastLocation = locationComponent.lastKnownLocation
-
-        // add a marker to the user's current location
-        lastLocation?.let {
-            val position = LatLng(it.latitude, it.longitude)
-            mapboxMap.addMarker(
-                com.mapbox.mapboxsdk.annotations.MarkerOptions()
-                    .position(position)
-                    .title("You are here")
-            )
-
-            // zoom the camera to the user's current location
-            mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 14.0))
-        }
-    }
-}
-
-
-// get user location
-@SuppressLint("MissingPermission")
-private fun getUserLocation(context: Context, onLocationReceived: (Location) -> Unit) {
-    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    val locationTask: Task<Location> = fusedLocationClient.lastLocation
-
-    // get last known location
-    locationTask.addOnSuccessListener { location: Location? ->
-        if (location != null) {
-            Log.d("MapDebug", "Last known location: ${location.latitude}, ${location.longitude}")
-            onLocationReceived(location)
-        } else {
-            Log.e("MapDebug", "Last known location is null, requesting a new location.")
-            requestNewLocationData(context, onLocationReceived)
-        }
-    }.addOnFailureListener { e ->
-        Log.e("MapDebug", "Error getting last known location: ${e.message}")
-        Toast.makeText(context, "Error getting location", Toast.LENGTH_SHORT).show()
-    }
-}
-
-// request new location data
-@SuppressLint("MissingPermission")
-private fun requestNewLocationData(context: Context, onLocationReceived: (Location) -> Unit) {
-    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-
-    // create location request
-    val locationRequest = LocationRequest.create().apply {
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        interval = 10000
-        fastestInterval = 5000
-    }
-
-    // create location callback
-    val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult?) {
-            locationResult?.locations?.let { locations ->
-                for (location in locations) {
-                    Log.d("MapDebug", "New location received: ${location.latitude}, ${location.longitude}")
-                    onLocationReceived(location)
-                    fusedLocationClient.removeLocationUpdates(this)
-                    break
-                }
-            } ?: Log.e("MapDebug", "Location result is null")
-        }
-    }
-
-    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-}
-
-// add marker and zoom to user location
-private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Context, userLatLng: LatLng) {
-    if (style.getSource("marker-source") == null) {
-        val sourceId = "marker-source"
-        val source = GeoJsonSource(
-            sourceId,
-            FeatureCollection.fromFeatures(
-                arrayOf(Feature.fromGeometry(Point.fromLngLat(userLatLng.longitude, userLatLng.latitude)))
-            )
-        )
-
-        // Add the source to the map
-        style.addSource(source)
-    }
-
-    // Add the marker image to the map
-    if (style.getLayer("marker-layer") == null) {
-        val markerImageId = "custom-marker"
-        val drawableResource = BitmapFactory.decodeResource(context.resources, R.drawable.baseline_location_on_24)
-        style.addImage(markerImageId, drawableResource)
-
-        // Add the marker layer to the map
-        val layerId = "marker-layer"
-        val symbolLayer = SymbolLayer(layerId, "marker-source").withProperties(
-            PropertyFactory.iconImage(markerImageId),
-            PropertyFactory.iconSize(1.0f)
-        )
-        style.addLayer(symbolLayer)
-    }
-
-    // This is for the zoom
-    mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.0))
-}
 
 // MainMap composable
 @Composable
