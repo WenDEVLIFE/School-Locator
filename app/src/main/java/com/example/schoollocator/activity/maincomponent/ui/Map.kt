@@ -146,6 +146,8 @@ fun Map(modifier: Modifier = Modifier) {
     }
 }
 
+
+// get the user location and enable location component
 @SuppressLint("MissingPermission")
 private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
     val locationComponent = mapboxMap.locationComponent
@@ -157,8 +159,10 @@ private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
         locationComponentOptions(locationComponentOptions)
     }.build()
 
+    // activate location component
     locationComponent.activateLocationComponent(locationComponentActivationOptions)
 
+    // enable location component
     if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
         locationComponent.isLocationComponentEnabled = true
         locationComponent.cameraMode = CameraMode.TRACKING
@@ -166,6 +170,7 @@ private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
 
         val lastLocation = locationComponent.lastKnownLocation
 
+        // add a marker to the user's current location
         lastLocation?.let {
             val position = LatLng(it.latitude, it.longitude)
             mapboxMap.addMarker(
@@ -173,15 +178,21 @@ private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
                     .position(position)
                     .title("You are here")
             )
+
+            // zoom the camera to the user's current location
+            mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 14.0))
         }
     }
 }
 
+
+// get user location
 @SuppressLint("MissingPermission")
 private fun getUserLocation(context: Context, onLocationReceived: (Location) -> Unit) {
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     val locationTask: Task<Location> = fusedLocationClient.lastLocation
 
+    // get last known location
     locationTask.addOnSuccessListener { location: Location? ->
         if (location != null) {
             Log.d("MapDebug", "Last known location: ${location.latitude}, ${location.longitude}")
@@ -196,15 +207,19 @@ private fun getUserLocation(context: Context, onLocationReceived: (Location) -> 
     }
 }
 
+// request new location data
 @SuppressLint("MissingPermission")
 private fun requestNewLocationData(context: Context, onLocationReceived: (Location) -> Unit) {
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+    // create location request
     val locationRequest = LocationRequest.create().apply {
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         interval = 10000
         fastestInterval = 5000
     }
 
+    // create location callback
     val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
             locationResult?.locations?.let { locations ->
@@ -221,6 +236,7 @@ private fun requestNewLocationData(context: Context, onLocationReceived: (Locati
     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
 }
 
+// add marker and zoom to user location
 private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Context, userLatLng: LatLng) {
     if (style.getSource("marker-source") == null) {
         val sourceId = "marker-source"
@@ -230,14 +246,18 @@ private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Contex
                 arrayOf(Feature.fromGeometry(Point.fromLngLat(userLatLng.longitude, userLatLng.latitude)))
             )
         )
+
+        // Add the source to the map
         style.addSource(source)
     }
 
+    // Add the marker image to the map
     if (style.getLayer("marker-layer") == null) {
         val markerImageId = "custom-marker"
         val drawableResource = BitmapFactory.decodeResource(context.resources, R.drawable.baseline_location_on_24)
         style.addImage(markerImageId, drawableResource)
 
+        // Add the marker layer to the map
         val layerId = "marker-layer"
         val symbolLayer = SymbolLayer(layerId, "marker-source").withProperties(
             PropertyFactory.iconImage(markerImageId),
@@ -246,9 +266,11 @@ private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Contex
         style.addLayer(symbolLayer)
     }
 
+    // This is for the zoom
     mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.0))
 }
 
+// MainMap composable
 @Composable
 fun MainMap(modifier: Modifier = Modifier) {
     val screenSize = getScreenSize()
@@ -281,6 +303,7 @@ fun SearchBar(
 ) {
     val screenSize = getScreenSize()
 
+    // Search bar
     TextField(
         value = query,
         onValueChange = { newValue -> onQueryChanged(newValue) },
