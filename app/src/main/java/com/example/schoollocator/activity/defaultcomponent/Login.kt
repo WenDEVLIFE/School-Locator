@@ -45,10 +45,6 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-
-                // Initialize the mapbox
-                Mapbox.getInstance(this)
-
                 // call the app navigation
                 AppNavigation1()
             }

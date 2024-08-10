@@ -1,24 +1,24 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.location.Location
+import android.os.Bundle
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,88 +29,239 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.BuildConfig
+import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.viewmodel.MapViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
+import com.mapbox.geojson.Feature
+import com.mapbox.geojson.FeatureCollection
+import com.mapbox.geojson.Point
+import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
+import com.mapbox.mapboxsdk.location.LocationComponentOptions
+import com.mapbox.mapboxsdk.location.modes.CameraMode
+import com.mapbox.mapboxsdk.location.modes.RenderMode
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Notification
-import android.content.pm.PackageManager
-import android.location.Location
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.*
-import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
 import com.mapbox.mapboxsdk.maps.Style
-
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 @Composable
-fun Map(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun Map(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var userLocation by remember { mutableStateOf<Location?>(null) }
+    var mapReady by remember { mutableStateOf(false) }
+    var permissionGranted by remember { mutableStateOf(false) }
 
-    RequestLocationPermission {
-        getUserLocation(context) { location ->
-            userLocation = location
+    // Initialize Mapbox
+    Mapbox.getInstance(context)
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        permissionGranted = isGranted
+        if (isGranted) {
+            Log.d("MapDebug", "Location permission granted.")
+            getUserLocation(context) { location ->
+                userLocation = location
+                mapReady = true
+            }
+        } else {
+            Log.d("MapDebug", "Location permission denied.")
+            Toast.makeText(context, "Location permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
+    LaunchedEffect(Unit) {
+        when {
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
+                permissionGranted = true
+                getUserLocation(context) { location ->
+                    userLocation = location
+                    mapReady = true
+                }
+            }
+            else -> {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    val mapView = remember { MapView(context) }
+
     AndroidView(
-        factory = { context ->
-
-            // Create MapView
-            val mapView = MapView(context)
-            mapView.onCreate(null)  // Required to set up the lifecycle
-
-            // Set the Mapbox style
+        factory = {
+            mapView.apply {
+                onCreate(null)  // Required for lifecycle management
+            }
+        },
+        modifier = modifier.fillMaxSize(),
+        update = { mapView ->
             mapView.getMapAsync { mapboxMap ->
+                Log.d("MapDebug", "MapboxMap is initialized")
+
                 mapboxMap.setStyle(
                     "https://api.maptiler.com/maps/streets-v2/style.json?key=${BuildConfig.MAPTILER_API_KEY}"
                 ) { style ->
-                    // Style loaded successfully
+                    Log.d("MapDebug", "Style loaded successfully.")
+
+                    if (permissionGranted) {
+                        enableLocationComponent(mapboxMap, context)
+                    }
+
                     userLocation?.let { location ->
                         val userLatLng = LatLng(location.latitude, location.longitude)
                         addMarkerAndZoom(mapboxMap, style, context, userLatLng)
+                    } ?: run {
+                        Log.d("MapDebug", "User location is null.")
                     }
+                } ?: run {
+                    Log.d("MapDebug", "Failed to load style")
                 }
             }
-
-            // Return the MapView
-            mapView
-        },
-        modifier = modifier.fillMaxSize()
+        }
     )
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mapView.onStop()
+            mapView.onPause()
+            mapView.onLowMemory()
+            mapView.onDestroy()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        mapView.onSaveInstanceState(Bundle())
+    }
 }
 
+@SuppressLint("MissingPermission")
+private fun enableLocationComponent(mapboxMap: MapboxMap, context: Context) {
+    val locationComponent = mapboxMap.locationComponent
+
+    val locationComponentOptions = LocationComponentOptions.builder(context)
+        .build()
+
+    val locationComponentActivationOptions = LocationComponentActivationOptions.builder(context, mapboxMap.style!!).apply {
+        locationComponentOptions(locationComponentOptions)
+    }.build()
+
+    locationComponent.activateLocationComponent(locationComponentActivationOptions)
+
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        locationComponent.isLocationComponentEnabled = true
+        locationComponent.cameraMode = CameraMode.TRACKING
+        locationComponent.renderMode = RenderMode.COMPASS
+
+        val lastLocation = locationComponent.lastKnownLocation
+
+        lastLocation?.let {
+            val position = LatLng(it.latitude, it.longitude)
+            mapboxMap.addMarker(
+                com.mapbox.mapboxsdk.annotations.MarkerOptions()
+                    .position(position)
+                    .title("You are here")
+            )
+        }
+    }
+}
+
+@SuppressLint("MissingPermission")
+private fun getUserLocation(context: Context, onLocationReceived: (Location) -> Unit) {
+    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    val locationTask: Task<Location> = fusedLocationClient.lastLocation
+
+    locationTask.addOnSuccessListener { location: Location? ->
+        if (location != null) {
+            Log.d("MapDebug", "Last known location: ${location.latitude}, ${location.longitude}")
+            onLocationReceived(location)
+        } else {
+            Log.e("MapDebug", "Last known location is null, requesting a new location.")
+            requestNewLocationData(context, onLocationReceived)
+        }
+    }.addOnFailureListener { e ->
+        Log.e("MapDebug", "Error getting last known location: ${e.message}")
+        Toast.makeText(context, "Error getting location", Toast.LENGTH_SHORT).show()
+    }
+}
+
+@SuppressLint("MissingPermission")
+private fun requestNewLocationData(context: Context, onLocationReceived: (Location) -> Unit) {
+    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    val locationRequest = LocationRequest.create().apply {
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        interval = 10000
+        fastestInterval = 5000
+    }
+
+    val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult?) {
+            locationResult?.locations?.let { locations ->
+                for (location in locations) {
+                    Log.d("MapDebug", "New location received: ${location.latitude}, ${location.longitude}")
+                    onLocationReceived(location)
+                    fusedLocationClient.removeLocationUpdates(this)
+                    break
+                }
+            } ?: Log.e("MapDebug", "Location result is null")
+        }
+    }
+
+    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+}
+
+private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Context, userLatLng: LatLng) {
+    if (style.getSource("marker-source") == null) {
+        val sourceId = "marker-source"
+        val source = GeoJsonSource(
+            sourceId,
+            FeatureCollection.fromFeatures(
+                arrayOf(Feature.fromGeometry(Point.fromLngLat(userLatLng.longitude, userLatLng.latitude)))
+            )
+        )
+        style.addSource(source)
+    }
+
+    if (style.getLayer("marker-layer") == null) {
+        val markerImageId = "custom-marker"
+        val drawableResource = BitmapFactory.decodeResource(context.resources, R.drawable.baseline_location_on_24)
+        style.addImage(markerImageId, drawableResource)
+
+        val layerId = "marker-layer"
+        val symbolLayer = SymbolLayer(layerId, "marker-source").withProperties(
+            PropertyFactory.iconImage(markerImageId),
+            PropertyFactory.iconSize(1.0f)
+        )
+        style.addLayer(symbolLayer)
+    }
+
+    mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.0))
+}
 
 @Composable
-fun MainMap(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
-
-    // Get the screen size
+fun MainMap(modifier: Modifier = Modifier) {
     val screenSize = getScreenSize()
-
-    // State to hold search query
-    val mapModel:MapViewModel  = viewModel ()
+    val mapModel: MapViewModel = viewModel()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Map view
         Map(modifier = Modifier.fillMaxSize())
 
-        // Search bar overlay
-        Column(modifier = Modifier
-            .align(Alignment.TopCenter)
-            .padding(16.dp)
-            .fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(16.dp)
+                .fillMaxWidth()
         ) {
             SearchBar(
                 query = mapModel.searchQuery.value,
@@ -128,95 +279,27 @@ fun SearchBar(
     onQueryChanged: (String) -> Unit,
     onSearch: () -> Unit
 ) {
-
-    // Get the screen size
     val screenSize = getScreenSize()
 
-    // Use TextField for the search bar
     TextField(
         value = query,
-        onValueChange = { newValue ->
-            onQueryChanged(newValue)
-        },
+        onValueChange = { newValue -> onQueryChanged(newValue) },
         label = { Text("Search") },
         placeholder = { Text("Enter search term") },
         singleLine = true,
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = { onSearch() }
-        ),
-
-        textStyle = TextStyle(
-            color = Color.Black,
-            fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-        ),
-
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
+        textStyle = TextStyle(color = Color.Black, fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp),
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = WhiteCus, // Set the background color here
+            containerColor = WhiteCus,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-
+            .height(50.dp)
     )
-}
-
-private fun addMarkerAndZoom(mapboxMap: MapboxMap, style: Style, context: Context, userLatLng: LatLng) {
-    // Create a SymbolManager
-    val symbolManager = SymbolManager(mapView, mapboxMap, style)
-
-    // Add a marker at the user's location with a custom icon
-    symbolManager.create(
-        SymbolOptions()
-            .withLatLng(userLatLng)
-            .withIconImage("custom-marker-icon-id") // Ensure you have added the custom marker icon to the style
-            .withIconSize(1.0f)
-    )
-
-    // Zoom in on the user's location
-    mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 14.0))
-}
-
-@Composable
-fun RequestLocationPermission(onPermissionGranted: () -> Unit) {
-    val context = LocalContext.current
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            onPermissionGranted()
-        } else {
-            // Handle permission denial
-            Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        when {
-            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
-                onPermissionGranted()
-            }
-            else -> {
-                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
-    }
-}
-
-@SuppressLint("MissingPermission")
-fun getUserLocation(context: Context, onLocationReceived: (Location) -> Unit) {
-    val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-    val locationTask: Task<Location> = fusedLocationClient.lastLocation
-    locationTask.addOnSuccessListener { location: Location? ->
-        location?.let {
-            onLocationReceived(it)
-        }
-    }
 }
 
 @Preview
