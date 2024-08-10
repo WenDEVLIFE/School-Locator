@@ -64,7 +64,7 @@ fun Map(modifier: Modifier = Modifier) {
     var permissionGranted by remember { mutableStateOf(false) }
 
     // Initialize Mapbox
-    Mapbox.getInstance(context)
+    remember { Mapbox.getInstance(context) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -121,7 +121,6 @@ fun Map(modifier: Modifier = Modifier) {
 
                     userLocation?.let { location ->
                         val userLatLng = LatLng(location.latitude, location.longitude)
-                        addMarkerAndZoom(mapboxMap, style, context, userLatLng)
                     } ?: run {
                         Log.d("MapDebug", "User location is null.")
                     }
