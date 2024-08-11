@@ -1,34 +1,48 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.location.Location
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.BuildConfig
@@ -37,24 +51,9 @@ import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.viewmodel.MapViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-import com.google.android.gms.location.*
-import com.google.android.gms.tasks.Task
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.FeatureCollection
-import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
-import com.mapbox.mapboxsdk.location.LocationComponentOptions
-import com.mapbox.mapboxsdk.location.modes.CameraMode
-import com.mapbox.mapboxsdk.location.modes.RenderMode
 import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 @Composable
 fun Map(modifier: Modifier = Modifier) {
@@ -62,11 +61,8 @@ fun Map(modifier: Modifier = Modifier) {
     var mapReady by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
 
-    // our view model
+    // ViewModel
     val mapModel: MapViewModel = viewModel()
-
-    // Initialize Mapbox
-    remember { Mapbox.getInstance(context) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -123,6 +119,8 @@ fun Map(modifier: Modifier = Modifier) {
 
                     mapModel.userLocation.value?.let { location ->
                         val userLatLng = LatLng(location.latitude, location.longitude)
+                        // Add a marker or update map here if needed
+                        Log.d("MapDebug", "User location: $userLatLng")
                     } ?: run {
                         Log.d("MapDebug", "User location is null.")
                     }
@@ -147,17 +145,32 @@ fun Map(modifier: Modifier = Modifier) {
     }
 }
 
-
-
-// MainMap composable
 @Composable
 fun MainMap(modifier: Modifier = Modifier) {
-    val screenSize = getScreenSize()
     val mapModel: MapViewModel = viewModel()
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier) {
+        // Map component should be below everything, including the FAB and SearchBar
         Map(modifier = Modifier.fillMaxSize())
 
+        // Floating action button
+        FloatingActionButton(
+            onClick = { /* Handle click action */ },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .zIndex(10f)  // Ensures it is above other components
+        ) {
+
+            // change the icon
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
+                contentDescription = "Add School",
+                tint = Color.White
+            )
+        }
+
+        // Search bar
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -202,6 +215,7 @@ fun SearchBar(
             .fillMaxWidth()
             .height(50.dp)
     )
+
 }
 
 @Preview

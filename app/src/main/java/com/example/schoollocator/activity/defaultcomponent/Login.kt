@@ -45,6 +45,7 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
+
                 // call the app navigation
                 AppNavigation1()
             }

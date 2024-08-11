@@ -125,7 +125,8 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues) {
     NavHost(navController = navController, startDestination = "Map") {
         composable("Map") {
-            MainMap(Modifier.fillMaxWidth())
+            MainMap(modifier = Modifier.padding(contentPadding))
+
         }
         // Add other composable destinations here
     }

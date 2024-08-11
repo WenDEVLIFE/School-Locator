@@ -81,7 +81,6 @@ dependencies {
     // Mapbox dependencies
     implementation ("org.maplibre.gl:android-sdk:10.0.2")
 
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

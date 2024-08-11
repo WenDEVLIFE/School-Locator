@@ -81,7 +81,7 @@ class SignUp : ComponentActivity() {
 fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> Unit = {}) {
 
     // Added the view model
-   val viewModel: SignUpModel = viewModel()
+    val viewModel: SignUpModel = viewModel()
 
     // get the conntext
     val context = LocalContext.current
@@ -89,252 +89,252 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
     // get the screen size  and set the variables
     val screenSize = getScreenSize()
 
-    
+
     // This is for the back press
     BackHandler {
         context.startActivity(Intent(context, Login::class.java))
         (context as? ComponentActivity)?.finish()
     }
 
-        // This are the  box and lazy column that will compose the UI
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Green1)
-                .padding(16.dp)
+    // This are the  box and lazy column that will compose the UI
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Green1)
+            .padding(16.dp)
+    ) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(16.dp)
         ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(16.dp)
-            ) {
 
-                // This is for the image
-                item {
-                    Image(
-                        painter = painterResource(id = R.drawable.location),
-                        contentDescription = "Icon",
-                        modifier = Modifier.size(
-                            width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
-                            height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
-                        )
+            // This is for the image
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.location),
+                    contentDescription = "Icon",
+                    modifier = Modifier.size(
+                        width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
+                        height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
                     )
-                }
-
-                item { Spacer(modifier = Modifier.height(26.dp)) }
-
-                // This is for the registration text
-                item {
-                    Text(
-                        text = "Registration",
-                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(26.dp)) }
-
-                // This is for the username text
-                item {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp),
-                        text = "Username",
-                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(5.dp)) }
-
-                // This is for the username text field
-                item {
-                    TextField(
-                        value = viewModel.username.value,
-                        onValueChange = { viewModel.setUsername(it) },
-                        placeholder = { Text(text = "Enter your username") },
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp)
-                            .background(Color.Transparent),
-                        textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-                        ),
-                        leadingIcon = {
-                            Icon(
-                                modifier = Modifier.padding(end = 10.dp),
-                                painter = painterResource(id = R.drawable.baseline_person_24),
-                                contentDescription = "Icon",
-                                tint = Color.Black
-                            )
-                        },
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(5.dp)) }
-
-
-                // This is for the password text
-                item {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp),
-                        text = "Password",
-                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                    )
-                }
-
-
-                item { Spacer(modifier = Modifier.height(5.dp)) }
-
-                // This is for the password text field
-                item {
-                    TextField(
-                        value = viewModel.password.value,
-                        onValueChange = { viewModel.setPassword(it) },
-                        placeholder = { Text(text = "Enter your password") },
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp)
-                            .background(Color.Transparent),
-                        textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
-                        leadingIcon = {
-                            Icon(
-                                modifier = Modifier.padding(end = 10.dp),
-                                painter = painterResource(id = R.drawable.baseline_key_24),
-                                contentDescription = "Icon",
-                                tint = Color.Black
-                            )
-                        },
-                        trailingIcon = {
-
-                            // This will check if the password is visible or not
-                            val image = if (viewModel.isPasswordVisible.value)
-                                painterResource(id = R.drawable.see)
-                            else
-                                painterResource(id = R.drawable.eye)
-
-                            IconButton(onClick = { viewModel.togglePasswordVisible() }) {
-                                Icon(
-                                    painter = image,
-                                    contentDescription = "Toggle password visibility",
-                                    modifier = Modifier.size(
-                                        width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
-                                        height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
-                                    )
-                                )
-                            }
-                        },
-
-                        // This is to hide the password and unnhide the password
-                        visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(5.dp)) }
-
-
-                // This is for the email text
-                item {
-                    Text(
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp),
-                        text = "Email",
-                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                        color = Color.White,
-                        fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-                    )
-                }
-
-                // This is for the email text field where the user willl type the valid email
-                item {
-                    TextField(
-                        value = viewModel.email.value,
-                        onValueChange = { viewModel.setEmail(it) },
-                        placeholder = { Text(text = "Enter your email") },
-
-                        // added rounded shape
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp)
-                            .background(Color.Transparent),
-                        textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-                        ),
-
-                        // This is to add the icon to the text field
-                        leadingIcon = {
-                            Icon(
-                                modifier = Modifier.padding(end = 10.dp),
-                                painter = painterResource(id = R.drawable.baseline_email_24),
-                                contentDescription = "Icon",
-                                tint = Color.Black
-                            )
-                        },
-
-                        // This is for the colors of the text field
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(20.dp)) }
-
-                // This is for the button registration
-                item {
-                    Button(
-                        onClick = {
-                            if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
-                                navController.navigate("otp")
-                            } else {
-                                Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp)
-                    ) {
-                        Text(
-                            text = "Register",
-                            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                            color = Green1,
-                            fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
-                        )
-                    }
-                }
-
-                item { Spacer(modifier = Modifier.height(10.dp)) }
-
+                )
             }
+
+            item { Spacer(modifier = Modifier.height(26.dp)) }
+
+            // This is for the registration text
+            item {
+                Text(
+                    text = "Registration",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(26.dp)) }
+
+            // This is for the username text
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Username",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+            // This is for the username text field
+            item {
+                TextField(
+                    value = viewModel.username.value,
+                    onValueChange = { viewModel.setUsername(it) },
+                    placeholder = { Text(text = "Enter your username") },
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            painter = painterResource(id = R.drawable.baseline_person_24),
+                            contentDescription = "Icon",
+                            tint = Color.Black
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+
+            // This is for the password text
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Password",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+
+
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+            // This is for the password text field
+            item {
+                TextField(
+                    value = viewModel.password.value,
+                    onValueChange = { viewModel.setPassword(it) },
+                    placeholder = { Text(text = "Enter your password") },
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            painter = painterResource(id = R.drawable.baseline_key_24),
+                            contentDescription = "Icon",
+                            tint = Color.Black
+                        )
+                    },
+                    trailingIcon = {
+
+                        // This will check if the password is visible or not
+                        val image = if (viewModel.isPasswordVisible.value)
+                            painterResource(id = R.drawable.see)
+                        else
+                            painterResource(id = R.drawable.eye)
+
+                        IconButton(onClick = { viewModel.togglePasswordVisible() }) {
+                            Icon(
+                                painter = image,
+                                contentDescription = "Toggle password visibility",
+                                modifier = Modifier.size(
+                                    width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
+                                    height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
+                                )
+                            )
+                        }
+                    },
+
+                    // This is to hide the password and unnhide the password
+                    visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+
+
+            // This is for the email text
+            item {
+                Text(
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Email",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+            }
+
+            // This is for the email text field where the user willl type the valid email
+            item {
+                TextField(
+                    value = viewModel.email.value,
+                    onValueChange = { viewModel.setEmail(it) },
+                    placeholder = { Text(text = "Enter your email") },
+
+                    // added rounded shape
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                    ),
+
+                    // This is to add the icon to the text field
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            painter = painterResource(id = R.drawable.baseline_email_24),
+                            contentDescription = "Icon",
+                            tint = Color.Black
+                        )
+                    },
+
+                    // This is for the colors of the text field
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+
+            // This is for the button registration
+            item {
+                Button(
+                    onClick = {
+                        if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
+                            navController.navigate("otp")
+                        } else {
+                            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Register",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(10.dp)) }
+
         }
+    }
 }
 
 // Otp text field
