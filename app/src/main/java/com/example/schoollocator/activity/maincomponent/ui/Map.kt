@@ -54,9 +54,13 @@ import com.example.schoollocator.windowEnum.getScreenSize
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
+import com.mapbox.mapboxsdk.maps.MapboxMap
 
 @Composable
-fun Map(modifier: Modifier = Modifier) {
+fun Map(
+    modifier: Modifier = Modifier,
+    onMapReady: (MapboxMap) -> Unit
+) {
     val context = LocalContext.current
     var mapReady by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
@@ -64,6 +68,7 @@ fun Map(modifier: Modifier = Modifier) {
     // ViewModel
     val mapModel: MapViewModel = viewModel()
 
+    // Permission launcher
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -80,8 +85,11 @@ fun Map(modifier: Modifier = Modifier) {
         }
     }
 
+    // Check for location permission
     LaunchedEffect(Unit) {
         when {
+
+            // Check if permission is granted
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 permissionGranted = true
                 mapModel.getUserLocation(context) { location ->
@@ -89,14 +97,18 @@ fun Map(modifier: Modifier = Modifier) {
                     mapReady = true
                 }
             }
+
+            // Request permission if not granted
             else -> {
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
 
+    // MapView component
     val mapView = remember { MapView(context) }
 
+    // AndroidView to display the MapView
     AndroidView(
         factory = {
             mapView.apply {
@@ -104,6 +116,8 @@ fun Map(modifier: Modifier = Modifier) {
             }
         },
         modifier = modifier.fillMaxSize(),
+
+        // Update the MapView
         update = { mapView ->
             mapView.getMapAsync { mapboxMap ->
                 Log.d("MapDebug", "MapboxMap is initialized")
@@ -127,10 +141,13 @@ fun Map(modifier: Modifier = Modifier) {
                 } ?: run {
                     Log.d("MapDebug", "Failed to load style")
                 }
+
+                onMapReady(mapboxMap)
             }
         }
     )
 
+    // Lifecycle management
     DisposableEffect(Unit) {
         onDispose {
             mapView.onStop()
@@ -140,22 +157,32 @@ fun Map(modifier: Modifier = Modifier) {
         }
     }
 
+    // Save instance state
     LaunchedEffect(Unit) {
         mapView.onSaveInstanceState(Bundle())
     }
 }
-
 @Composable
 fun MainMap(modifier: Modifier = Modifier) {
     val mapModel: MapViewModel = viewModel()
-
+    val context = LocalContext.current
+    var mapboxMap by remember { mutableStateOf<MapboxMap?>(null) }
     Box(modifier = modifier) {
         // Map component should be below everything, including the FAB and SearchBar
-        Map(modifier = Modifier.fillMaxSize())
+        Map(
+            modifier = Modifier.fillMaxSize(),
+            onMapReady = { map ->
+                mapboxMap = map
+            }
+        )
 
         // Floating action button
         FloatingActionButton(
-            onClick = { /* Handle click action */ },
+            onClick = {
+                mapboxMap?.let { map ->
+                    mapModel.enableLocationComponent(map,context)
+                }
+            },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
