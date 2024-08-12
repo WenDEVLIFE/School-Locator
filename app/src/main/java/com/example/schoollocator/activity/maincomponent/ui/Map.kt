@@ -179,13 +179,32 @@ fun MainMap(modifier: Modifier = Modifier) {
         // Floating action button
         FloatingActionButton(
             onClick = {
+
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 10.dp, bottom = 102.dp)
+                .zIndex(10f)  // Ensures it is above other components
+        ) {
+
+            // change the icon
+            Icon(
+                painter = painterResource(id = R.drawable.schoolocate),
+                contentDescription = "Add School",
+                tint = Color.White
+            )
+        }
+
+        // Floating action button
+        FloatingActionButton(
+            onClick = {
                 mapboxMap?.let { map ->
                     mapModel.enableLocationComponent(map,context)
                 }
             },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 10.dp, bottom = 102.dp)
+                .padding(end = 10.dp, bottom = 30.dp)
                 .zIndex(10f)  // Ensures it is above other components
         ) {
 
