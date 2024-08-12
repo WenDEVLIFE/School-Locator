@@ -185,7 +185,7 @@ fun MainMap(modifier: Modifier = Modifier) {
             },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(end = 10.dp, bottom = 102.dp)
                 .zIndex(10f)  // Ensures it is above other components
         ) {
 
