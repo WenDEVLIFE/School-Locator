@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -246,6 +248,8 @@ fun SearchBar(
 ) {
     val screenSize = getScreenSize()
 
+    val  context = LocalContext.current
+
     // Search bar
     TextField(
         value = query,
@@ -262,6 +266,20 @@ fun SearchBar(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
+        trailingIcon = {
+            IconButton(onClick = {
+                 Toast.makeText(context, "Voice search is not available", Toast.LENGTH_SHORT).show()
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_mic_24),
+                    contentDescription = "Toggle password visibility",
+                    modifier = Modifier.size(
+                        width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
+                        height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
+                    )
+                )
+            }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
