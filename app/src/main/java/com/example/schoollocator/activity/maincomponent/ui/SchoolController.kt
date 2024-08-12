@@ -53,7 +53,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") Color.Green else Color.Black
+                    targetValue = if (selectedItem.value == "Map")  Color.Green else materialGreen
                 )
                 Icon(
                     imageVector = Icons.Default.LocationOn,
@@ -63,7 +63,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") Color.Green else Color.Black
+                    targetValue = if (selectedItem.value == "Map") materialGreen else materialGreen
                 )
                 Text("Map", color = textColor)
             },
@@ -78,9 +78,9 @@ fun BottomNavigationBar(navController: NavHostController) {
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
-                unselectedIconColor = Color.Black,
-                selectedTextColor = Color.Green,
-                unselectedTextColor = Color.Black,
+                unselectedIconColor =  materialGreen,
+                selectedTextColor =  materialGreen,
+                unselectedTextColor =  materialGreen,
                 indicatorColor = Green1
             )
         )
@@ -89,7 +89,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Home")  Color.Green else materialGreen
                 )
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -99,7 +99,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Home")  materialGreen else materialGreen
                 )
                 Text("Home", color = textColor)
             },
@@ -112,9 +112,9 @@ fun BottomNavigationBar(navController: NavHostController) {
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
-                unselectedIconColor = Color.Black,
-                selectedTextColor = Color.Green,
-                unselectedTextColor = Color.Black,
+                unselectedIconColor =  Color.Black,
+                selectedTextColor =  materialGreen,
+                unselectedTextColor =  materialGreen,
                 indicatorColor = Green1
             )
         )
