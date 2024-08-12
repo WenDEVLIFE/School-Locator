@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.WhiteCus
+import com.example.schoollocator.ui.theme.materialLightGreen
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.WellKnownTileServer
 
@@ -42,7 +43,7 @@ fun SchoolController() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    NavigationBar(containerColor = WhiteCus) {
+    NavigationBar(containerColor = materialLightGreen) {
         val selectedItem = remember { mutableStateOf("Map") }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

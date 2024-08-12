@@ -48,6 +48,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.WhiteCus
+import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.MapViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -181,17 +182,19 @@ fun MainMap(modifier: Modifier = Modifier) {
             onClick = {
 
             },
+            containerColor = materialLightGreen,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 10.dp, bottom = 102.dp)
                 .zIndex(10f)  // Ensures it is above other components
+
         ) {
 
             // change the icon
             Icon(
                 painter = painterResource(id = R.drawable.schoolocate),
                 contentDescription = "Add School",
-                tint = Color.White
+                tint = Color.Black
             )
         }
 
@@ -202,6 +205,7 @@ fun MainMap(modifier: Modifier = Modifier) {
                     mapModel.enableLocationComponent(map,context)
                 }
             },
+            containerColor = materialLightGreen,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 10.dp, bottom = 30.dp)
@@ -212,7 +216,7 @@ fun MainMap(modifier: Modifier = Modifier) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
                 contentDescription = "Add School",
-                tint = Color.White
+                tint = Color.Black
             )
         }
 
