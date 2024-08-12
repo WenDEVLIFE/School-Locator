@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.WhiteCus
+import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.WellKnownTileServer
@@ -88,7 +89,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") Color.Green else Color.Black
+                    targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
                 )
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -98,7 +99,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") Color.Green else Color.Black
+                    targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
                 )
                 Text("Home", color = textColor)
             },
