@@ -30,7 +30,7 @@ import com.example.schoollocator.ui.theme.materialLightGreen
 
 @Composable
 fun SchoolController() {
-    val navController: NavHostController = rememberNavController()
+    val navController: NavHostController = rememberNavController() // Initialize navController
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
@@ -42,10 +42,12 @@ fun SchoolController() {
         NavigationGraph(navController = navController, contentPadding = contentPadding, dialogState = dialogState, logoutState = logoutState)
     }
 
+    // This is for the dialog state to show the dialog
     if (dialogState.value) {
         LogoutDialog(navController = navController ,dialogState = dialogState, logoutState = logoutState)
     }
 
+    // This is for the logout state
     if (logoutState.value) {
         AppNavigation1()
     }
@@ -70,13 +72,19 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
+
+            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Map") materialGreen else materialGreen
                 )
                 Text("Map", color = textColor)
             },
+
+            // This is for the selected value
             selected = selectedItem.value == "Map",
+
+            // This is for the onClick
             onClick = {
                 selectedItem.value = "Map"
                 navController.navigate("Map") {
@@ -84,6 +92,8 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     restoreState = true
                 }
             },
+
+            // the colors of the navigation item
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = materialGreen,
@@ -105,16 +115,24 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
+
+            //
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Home") materialGreen else materialGreen
                 )
                 Text("Home", color = textColor)
             },
+
+            // This is for the selected value
             selected = selectedItem.value == "Home",
+
+            // This is for the onClick
             onClick = {
                 selectedItem.value = "Home"
             },
+
+            // This is for the colors
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
@@ -126,6 +144,8 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
 
         // Logout NavigationBarItem
         NavigationBarItem(
+
+            // This is for the iconns
             icon = {
                 val iconColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Logout") Color.Green else materialGreen
@@ -136,17 +156,25 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
+
+            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Logout") materialGreen else materialGreen
                 )
                 Text("Logout", color = textColor)
             },
+
+            // This is for the select value
             selected = selectedItem.value == "Logout",
+
+            // This is for the onClick
             onClick = {
                 selectedItem.value = "Logout"
                 dialogState.value = true // Show the dialog
             },
+
+            // This is for colors
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
@@ -158,6 +186,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
     }
 }
 
+// This is for the logout diaog
 @Composable
 fun LogoutDialog(
     navController: NavHostController,
@@ -168,13 +197,18 @@ fun LogoutDialog(
         navController.popBackStack(navController.graph.startDestinationId, false)
     }
     AlertDialog(
-        onDismissRequest = { dialogState.value = false },
+        onDismissRequest = {
+            dialogState.value = false
+                           },
+
         title = {
             Text(text = "Logout")
         },
+
         text = {
             Text(text = "Are you sure you want to logout?")
         },
+
         confirmButton = {
             Button(
                 onClick = {
@@ -203,10 +237,14 @@ fun LogoutDialog(
 @Composable
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
     NavHost(navController = navController, startDestination = "Map") {
+
+        // Map Composable
         composable("Map") {
             MainMap(modifier = Modifier.padding(contentPadding))
 
         }
+
+        // Home Composable
         composable("Home") {
 
         }
@@ -222,6 +260,8 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
     }
 }
 
+
+// This is for the preview
 @Preview
 @Composable
 fun SchoolControllerPreview() {
