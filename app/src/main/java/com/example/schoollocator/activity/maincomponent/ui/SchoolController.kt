@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
@@ -116,7 +117,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                 )
             },
 
-            //
+            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Home") materialGreen else materialGreen
@@ -130,6 +131,45 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
             // This is for the onClick
             onClick = {
                 selectedItem.value = "Home"
+            },
+
+            // This is for the colors
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Green,
+                unselectedIconColor = Color.Black,
+                selectedTextColor = materialGreen,
+                unselectedTextColor = materialGreen,
+                indicatorColor = Green1
+            )
+        )
+
+        // Home NavigationBarItem
+        NavigationBarItem(
+            icon = {
+                val iconColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Favorite") Color.Green else materialGreen
+                )
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = iconColor
+                )
+            },
+
+            // This is for the label
+            label = {
+                val textColor by animateColorAsState(
+                    targetValue = if (selectedItem.value == "Favorite") materialGreen else materialGreen
+                )
+                Text("Favorite", color = textColor)
+            },
+
+            // This is for the selected value
+            selected = selectedItem.value == "Favorite",
+
+            // This is for the onClick
+            onClick = {
+                selectedItem.value = "Favorite"
             },
 
             // This is for the colors
@@ -248,6 +288,8 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         composable("Home") {
 
         }
+
+        // Logout Composable
         composable("Logout") {
             LogoutDialog(
                 dialogState = dialogState,
