@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -23,7 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.defaultcomponent.LoginForm1
+import com.example.schoollocator.activity.defaultcomponent.AppNavigation1
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -33,17 +32,22 @@ import com.example.schoollocator.ui.theme.materialLightGreen
 fun SchoolController() {
     val navController: NavHostController = rememberNavController()
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController, dialogState = dialogState)
         }
     ) { contentPadding ->
-        NavigationGraph(navController = navController, contentPadding = contentPadding, dialogState = dialogState)
+        NavigationGraph(navController = navController, contentPadding = contentPadding, dialogState = dialogState, logoutState = logoutState)
     }
 
     if (dialogState.value) {
-        LogoutDialog(navController = navController, dialogState = dialogState)
+        LogoutDialog(navController = navController ,dialogState = dialogState, logoutState = logoutState)
+    }
+
+    if (logoutState.value) {
+        AppNavigation1()
     }
 }
 
@@ -155,7 +159,14 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
 }
 
 @Composable
-fun LogoutDialog(navController: NavHostController, dialogState: MutableState<Boolean>) {
+fun LogoutDialog(
+    navController: NavHostController,
+    dialogState: MutableState<Boolean>,
+    logoutState: MutableState<Boolean>
+) {
+    fun clearNavController() {
+        navController.popBackStack(navController.graph.startDestinationId, false)
+    }
     AlertDialog(
         onDismissRequest = { dialogState.value = false },
         title = {
@@ -169,11 +180,9 @@ fun LogoutDialog(navController: NavHostController, dialogState: MutableState<Boo
                 onClick = {
                     // Clear the token
                     // Navigate to login
-                    navController.navigate("login") {
-                        launchSingleTop = true
-                        restoreState = true
-                    }
                     dialogState.value = false // Dismiss the dialog
+                    logoutState.value = true
+                    clearNavController()
                 }
             ) {
                 Text("Yes")
@@ -192,7 +201,7 @@ fun LogoutDialog(navController: NavHostController, dialogState: MutableState<Boo
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>) {
+fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
     NavHost(navController = navController, startDestination = "Map") {
         composable("Map") {
             MainMap(modifier = Modifier.padding(contentPadding))
@@ -202,11 +211,13 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         }
         composable("Logout") {
-            LogoutDialog(navController = navController, dialogState = dialogState)
+            LogoutDialog(
+                dialogState = dialogState,
+                logoutState = logoutState,
+                navController = navController
+            )
         }
-        composable("login") {
-            LoginForm1(navController = navController)
-        }
+
 
     }
 }
