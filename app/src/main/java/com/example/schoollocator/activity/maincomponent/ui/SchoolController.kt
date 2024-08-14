@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -233,6 +235,8 @@ fun LogoutDialog(
     dialogState: MutableState<Boolean>,
     logoutState: MutableState<Boolean>
 ) {
+
+    // This method used for clearing the navigation controller backstack
     fun clearNavController() {
         navController.popBackStack(navController.graph.startDestinationId, false)
     }
@@ -240,7 +244,6 @@ fun LogoutDialog(
         onDismissRequest = {
             dialogState.value = false
                            },
-
         title = {
             Text(text = "Logout")
         },
@@ -276,7 +279,11 @@ fun LogoutDialog(
 
 @Composable
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
+
+    val context = LocalContext.current
+
     NavHost(navController = navController, startDestination = "Map") {
+
 
         // Map Composable
         composable("Map") {
@@ -286,7 +293,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         // Home Composable
         composable("Home") {
+            Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
+        }
 
+        composable("Favorite") {
+            Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
         }
 
         // Logout Composable
@@ -297,8 +308,6 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
                 navController = navController
             )
         }
-
-
     }
 }
 
