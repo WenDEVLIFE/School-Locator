@@ -55,8 +55,29 @@ fun Profile(modifier: Modifier = Modifier) {
         }
     }
 }
+
+@Composable
+fun Menu(){
+    LazyColumn(
+        modifier = Modifier
+            .padding(51.dp)
+            .background(lightgreen),
+        verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
+    ) {
+        items(10) {
+            Text(text = "Item $it")
+        }
+    }
+}
+
 @Preview
 @Composable
 fun HomeScreenPreview() {
     Profile()
+}
+
+@Preview
+@Composable
+fun MenuPreview(){
+    Menu()
 }
