@@ -77,12 +77,18 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(lightgreen)
     ) {
+        // call the profile
         Profile()
+
+        // call the menu
         Menu(modifier = Modifier.weight(1f)) // Ensure Menu takes up remaining space
     }
 }
 
+
+// This is for the preview only
 @Preview
 @Composable
 fun HomeScreenPreview() {

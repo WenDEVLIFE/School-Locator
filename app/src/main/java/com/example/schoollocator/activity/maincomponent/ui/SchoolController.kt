@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.defaultcomponent.AppNavigation1
+import com.example.schoollocator.activity.defaultcomponent.HomeScreen
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -63,6 +65,11 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
+        // Update selectedItem based on current route
+        LaunchedEffect(currentRoute) {
+            selectedItem.value = currentRoute ?: "Map"
+        }
+
         // Map NavigationBarItem
         NavigationBarItem(
             icon = {
@@ -75,19 +82,13 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
-
-            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Map") materialGreen else materialGreen
                 )
                 Text("Map", color = textColor)
             },
-
-            // This is for the selected value
             selected = selectedItem.value == "Map",
-
-            // This is for the onClick
             onClick = {
                 selectedItem.value = "Map"
                 navController.navigate("Map") {
@@ -95,8 +96,6 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     restoreState = true
                 }
             },
-
-            // the colors of the navigation item
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = materialGreen,
@@ -118,24 +117,20 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
-
-            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Home") materialGreen else materialGreen
                 )
                 Text("Home", color = textColor)
             },
-
-            // This is for the selected value
             selected = selectedItem.value == "Home",
-
-            // This is for the onClick
             onClick = {
                 selectedItem.value = "Home"
+                navController.navigate("Home") {
+                    launchSingleTop = true
+                    restoreState = true
+                }
             },
-
-            // This is for the colors
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
@@ -145,7 +140,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
             )
         )
 
-        // Home NavigationBarItem
+        // Favorite NavigationBarItem
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
@@ -157,24 +152,20 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
-
-            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Favorite") materialGreen else materialGreen
                 )
                 Text("Favorite", color = textColor)
             },
-
-            // This is for the selected value
             selected = selectedItem.value == "Favorite",
-
-            // This is for the onClick
             onClick = {
                 selectedItem.value = "Favorite"
+                navController.navigate("Favorite") {
+                    launchSingleTop = true
+                    restoreState = true
+                }
             },
-
-            // This is for the colors
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
@@ -186,8 +177,6 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
 
         // Logout NavigationBarItem
         NavigationBarItem(
-
-            // This is for the iconns
             icon = {
                 val iconColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Logout") Color.Green else materialGreen
@@ -198,25 +187,17 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     tint = iconColor
                 )
             },
-
-            // This is for the label
             label = {
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Logout") materialGreen else materialGreen
                 )
                 Text("Logout", color = textColor)
             },
-
-            // This is for the select value
             selected = selectedItem.value == "Logout",
-
-            // This is for the onClick
             onClick = {
                 selectedItem.value = "Logout"
                 dialogState.value = true // Show the dialog
             },
-
-            // This is for colors
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
@@ -294,6 +275,8 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         // Home Composable
         composable("Home") {
             Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
+            HomeScreen(modifier = Modifier.padding(contentPadding))
+
         }
 
         composable("Favorite") {
