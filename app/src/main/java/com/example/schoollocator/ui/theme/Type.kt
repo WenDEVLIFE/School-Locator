@@ -10,8 +10,8 @@ import com.example.schoollocator.R
 
 // This is our custom font
 val Roboto = FontFamily(
-    Font(R.font.Roboto_Regular),
-    Font(R.font.Roboto_Bold, FontWeight.Bold)
+    Font(R.font.roboto_regular),
+    Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
 

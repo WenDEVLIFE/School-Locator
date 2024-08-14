@@ -22,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.schoollocator.R
+import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 
@@ -49,9 +51,9 @@ fun Profile(modifier: Modifier = Modifier) {
         }
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "Furina")
+            Text(text = "Furina", style = Typography.bodySmall, fontSize = 20.sp)
             Spacer(modifier = Modifier.size(4.dp))
-            Text(text = "furina45@gmail.com")
+            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = 20.sp)
             Spacer(modifier = Modifier.size(4.dp))
         }
     }
