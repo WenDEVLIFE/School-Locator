@@ -35,9 +35,15 @@ import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.windowEnum.ScreenSize
+import com.example.schoollocator.windowEnum.getScreenSize
 
 @Composable
 fun Profile(modifier: Modifier = Modifier) {
+
+    // for screen size
+    val screenSize = getScreenSize()
+
     Row(
         modifier = modifier
             .fillMaxWidth() // Ensure Profile fills the width
@@ -59,9 +65,9 @@ fun Profile(modifier: Modifier = Modifier) {
         }
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "Furina", style = Typography.bodySmall, fontSize = 20.sp, color = materialGreen)
+            Text(text = "Furina", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
             Spacer(modifier = Modifier.size(4.dp))
-            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = 20.sp, color = materialGreen)
+            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
             Spacer(modifier = Modifier.size(4.dp))
         }
     }
@@ -69,6 +75,9 @@ fun Profile(modifier: Modifier = Modifier) {
 
 @Composable
 fun Menu(modifier: Modifier = Modifier) {
+
+    // for screen size
+    val screenSize = getScreenSize()
 
     // This is our list of menu 
     val menuItems = listOf(
@@ -80,7 +89,7 @@ fun Menu(modifier: Modifier = Modifier) {
         MenuItem(R.drawable.chats, "Messages",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
         MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
         MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.baseline_email_24, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
         MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
         MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
     )
@@ -106,20 +115,22 @@ fun Menu(modifier: Modifier = Modifier) {
                 Icon(
                     painter = painterResource(id = item.icon),
                     contentDescription = item.label,
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(if (screenSize == ScreenSize.SMALL) 32.dp else 48.dp),
                     tint = materialGreen
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = item.label,
                     style = Typography.bodyLarge,
+                    fontFamily = Typography.bodyLarge.fontFamily,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp,
                     color = materialGreen
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     imageVector = item.trailingIcon,
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(if (screenSize == ScreenSize.SMALL) 32.dp else 48.dp),
                     tint = materialGreen
                 )
             }
