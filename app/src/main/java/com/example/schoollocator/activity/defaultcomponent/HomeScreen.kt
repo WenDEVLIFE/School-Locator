@@ -70,10 +70,17 @@ fun Profile(modifier: Modifier = Modifier) {
 @Composable
 fun Menu(modifier: Modifier = Modifier) {
     val menuItems = listOf(
-        MenuItem(R.drawable.eye, "Home",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
-        MenuItem(R.drawable.eye, "Profile",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
-        MenuItem(R.drawable.eye, "Settings",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ }
+        MenuItem(R.drawable.eye, "Map",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
+        MenuItem(R.drawable.eye, "User",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Add Schools",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ },
+        MenuItem(R.drawable.eye, "Created School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Messages",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
+        MenuItem(R.drawable.eye, "Favorites",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
+        MenuItem(R.drawable.eye, "Change Password",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
     )
     LazyColumn(
         modifier = modifier
@@ -95,7 +102,7 @@ fun Menu(modifier: Modifier = Modifier) {
                 Icon(
                     painter = painterResource(id = item.icon),
                     contentDescription = item.label,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(32.dp),
                     tint = materialGreen
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -108,7 +115,7 @@ fun Menu(modifier: Modifier = Modifier) {
                 Icon(
                     imageVector = item.trailingIcon,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(32.dp),
                     tint = materialGreen
                 )
             }
