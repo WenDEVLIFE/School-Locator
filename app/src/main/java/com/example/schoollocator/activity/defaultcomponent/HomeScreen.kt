@@ -1,8 +1,9 @@
 package com.example.schoollocator.activity.defaultcomponent
 
-import android.widget.Space
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +13,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,6 +69,12 @@ fun Profile(modifier: Modifier = Modifier) {
 
 @Composable
 fun Menu(modifier: Modifier = Modifier) {
+    val menuItems = listOf(
+        MenuItem(R.drawable.eye, "Home",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
+        MenuItem(R.drawable.eye, "Profile",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
+        MenuItem(R.drawable.eye, "Settings",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.eye, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ }
+    )
     LazyColumn(
         modifier = modifier
             .fillMaxSize() // Ensure LazyColumn fills the remaining space
@@ -69,12 +82,47 @@ fun Menu(modifier: Modifier = Modifier) {
             .background(lightgreen),
         verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
-        items(10) {
-            Text(text = "Item $it")
+        items(menuItems) { item ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .background(lightgreen)
+                    .padding(16.dp)
+                    .clickable { item.onClick() },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = item.icon),
+                    contentDescription = item.label,
+                    modifier = Modifier.size(24.dp),
+                    tint = materialGreen
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = item.label,
+                    style = Typography.bodyLarge,
+                    color = materialGreen
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    imageVector = item.trailingIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = materialGreen
+                )
+            }
         }
     }
 }
 
+// This is our data class
+data class MenuItem(
+    @DrawableRes val icon: Int,
+    val label: String,
+    val trailingIcon: ImageVector,
+    val onClick: () -> Unit
+)
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
