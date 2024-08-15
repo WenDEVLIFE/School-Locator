@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
+import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 
 @Composable
@@ -51,9 +52,9 @@ fun Profile(modifier: Modifier = Modifier) {
         }
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "Furina", style = Typography.bodySmall, fontSize = 20.sp)
+            Text(text = "Furina", style = Typography.bodySmall, fontSize = 20.sp, color = materialGreen)
             Spacer(modifier = Modifier.size(4.dp))
-            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = 20.sp)
+            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = 20.sp, color = materialGreen)
             Spacer(modifier = Modifier.size(4.dp))
         }
     }
