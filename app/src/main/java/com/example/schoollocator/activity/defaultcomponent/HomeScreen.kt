@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.schoollocator.R
+import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -63,6 +64,8 @@ fun Profile(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize()
             )
         }
+
+        //This is where the user info will display
         Column {
             Spacer(modifier = Modifier.size(20.dp))
             Text(text = "Furina", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
@@ -138,13 +141,6 @@ fun Menu(modifier: Modifier = Modifier) {
     }
 }
 
-// This is our data class
-data class MenuItem(
-    @DrawableRes val icon: Int,
-    val label: String,
-    val trailingIcon: ImageVector,
-    val onClick: () -> Unit
-)
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
@@ -168,11 +164,13 @@ fun HomeScreenPreview() {
     HomeScreen()
 }
 
+
 @Preview
 @Composable
 fun ProfilePreview() {
     Profile()
 }
+
 
 @Preview
 @Composable

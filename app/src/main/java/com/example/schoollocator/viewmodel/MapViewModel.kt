@@ -82,6 +82,8 @@ class MapViewModel: ViewModel() {
 
                 // Zoom to the user's location
                 mapboxMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 14.0))
+
+
             }
         }
     }

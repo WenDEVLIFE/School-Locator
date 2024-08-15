@@ -258,6 +258,7 @@ fun LogoutDialog(
     )
 }
 
+// This are for the navigation graph
 @Composable
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
 
