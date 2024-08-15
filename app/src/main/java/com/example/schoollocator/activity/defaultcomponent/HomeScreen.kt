@@ -69,18 +69,20 @@ fun Profile(modifier: Modifier = Modifier) {
 
 @Composable
 fun Menu(modifier: Modifier = Modifier) {
+
+    // This is our list of menu 
     val menuItems = listOf(
-        MenuItem(R.drawable.eye, "Map",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
-        MenuItem(R.drawable.eye, "User",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Add Schools",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ },
-        MenuItem(R.drawable.eye, "Created School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Messages",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
-        MenuItem(R.drawable.eye, "Favorites",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
-        MenuItem(R.drawable.eye, "Change Password",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.eye, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.map, "Map",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
+        MenuItem(R.drawable.user, "User",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.schoo, "School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.pencil, "Add Schools",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ },
+        MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.chats, "Messages",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
+        MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
+        MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.baseline_email_24, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
     )
     LazyColumn(
         modifier = modifier
@@ -89,6 +91,8 @@ fun Menu(modifier: Modifier = Modifier) {
             .background(lightgreen),
         verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
+        
+        // call the menu items
         items(menuItems) { item ->
             Row(
                 modifier = Modifier
