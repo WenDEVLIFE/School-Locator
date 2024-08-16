@@ -1,6 +1,6 @@
 package com.example.schoollocator.activity.defaultcomponent
 
-import androidx.annotation.DrawableRes
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,11 +25,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
@@ -77,24 +79,68 @@ fun Profile(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Menu(modifier: Modifier = Modifier) {
+fun Menu(modifier: Modifier = Modifier,navController: NavHostController) {
 
     // for screen size
     val screenSize = getScreenSize()
 
+    // This is for local context
+    val context = LocalContext.current
+
     // This is our list of menu 
     val menuItems = listOf(
-        MenuItem(R.drawable.map, "Map",Icons.Default.KeyboardArrowRight) { /* Handle Home click */ },
-        MenuItem(R.drawable.user, "User",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.schoo, "School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.pencil, "Add Schools",Icons.Default.KeyboardArrowRight) { /* Handle Logout click */ },
-        MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.chats, "Messages",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
-        MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) { /* Handle Profile click */ },
-        MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
-        MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */ },
+        MenuItem(R.drawable.map, "Map",Icons.Default.KeyboardArrowRight) {
+        /* Handle Home click */
+            navController.navigate("Map") {
+                launchSingleTop = true
+                restoreState = true
+            }
+
+            Toast.makeText(context, "Map", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.user, "User",Icons.Default.KeyboardArrowRight) {
+        /* Handle Settings click */
+         Toast.makeText(context, "User", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.schoo, "School",Icons.Default.KeyboardArrowRight) {
+        /* Handle Settings click */
+            Toast.makeText(context, "School", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.pencil, "Add Schools",Icons.Default.KeyboardArrowRight) {
+        /* Handle Logout click */
+            Toast.makeText(context, "Add Schools", Toast.LENGTH_SHORT).show()
+            },
+        MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) {
+        /* Handle Settings click */
+            Toast.makeText(context, "Created School", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.chats, "Messages",Icons.Default.KeyboardArrowRight) {
+        /* Handle Profile click */
+            Toast.makeText(context, "Messages", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) {
+        /* Handle Profile click */
+         Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) {
+        /* Handle Settings click */
+        Toast.makeText(context, "Change Password", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) {
+        /* Handle Settings click */
+            Toast.makeText(context, "Change Email", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */
+            Toast.makeText(context, "Change Profile Picture", Toast.LENGTH_SHORT).show()
+        },
+        MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) {
+
+        /* Handle Settings click */
+            navController.navigate("Logout") {
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
     )
     LazyColumn(
         modifier = modifier
@@ -142,7 +188,7 @@ fun Menu(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -152,7 +198,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         Profile()
 
         // call the menu
-        Menu(modifier = Modifier.weight(1f)) // Ensure Menu takes up remaining space
+        Menu(modifier = Modifier.weight(1f),navController) // Ensure Menu takes up remaining space
     }
 }
 
@@ -161,7 +207,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+
+    HomeScreen(modifier = Modifier ,navController = rememberNavController())
 }
 
 
@@ -175,5 +222,5 @@ fun ProfilePreview() {
 @Preview
 @Composable
 fun MenuPreview(){
-    Menu()
+    Menu(modifier = Modifier, navController = rememberNavController())
 }

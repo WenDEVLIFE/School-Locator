@@ -276,10 +276,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         // Home Composable
         composable("Home") {
             Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
-            HomeScreen(modifier = Modifier.padding(contentPadding))
+            HomeScreen(modifier = Modifier.padding(contentPadding), navController = navController)
 
         }
 
+        // Favorite Composable
         composable("Favorite") {
             Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
         }
