@@ -22,6 +22,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.ui.LogoutDialog
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
@@ -79,7 +84,12 @@ fun Profile(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Menu(modifier: Modifier = Modifier,navController: NavHostController) {
+fun Menu(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    dialogState: MutableState<Boolean>,
+    logoutState: MutableState<Boolean>
+) {
 
     // for screen size
     val screenSize = getScreenSize()
@@ -136,10 +146,7 @@ fun Menu(modifier: Modifier = Modifier,navController: NavHostController) {
         MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) {
 
         /* Handle Settings click */
-            navController.navigate("Logout") {
-                launchSingleTop = true
-                restoreState = true
-            }
+            dialogState.value = true
         },
     )
     LazyColumn(
@@ -189,6 +196,19 @@ fun Menu(modifier: Modifier = Modifier,navController: NavHostController) {
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
+
+    if (dialogState.value) {
+        LogoutDialog(navController = navController ,dialogState = dialogState, logoutState = logoutState)
+    }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        AppNavigation1()
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -198,7 +218,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
         Profile()
 
         // call the menu
-        Menu(modifier = Modifier.weight(1f),navController) // Ensure Menu takes up remaining space
+        Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState) // Ensure Menu takes up remaining space
     }
 }
 
@@ -222,5 +242,10 @@ fun ProfilePreview() {
 @Preview
 @Composable
 fun MenuPreview(){
-    Menu(modifier = Modifier, navController = rememberNavController())
+    Menu(
+        modifier = Modifier,
+        navController = rememberNavController(),
+        dialogState = remember { mutableStateOf(false) },
+        logoutState = remember { mutableStateOf(false) }
+    )
 }
