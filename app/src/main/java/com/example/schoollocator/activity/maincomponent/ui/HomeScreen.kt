@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.defaultcomponent
+package com.example.schoollocator.activity.maincomponent.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.ui.LogoutDialog
+import com.example.schoollocator.activity.defaultcomponent.AppNavigation1
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
