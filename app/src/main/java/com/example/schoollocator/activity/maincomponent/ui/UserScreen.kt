@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -18,10 +20,14 @@ import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -33,26 +39,54 @@ import com.example.schoollocator.windowEnum.getScreenSize
 
 // TODO: Implement the UserScreen composable function
 fun UserScreen() {
-
     // This is the state of the search query
     val query = remember { mutableStateOf("") }
 
-    Column(
+    Box(
         modifier = Modifier
-        .background(lightgreen)
+            .fillMaxSize()
+            .background(lightgreen)
     ) {
-        TopAppBarState(modifier = Modifier)
-        Spacer(modifier = Modifier.size(10.dp))
-        SearchBar(
-            query = query.value,
-            onQueryChanged = { newQuery ->query.value = newQuery },
-            onSearch = { /* Handle search action here */ }
-        )
-        Spacer(modifier = Modifier.size(10.dp))
-        UserList(modifier = Modifier.weight(1f))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(lightgreen)
+        ) {
+            // Top bar
+            TopAppBarState(modifier = Modifier)
+            Spacer(modifier = Modifier.size(10.dp))
+
+            // Search bar
+            SearchBar(
+                query = query.value,
+                onQueryChanged = { newQuery -> query.value = newQuery },
+                onSearch = { /* Handle search action here */ }
+            )
+            Spacer(modifier = Modifier.size(10.dp))
+
+            // Lazy Column
+            UserList(modifier = Modifier.weight(1f))
+        }
+
+        // Floating action button
+        FloatingActionButton(
+            onClick = {
+                // Handle FAB click
+            },
+            containerColor = materialLightGreen,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 10.dp, bottom = 30.dp)
+                .zIndex(10f)  // Ensures it is above other components
+        ) {
+            // Change the icon
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_person_add_alt_1_24),
+                contentDescription = "Add School",
+                tint = materialGreen
+            )
+        }
     }
-
-
 }
 
 @Composable
