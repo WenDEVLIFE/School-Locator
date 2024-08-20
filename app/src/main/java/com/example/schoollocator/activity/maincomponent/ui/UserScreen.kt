@@ -50,7 +50,7 @@ fun UserScreen() {
                 .background(lightgreen)
         ) {
             // Top bar
-            TopAppBarState(modifier = Modifier)
+            TopAppBarState(modifier = Modifier,  tittle = "Users")
             Spacer(modifier = Modifier.size(10.dp))
 
             // Search bar
@@ -104,11 +104,11 @@ fun UserList(modifier: Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarState(modifier: Modifier) {
+fun TopAppBarState(modifier: Modifier, tittle:String) {
     val screenSize = getScreenSize()
 
     TopAppBar(
-        title = { Text(text = "User", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 35.sp, color = materialGreen) },
+        title = { Text(text = tittle, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 35.sp, color = materialGreen) },
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = materialLightGreen
