@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,9 +32,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
+import com.example.schoollocator.ui.theme.materialGreen
+import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.AddUserViewModel
+import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -56,13 +62,12 @@ fun AddUser(modifier: Modifier=Modifier){
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUserForm(modifier: Modifier=Modifier){
 
     val screenSize = getScreenSize()
-    val username  = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-
+    val viewModel: AddUserViewModel = viewModel()
 
     LazyColumn(
         modifier = modifier
@@ -82,7 +87,7 @@ fun AddUserForm(modifier: Modifier=Modifier){
                     .padding(start = 16.dp),
                 text = "Username",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = Color.White,
+                color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -93,8 +98,8 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
         item {
             TextField(
-                value = username.value,
-                onValueChange = {  username.value = it },
+                value = viewModel.username.value,
+                onValueChange = {  viewModel.username.value = (it) },
                 placeholder = { Text(text = "Enter your username") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -132,7 +137,7 @@ fun AddUserForm(modifier: Modifier=Modifier){
                     .padding(start = 16.dp),
                 text = "Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = Color.White,
+                color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -140,11 +145,10 @@ fun AddUserForm(modifier: Modifier=Modifier){
         item {
             Spacer(modifier = Modifier.height(5.dp))
         }
-
         item {
             TextField(
-                value = password.value,
-                onValueChange = { password.value = it) },
+                value = viewModel.password.value,
+                onValueChange = { viewModel.password.value = (it) },
                 placeholder = { Text(text = "Enter your password") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -190,9 +194,16 @@ fun AddUserForm(modifier: Modifier=Modifier){
 }
 
 
+
 // This is the preview of the AddUserScreen
 @Preview
 @Composable
 fun AddUserPreview(){
     AddUser()
+}
+
+@Preview
+@Composable
+fun AddUserFormPreview(){
+    AddUserForm()
 }
