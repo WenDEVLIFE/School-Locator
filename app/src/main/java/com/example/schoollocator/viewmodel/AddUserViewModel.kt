@@ -12,7 +12,8 @@ class AddUserViewModel:ViewModel() {
     private val _password = mutableStateOf("")
     val password: MutableState<String> = _password
 
-
+    private val _email = mutableStateOf("")
+    val email: MutableState<String> = _email
     // This is for the password text field
     var _passwordVisible = mutableStateOf(false)
     val isPasswordVisible: MutableState<Boolean> = _passwordVisible
