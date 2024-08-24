@@ -1,6 +1,8 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import android.widget.Spinner
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,6 +74,8 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
     val screenSize = getScreenSize()
     val viewModel: AddUserViewModel = viewModel()
+    val items = listOf("Select a status","Admin", "User", "School Owner")
+    var selectedItem by remember { mutableStateOf(items[0]) }
 
     LazyColumn(
         modifier = modifier
@@ -189,6 +197,11 @@ fun AddUserForm(modifier: Modifier=Modifier){
                 )
             )
         }
+
+        item{
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+
         item {
             TextField(
                 value = viewModel.email.value,
@@ -224,11 +237,58 @@ fun AddUserForm(modifier: Modifier=Modifier){
                 )
             )
         }
+
+        item{
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        item{
+            Spinner(
+                items = items,
+                selectedItem = selectedItem,
+                onItemSelected = { selectedItem = it },
+            )
+        }
     }
 
 }
 
+@Composable
+fun Spinner(
+    items: List<String>,
+    selectedItem: String,
+    onItemSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
 
+    Column(modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White, shape = RoundedCornerShape(20.dp))
+                .clickable { expanded = true }
+                .padding(16.dp)
+        ) {
+            Text(text = selectedItem)
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            items.forEach { item ->
+                DropdownMenuItem(
+                    text = { Text(text = item) },
+                    onClick = {
+                        onItemSelected(item)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
 
 // This is the preview of the AddUserScreen
 @Preview
@@ -241,4 +301,10 @@ fun AddUserPreview(){
 @Composable
 fun AddUserFormPreview(){
     AddUserForm()
+}
+
+@Preview
+@Composable
+fun SpinnerPreview(){
+    Spinner(items = listOf("Select a status","Admin", "User", "School Owner"), selectedItem = "Select a status", onItemSelected = {})
 }
