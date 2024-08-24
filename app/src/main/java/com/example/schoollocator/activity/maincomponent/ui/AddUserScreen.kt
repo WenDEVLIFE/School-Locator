@@ -189,6 +189,41 @@ fun AddUserForm(modifier: Modifier=Modifier){
                 )
             )
         }
+        item {
+            TextField(
+                value = viewModel.email.value,
+                onValueChange = { viewModel.email.value =(it) },
+                placeholder = { Text(text = "Enter your email") },
+
+                // added rounded shape
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(14.dp)
+                    .background(Color.Transparent),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                ),
+
+                // This is to add the icon to the text field
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.padding(end = 10.dp),
+                        painter = painterResource(id = R.drawable.baseline_email_24),
+                        contentDescription = "Icon",
+                        tint = Color.Black
+                    )
+                },
+
+                // This is for the colors of the text field
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
     }
 
 }
