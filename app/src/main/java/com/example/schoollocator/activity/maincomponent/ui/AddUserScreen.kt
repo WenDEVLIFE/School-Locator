@@ -6,12 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
@@ -74,7 +76,10 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
     val screenSize = getScreenSize()
     val viewModel: AddUserViewModel = viewModel()
-    val items = listOf("Select a status","Admin", "User", "School Owner")
+    val items = listOf("Select a status" to R.drawable.baseline_person_24,
+        "Admin" to R.drawable.baseline_person_24,
+        "User" to R.drawable.baseline_person_24,
+        "School Owner" to R.drawable.baseline_person_24)
     var selectedItem by remember { mutableStateOf(items[0]) }
 
     LazyColumn(
@@ -203,6 +208,19 @@ fun AddUserForm(modifier: Modifier=Modifier){
         }
 
         item {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = "Email",
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                color = materialGreen,
+                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+            )
+        }
+
+
+        item {
             TextField(
                 value = viewModel.email.value,
                 onValueChange = { viewModel.email.value =(it) },
@@ -242,6 +260,18 @@ fun AddUserForm(modifier: Modifier=Modifier){
             Spacer(modifier = Modifier.height(5.dp))
         }
 
+        item {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = "Status",
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                color = materialGreen,
+                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+            )
+        }
+
         item{
             Spinner(
                 items = items,
@@ -257,17 +287,18 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
 }
 
-// This is for the Spinner Composable
 @Composable
 fun Spinner(
-    items: List<String>,
-    selectedItem: String,
-    onItemSelected: (String) -> Unit
+    items: List<Pair<String, Int>>, // List of pairs with text and icon resource
+    selectedItem: Pair<String, Int>,
+    onItemSelected: (Pair<String, Int>) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth()
-        .padding(14.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
@@ -275,9 +306,19 @@ fun Spinner(
                 .size(width = 400.dp, height = 50.dp) // Set the size of the dropdown
                 .background(Color.White, shape = RoundedCornerShape(20.dp))
                 .clickable { expanded = true }
-                .padding(16.dp)
+                .padding(16.dp),
+            contentAlignment = Alignment.CenterStart // Align content to start
         ) {
-            Text(text = selectedItem)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(id = selectedItem.second),
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = selectedItem.first)
+            }
         }
 
         DropdownMenu(
@@ -286,7 +327,18 @@ fun Spinner(
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = item) },
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                painter = painterResource(id = item.second),
+                                contentDescription = null,
+                                tint = Color.Black,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = item.first)
+                        }
+                    },
                     onClick = {
                         onItemSelected(item)
                         expanded = false
@@ -296,6 +348,7 @@ fun Spinner(
         }
     }
 }
+
 
 // This is the preview of the AddUserScreen
 @Preview
@@ -313,5 +366,14 @@ fun AddUserFormPreview(){
 @Preview
 @Composable
 fun SpinnerPreview(){
-    Spinner(items = listOf("Select a status","Admin", "User", "School Owner"), selectedItem = "Select a status", onItemSelected = {})
+    Spinner(
+        items = listOf(
+            "Select a status" to R.drawable.baseline_person_24,
+            "Admin" to R.drawable.baseline_person_24,
+            "User" to R.drawable.baseline_person_24,
+            "School Owner" to R.drawable.baseline_person_24
+        ),
+        selectedItem = "Select a status" to R.drawable.baseline_person_24,
+        onItemSelected = {}
+    )
 }
