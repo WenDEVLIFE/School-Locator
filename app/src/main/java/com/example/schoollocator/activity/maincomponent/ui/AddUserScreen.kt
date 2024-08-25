@@ -1,6 +1,7 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -282,6 +285,26 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
         item{
             Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        item {
+            Button(
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(14.dp)
+            ) {
+                Text(
+                    text = "Add User",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Green1,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                )
+            }
         }
     }
 
