@@ -249,10 +249,15 @@ fun AddUserForm(modifier: Modifier=Modifier){
                 onItemSelected = { selectedItem = it },
             )
         }
+
+        item{
+            Spacer(modifier = Modifier.height(5.dp))
+        }
     }
 
 }
 
+// This is for the Spinner Composable
 @Composable
 fun Spinner(
     items: List<String>,
@@ -262,10 +267,12 @@ fun Spinner(
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()
+        .padding(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .size(width = 400.dp, height = 50.dp) // Set the size of the dropdown
                 .background(Color.White, shape = RoundedCornerShape(20.dp))
                 .clickable { expanded = true }
                 .padding(16.dp)
