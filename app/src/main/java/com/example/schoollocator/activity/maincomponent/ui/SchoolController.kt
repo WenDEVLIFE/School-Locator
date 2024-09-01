@@ -286,7 +286,8 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         // User screen composable
         composable("User"){
-            UserScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+
+            UserScreen(modifier = Modifier.padding(contentPadding),navController = rememberNavController())
 
         }
 

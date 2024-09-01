@@ -35,15 +35,15 @@ import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
-@Composable
 
-fun UserScreen( modifier: Modifier = Modifier,
-                navController: NavHostController) {
+@Composable
+fun UserScreen(modifier: Modifier = Modifier,
+               navController: NavHostController) {
     // This is the state of the search query
     val query = remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(lightgreen)
     ) {
@@ -53,7 +53,7 @@ fun UserScreen( modifier: Modifier = Modifier,
                 .background(lightgreen)
         ) {
             // Top bar
-            TopAppBarState(modifier = Modifier,  tittle = "Users")
+            TopAppBarState(modifier = Modifier, tittle = "Users")
             Spacer(modifier = Modifier.size(10.dp))
 
             // Search bar
@@ -72,11 +72,12 @@ fun UserScreen( modifier: Modifier = Modifier,
         FloatingActionButton(
             onClick = {
                 // Handle FAB click
+
             },
             containerColor = materialLightGreen,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 10.dp, bottom = 30.dp)
+                .padding(end = 16.dp, bottom = 16.dp)
                 .zIndex(10f)  // Ensures it is above other components
         ) {
             // Change the icon
@@ -98,7 +99,7 @@ fun UserList(modifier: Modifier) {
             .background(lightgreen),
         verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
-        items(100) {
+        items(20) {
             Text(text = "Item $it")
         }
 
