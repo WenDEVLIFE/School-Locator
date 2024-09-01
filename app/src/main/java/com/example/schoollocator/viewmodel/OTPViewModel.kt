@@ -11,6 +11,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// TODO 1: Added funtions that will verify the OTP from the email sended to the user
+// TODO 2: Added functions that will set the OTP
+
 class OTPViewModel: ViewModel() {
 
     // time and state

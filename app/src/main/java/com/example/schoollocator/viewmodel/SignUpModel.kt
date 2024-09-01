@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// TODO 1: Added functionns that will pass the OTP to the screen
+// TODO 2: Added function that will perform the sign up
+// TODO 3: Added function that will pass the value of username, email, and password to the screen
 class SignUpModel : ViewModel() {
 
     // username and state

@@ -73,11 +73,15 @@ fun AddUser(modifier: Modifier=Modifier){
 
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUserForm(modifier: Modifier=Modifier){
 
+    // for screen size
     val screenSize = getScreenSize()
+
+    // This is the view model
     val viewModel: AddUserViewModel = viewModel()
     val items = listOf("Select a status" to R.drawable.baseline_person_24,
         "Admin" to R.drawable.baseline_person_24,
