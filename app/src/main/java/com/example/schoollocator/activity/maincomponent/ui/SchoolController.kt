@@ -284,6 +284,12 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
             Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
         }
 
+        // User screen composable
+        composable("User"){
+            UserScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+
+        }
+
         // Logout Composable
         composable("Logout") {
             LogoutDialog(

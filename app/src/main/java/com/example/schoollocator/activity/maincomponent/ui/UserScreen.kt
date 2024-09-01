@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
@@ -35,7 +37,8 @@ import com.example.schoollocator.windowEnum.getScreenSize
 
 @Composable
 
-fun UserScreen() {
+fun UserScreen( modifier: Modifier = Modifier,
+                navController: NavHostController) {
     // This is the state of the search query
     val query = remember { mutableStateOf("") }
 
@@ -119,5 +122,5 @@ fun TopAppBarState(modifier: Modifier, tittle:String) {
 @Preview
 @Composable
 fun PreviewUserScreen() {
-    UserScreen()
+    UserScreen(modifier = Modifier ,navController = rememberNavController())
 }
