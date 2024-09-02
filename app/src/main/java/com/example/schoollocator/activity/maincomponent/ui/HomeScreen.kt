@@ -124,7 +124,10 @@ fun Menu(
 
         MenuItem(R.drawable.schoo, "School",Icons.Default.KeyboardArrowRight) {
         /* Handle Settings click */
-            Toast.makeText(context, "School", Toast.LENGTH_SHORT).show()
+            navController.navigate("School") {
+                launchSingleTop = true
+                restoreState = true
+            }
         },
 
         MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) {

@@ -296,6 +296,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         }
 
+        // School Composable
+        composable("School") {
+           SchoolScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+        }
+
         // Logout Composable
         composable("Logout") {
             LogoutDialog(
