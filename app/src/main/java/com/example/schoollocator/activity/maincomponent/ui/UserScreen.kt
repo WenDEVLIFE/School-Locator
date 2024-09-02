@@ -98,7 +98,7 @@ fun UserScreen(modifier: Modifier = Modifier,
             // Change the icon
             Icon(
                 painter = painterResource(id = R.drawable.baseline_person_add_alt_1_24),
-                contentDescription = "Add School",
+                contentDescription = "Add User",
                 tint = materialGreen
             )
         }

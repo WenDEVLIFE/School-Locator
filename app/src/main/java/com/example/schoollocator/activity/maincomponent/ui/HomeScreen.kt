@@ -127,11 +127,6 @@ fun Menu(
             Toast.makeText(context, "School", Toast.LENGTH_SHORT).show()
         },
 
-        MenuItem(R.drawable.pencil, "Add Schools",Icons.Default.KeyboardArrowRight) {
-        /* Handle Logout click */
-            Toast.makeText(context, "Add Schools", Toast.LENGTH_SHORT).show()
-            },
-
         MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) {
         /* Handle Settings click */
             Toast.makeText(context, "Created School", Toast.LENGTH_SHORT).show()
