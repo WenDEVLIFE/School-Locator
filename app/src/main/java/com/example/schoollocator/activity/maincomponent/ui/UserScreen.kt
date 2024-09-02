@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,6 +43,14 @@ fun UserScreen(modifier: Modifier = Modifier,
     // This is the state of the search query
     val query = remember { mutableStateOf("") }
 
+    // Go back to map screen
+    BackHandler {
+        navController.navigate("Home") {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -74,6 +83,10 @@ fun UserScreen(modifier: Modifier = Modifier,
         FloatingActionButton(
             onClick = {
                 // Handle FAB click
+                navController.navigate("AddUser"){
+                    launchSingleTop = true
+                    restoreState = true
+                }
 
             },
             containerColor = materialLightGreen,
