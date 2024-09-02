@@ -43,7 +43,7 @@ fun UserScreen(modifier: Modifier = Modifier,
     // This is the state of the search query
     val query = remember { mutableStateOf("") }
 
-    // Go back to map screen
+    // Go back to home screen
     BackHandler {
         navController.navigate("Home") {
             launchSingleTop = true

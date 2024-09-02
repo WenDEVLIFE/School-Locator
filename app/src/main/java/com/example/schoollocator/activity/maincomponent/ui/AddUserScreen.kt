@@ -2,6 +2,7 @@ package com.example.schoollocator.activity.maincomponent.ui
 
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +62,15 @@ import com.example.schoollocator.windowEnum.getScreenSize
 @Composable
 fun AddUser(modifier: Modifier = Modifier,
             navController: NavHostController) {
+
+    // Go back to map screen
+    BackHandler {
+        navController.navigate("User") {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,6 +93,7 @@ fun AddUserForm(modifier: Modifier=Modifier){
 
     // for screen size
     val screenSize = getScreenSize()
+
 
     // This is the view model
     val viewModel: AddUserViewModel = viewModel()
