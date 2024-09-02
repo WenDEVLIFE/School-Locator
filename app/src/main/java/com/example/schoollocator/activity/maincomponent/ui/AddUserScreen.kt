@@ -44,6 +44,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
@@ -57,7 +59,8 @@ import com.example.schoollocator.windowEnum.getScreenSize
 
 // This is the AddUserScreen
 @Composable
-fun AddUser(modifier: Modifier=Modifier){
+fun AddUser(modifier: Modifier = Modifier,
+            navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +68,7 @@ fun AddUser(modifier: Modifier=Modifier){
     ){
 
         // Top bar state
-        TopAppBarState(modifier =Modifier, tittle ="Add User")
+        TopAppBarState(modifier = Modifier, tittle ="Add User")
         AddUserForm()
 
 
@@ -381,7 +384,7 @@ fun Spinner(
 @Preview
 @Composable
 fun AddUserPreview(){
-    AddUser()
+    AddUser(modifier = Modifier ,navController = rememberNavController())
 }
 
 @Preview

@@ -274,7 +274,6 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         // Home Composable
         composable("Home") {
-            Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
             HomeScreen(modifier = Modifier.padding(contentPadding), navController = navController)
 
         }
@@ -287,7 +286,13 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         // User screen composable
         composable("User"){
 
-            UserScreen(modifier = Modifier.padding(contentPadding),navController = rememberNavController())
+            UserScreen(modifier = Modifier.padding(contentPadding),navController = navController)
+
+        }
+
+        // Add User Composable
+        composable("AddUser") {
+            AddUser(modifier = Modifier.padding(contentPadding), navController = navController)
 
         }
 
