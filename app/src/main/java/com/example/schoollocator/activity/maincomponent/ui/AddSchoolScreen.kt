@@ -58,7 +58,7 @@ import com.example.schoollocator.windowEnum.getScreenSize
 fun AddSchoolScreen(modifier: Modifier = Modifier , navController: NavHostController){
     // Go back to map screen
     BackHandler {
-        navController.navigate("User") {
+        navController.navigate("School") {
             launchSingleTop = true
             restoreState = true
         }
