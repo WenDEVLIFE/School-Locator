@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
@@ -54,7 +56,26 @@ import com.example.schoollocator.windowEnum.getScreenSize
 
 @Composable
 fun AddSchoolScreen(modifier: Modifier = Modifier , navController: NavHostController){
+    // Go back to map screen
+    BackHandler {
+        navController.navigate("User") {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(lightgreen)
+    ){
+
+        // Top bar state
+        TopAppBarState(modifier = Modifier, tittle ="Add School")
+        AddSchoolForm()
+
+
+    }
 }
 
 
@@ -68,10 +89,14 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
 
     // This is the view model
     val viewModel: AddUserViewModel = viewModel()
-    val items = listOf("Select a status" to R.drawable.baseline_person_24,
-        "Admin" to R.drawable.baseline_person_24,
-        "User" to R.drawable.baseline_person_24,
-        "School Owner" to R.drawable.baseline_person_24)
+    val   items = listOf(
+        "Select a school status" to R.drawable.graduate,
+        "Kinder garden" to R.drawable.graduate,
+        "Elementary" to R.drawable.graduate,
+        "Junior High School" to R.drawable.graduate,
+        "Senior High" to R.drawable.graduate,
+        "College/University" to R.drawable.graduate
+    )
     var selectedItem by remember { mutableStateOf(items[0]) }
 
     LazyColumn(
@@ -90,7 +115,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                text = "Username",
+                text = "School name",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -105,7 +130,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
             TextField(
                 value = viewModel.username.value,
                 onValueChange = {  viewModel.username.value = (it) },
-                placeholder = { Text(text = "Enter your username") },
+                placeholder = { Text(text = "Enter the school name") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,7 +143,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
                 leadingIcon = {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.pencil),
                         contentDescription = "Icon",
                         tint = Color.Black
                     )
@@ -134,13 +159,12 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
         item {
             Spacer(modifier = Modifier.height(5.dp))
         }
-
         item {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                text = "Password",
+                text = "Descrption",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -152,41 +176,84 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
         }
         item {
             TextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.password.value = (it) },
-                placeholder = { Text(text = "Enter your password") },
+                value = viewModel.email.value,
+                onValueChange = { viewModel.email.value =(it) },
+                placeholder = { Text(text = "Enter a description about your school") },
+
+                // added rounded shape
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(14.dp)
                     .background(Color.Transparent),
-                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                ),
+
+                // This is to add the icon to the text field
                 leadingIcon = {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_key_24),
+                        painter = painterResource(id = R.drawable.baseline_email_24),
                         contentDescription = "Icon",
                         tint = Color.Black
                     )
                 },
-                trailingIcon = {
-                    val image = if (viewModel.isPasswordVisible.value)
-                        painterResource(id = R.drawable.see)
-                    else
-                        painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { viewModel.passwordToogle() }) {
-                        Icon(
-                            painter = image,
-                            contentDescription = "Toggle password visibility",
-                            modifier = Modifier.size(
-                                width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
-                                height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
-                            )
-                        )
-                    }
+                // This is for the colors of the text field
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
+
+        item {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = "School Address",
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                color = materialGreen,
+                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        item {
+            TextField(
+                value = viewModel.email.value,
+                onValueChange = { viewModel.email.value =(it) },
+                placeholder = { Text(text = "Enter your email") },
+
+                // added rounded shape
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(14.dp)
+                    .background(Color.Transparent),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                ),
+
+                // This is to add the icon to the text field
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.padding(end = 10.dp),
+                        painter = painterResource(id = R.drawable.baseline_email_24),
+                        contentDescription = "Icon",
+                        tint = Color.Black
+                    )
                 },
-                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+
+                // This is for the colors of the text field
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
@@ -204,7 +271,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                text = "Email",
+                text = "School Email",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -257,7 +324,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                text = "Status",
+                text = "School Status",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -316,3 +383,9 @@ fun SpinnerPreview1(){
     )
 }
 
+
+@Preview
+@Composable
+fun AddSchoolFormPreview(){
+    AddSchoolScreen(modifier = Modifier, navController = rememberNavController())
+}
