@@ -23,17 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.CreatedSchoolViewModel
 
 @Composable
 fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostController) {
-    // This is the state of the search query
-    val query = remember { mutableStateOf("") }
+
+    // Create an instance of the ViewModel
+    val viewModel: CreatedSchoolViewModel = viewModel()
 
     // Go back to home screen
     BackHandler {
@@ -59,8 +62,8 @@ fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostCont
 
             // Search bar
             SearchBar(
-                query = query.value,
-                onQueryChanged = { newQuery -> query.value = newQuery },
+               viewModel.searchSchoolQuery.value,
+                onQueryChanged = { newQuery ->   viewModel.searchSchoolQuery.value = newQuery },
                 onSearch = { /* Handle search action here */ }
             )
             Spacer(modifier = Modifier.size(10.dp))
