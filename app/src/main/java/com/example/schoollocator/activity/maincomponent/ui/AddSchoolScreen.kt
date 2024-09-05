@@ -50,6 +50,7 @@ import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
+import com.example.schoollocator.viewmodel.AddSchoolViewModel
 import com.example.schoollocator.viewmodel.AddUserViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -88,7 +89,7 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
 
 
     // This is the view model
-    val viewModel: AddUserViewModel = viewModel()
+    val viewModel: AddSchoolViewModel = viewModel()
     val   items = listOf(
         "Select a school status" to R.drawable.graduate,
         "Kinder garden" to R.drawable.graduate,
@@ -176,8 +177,8 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
         }
         item {
             TextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.email.value =(it) },
+                value = viewModel.schoolAbout.value,
+                onValueChange = { viewModel.schoolAbout.value =(it) },
                 placeholder = { Text(text = "Enter a description about your school") },
 
                 // added rounded shape
@@ -228,9 +229,9 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
 
         item {
             TextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.email.value =(it) },
-                placeholder = { Text(text = "Enter your email") },
+                value = viewModel.schoolAddress.value,
+                onValueChange = { viewModel.schoolAddress.value =(it) },
+                placeholder = { Text(text = "Enter school address") },
 
                 // added rounded shape
                 shape = RoundedCornerShape(20.dp),
@@ -281,8 +282,8 @@ fun AddSchoolForm(modifier: Modifier=Modifier){
 
         item {
             TextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.email.value =(it) },
+                value = viewModel.schoolEmail.value,
+                onValueChange = { viewModel.schoolEmail.value =(it) },
                 placeholder = { Text(text = "Enter your email") },
 
                 // added rounded shape
