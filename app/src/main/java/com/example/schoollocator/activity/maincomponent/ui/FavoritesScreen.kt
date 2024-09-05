@@ -91,5 +91,5 @@ fun FavoriteList(modifier: Modifier) {
 @Preview
 @Composable
 fun FavoritesScreen() {
-    SchoolScreen(modifier = Modifier, navController = rememberNavController())
+    FavoritesScreen(modifier = Modifier, navController = rememberNavController())
 }

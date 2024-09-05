@@ -160,7 +160,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
             selected = selectedItem.value == "Favorite",
             onClick = {
                 selectedItem.value = "Favorite"
-                navController.navigate("Favorite") {
+                navController.navigate("Favorites") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -309,6 +309,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         // Created School Screen
         composable("CreatedSchool") {
             CreatedSchoolScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+        }
+
+        // Favorites Screen
+        composable("Favorites") {
+            FavoritesScreen(modifier = Modifier.padding(contentPadding), navController = navController)
         }
 
         // Logout Composable
