@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.FavoriteViewModel
 import com.example.schoollocator.viewmodel.SchoolViewModel
 
 @Composable
@@ -34,7 +35,7 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
                     navController: NavHostController
 ) {
     //  get the view model
-    val viewModel: SchoolViewModel = viewModel()
+    val viewModel: FavoriteViewModel = viewModel()
 
     // Go back to home screen
     BackHandler {
@@ -60,8 +61,8 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
 
             // Search bar
             SearchBar(
-                viewModel.searchSchoolQuery.value,
-                onQueryChanged = { newQuery ->  viewModel.searchSchoolQuery.value = newQuery },
+                viewModel.seearchFavorites.value,
+                onQueryChanged = { newQuery ->  viewModel.seearchFavorites.value = newQuery },
                 onSearch = { /* Handle search action here */ }
             )
             Spacer(modifier = Modifier.size(10.dp))
@@ -90,6 +91,6 @@ fun FavoriteList(modifier: Modifier) {
 
 @Preview
 @Composable
-fun FavoritesScreen() {
+fun FavoritesScreenPreview() {
     FavoritesScreen(modifier = Modifier, navController = rememberNavController())
 }
