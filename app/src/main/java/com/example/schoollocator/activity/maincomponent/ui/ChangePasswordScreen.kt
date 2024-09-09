@@ -23,10 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -44,6 +40,7 @@ import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.viewmodel.AddUserViewModel
+import com.example.schoollocator.viewmodel.ChangePasswordViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -95,7 +92,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
     val screenSize = getScreenSize()
 
     // This is the view model
-    val viewModel: AddUserViewModel = viewModel()
+    val viewModel: ChangePasswordViewModel = viewModel()
 
     LazyColumn(
         modifier = modifier
@@ -126,8 +123,8 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
 
         item {
             TextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.password.value = (it) },
+                value = viewModel.oldPassword.value,
+                onValueChange = { viewModel.oldPassword.value = (it) },
                 placeholder = { Text(text = "Enter old your password") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -149,7 +146,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                     else
                         painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { viewModel.passwordToogle() }) {
+                    IconButton(onClick = { viewModel.onPasswordVisibilityChange() }) {
                         Icon(
                             painter = image,
                             contentDescription = "Toggle password visibility",
@@ -191,8 +188,8 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
         }
         item {
             TextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.password.value = (it) },
+                value = viewModel.newPassword.value,
+                onValueChange = { viewModel.newPassword.value = (it) },
                 placeholder = { Text(text = "Enter new your password") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -214,7 +211,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                     else
                         painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { viewModel.passwordToogle() }) {
+                    IconButton(onClick = { viewModel.onPasswordVisibilityChange() }) {
                         Icon(
                             painter = image,
                             contentDescription = "Toggle password visibility",
