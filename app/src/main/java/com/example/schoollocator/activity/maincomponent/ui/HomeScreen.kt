@@ -150,7 +150,10 @@ fun Menu(
 
         MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) {
         /* Handle Settings click */
-        Toast.makeText(context, "Change Password", Toast.LENGTH_SHORT).show()
+            navController.navigate("ChangePassword") {
+                launchSingleTop = true
+                restoreState = true
+            }
         },
 
         MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) {
