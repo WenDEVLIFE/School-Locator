@@ -133,7 +133,8 @@ fun ChangeProfile(modifier: Modifier = Modifier) {
 
              // This is for the overlay icon
              Icon(
-                 imageVector = Icons.Default.Edit, // Use a predefined icon
+                 //imageVector = Icons.Default.Edit, // Use a predefined icon
+                 painter = painterResource(id= R.drawable.baseline_photo_camera_24),
                  contentDescription = "Edit Profile",
                  tint = materialGreen,
                  modifier = Modifier
