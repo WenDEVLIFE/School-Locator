@@ -10,31 +10,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.ui.theme.lightgreen
-import com.example.schoollocator.ui.theme.materialGreen
-import com.example.schoollocator.ui.theme.materialLightGreen
-import com.example.schoollocator.viewmodel.SchoolViewModel
+import com.example.schoollocator.viewmodel.MessageViewModel
 
 @Composable
 fun MessageScreen(modifier: Modifier = Modifier,
                   navController: NavHostController
 ) {
     //  get the view model
-    val viewModel: SchoolViewModel = viewModel()
+    val viewModel: MessageViewModel = viewModel()
 
     // Go back to home screen
     BackHandler {
@@ -60,8 +52,8 @@ fun MessageScreen(modifier: Modifier = Modifier,
 
             // Search bar
             SearchBar(
-                viewModel.searchSchoolQuery.value,
-                onQueryChanged = { newQuery ->  viewModel.searchSchoolQuery.value = newQuery },
+                viewModel.chatQueryState.value,
+                onQueryChanged = { newQuery ->  viewModel.chatQueryState.value = newQuery },
                 onSearch = { /* Handle search action here */ }
             )
             Spacer(modifier = Modifier.size(10.dp))
