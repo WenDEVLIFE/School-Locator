@@ -162,7 +162,10 @@ fun Menu(
         },
 
         MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */
-            Toast.makeText(context, "Change Profile Picture", Toast.LENGTH_SHORT).show()
+            navController.navigate("ChangeProfile") {
+                launchSingleTop = true
+                restoreState = true
+            }
         },
 
         MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) {

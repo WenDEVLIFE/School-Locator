@@ -321,6 +321,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
             ChangePasswordScreen(modifier = Modifier.padding(contentPadding), navController = navController)
         }
 
+        // Change Profile Screen
+        composable("ChangeProfile") {
+            ChangeProfileScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+        }
+
         // Logout Composable
         composable("Logout") {
             LogoutDialog(
