@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -111,7 +111,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                     targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
                 )
                 Icon(
-                    imageVector = Icons.Default.Home,
+                    imageVector = Icons.Default.Menu,
                     contentDescription = "Home",
                     tint = iconColor
                 )
@@ -120,7 +120,7 @@ fun BottomNavigationBar(navController: NavHostController, dialogState: MutableSt
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Home") materialGreen else materialGreen
                 )
-                Text("Home", color = textColor)
+                Text("Menu", color = textColor)
             },
             selected = selectedItem.value == "Home",
             onClick = {
@@ -274,7 +274,7 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         // Home Composable
         composable("Home") {
-            HomeScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            MenuScreen(modifier = Modifier.padding(contentPadding), navController = navController)
 
         }
 

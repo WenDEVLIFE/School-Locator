@@ -1,8 +1,6 @@
 package com.example.schoollocator.activity.maincomponent.ui
 
-import android.content.Intent
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,7 +38,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.defaultcomponent.AppNavigation1
-import com.example.schoollocator.activity.defaultcomponent.Login
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
@@ -224,7 +221,7 @@ fun Menu(
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) {
 
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
@@ -265,7 +262,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 @Composable
 fun HomeScreenPreview() {
 
-    HomeScreen(modifier = Modifier ,navController = rememberNavController())
+    MenuScreen(modifier = Modifier ,navController = rememberNavController())
 }
 
 
