@@ -158,7 +158,10 @@ fun Menu(
 
         MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) {
         /* Handle Settings click */
-            Toast.makeText(context, "Change Email", Toast.LENGTH_SHORT).show()
+            navController.navigate("ChangeEmail") {
+                launchSingleTop = true
+                restoreState = true
+            }
         },
 
         MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */

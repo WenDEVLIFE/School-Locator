@@ -326,6 +326,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
             ChangeProfileScreen(modifier = Modifier.padding(contentPadding), navController = navController)
         }
 
+        // Change Email Screen
+        composable("ChangeEmail") {
+            ChangeEmailScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+        }
+
         // Logout Composable
         composable("Logout") {
             LogoutDialog(
