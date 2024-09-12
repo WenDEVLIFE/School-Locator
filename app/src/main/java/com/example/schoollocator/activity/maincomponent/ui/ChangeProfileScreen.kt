@@ -44,6 +44,7 @@ import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.ChangeProfileViewModel
 import com.example.schoollocator.viewmodel.MessageViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -53,7 +54,13 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
                         navController: NavHostController
 ) {
 
+    // get screen
     val screenSize = getScreenSize()
+
+    // view model
+    val viewModel : ChangeProfileViewModel = viewModel()
+
+
     // Go back to home screen
     BackHandler {
         navController.navigate("Home") {
