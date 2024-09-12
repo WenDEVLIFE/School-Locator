@@ -40,6 +40,7 @@ import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.viewmodel.AddUserViewModel
+import com.example.schoollocator.viewmodel.ChangeEmailViewModel
 import com.example.schoollocator.viewmodel.ChangePasswordViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -93,7 +94,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
     val screenSize = getScreenSize()
 
     // This is the view model
-    val viewModel: AddUserViewModel = viewModel()
+    val viewModel: ChangeEmailViewModel = viewModel()
 
     LazyColumn(
         modifier = modifier
@@ -121,8 +122,8 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
 
         item {
             TextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.email.value =(it) },
+                value = viewModel.Oldemail.value,
+                onValueChange = { viewModel.Oldemail.value =(it) },
                 placeholder = { Text(text = "Enter your old email") },
 
                 // added rounded shape
@@ -170,8 +171,8 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
 
         item {
             TextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.email.value =(it) },
+                value = viewModel.Newemail.value,
+                onValueChange = { viewModel.Newemail.value =(it) },
                 placeholder = { Text(text = "Enter your new email") },
 
                 // added rounded shape
@@ -218,8 +219,8 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
 
         item {
             TextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.password.value = (it) },
+                value = viewModel.Password.value,
+                onValueChange = { viewModel.Password.value = (it) },
                 placeholder = { Text(text = "Enter your password") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -236,12 +237,12 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     )
                 },
                 trailingIcon = {
-                    val image = if (viewModel.isPasswordVisible.value)
+                    val image = if (viewModel.Passwordvisibility.value)
                         painterResource(id = R.drawable.see)
                     else
                         painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { viewModel.passwordToogle() }) {
+                    IconButton(onClick = { viewModel.onPasswordVisibilityClick() }) {
                         Icon(
                             painter = image,
                             contentDescription = "Toggle password visibility",
@@ -252,7 +253,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                         )
                     }
                 },
-                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (viewModel.Passwordvisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
