@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069134249770",
+    "project_id": "schoollocator-2b3e0",
+    "storage_bucket": "schoollocator-2b3e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069134249770:android:fa47ef288255d77319a853",
+        "android_client_info": {
+          "package_name": "com.example.schoollocator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1N40kvh-pgFg42hhhzVk8kuu3hUfLUjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
