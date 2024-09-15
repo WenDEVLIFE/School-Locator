@@ -88,13 +88,17 @@ fun LoadOTP(
             .background(Green1)
             .padding(16.dp)
     ) {
-
+        SegmentedStepProgressBar(totalSteps = 3, currentStep = 2, modifier = Modifier.fillMaxWidth())
         // LazyColumn is used to display the items in a vertical list
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
+
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+            }
             // This is for OTP title
             item {
                 Text(

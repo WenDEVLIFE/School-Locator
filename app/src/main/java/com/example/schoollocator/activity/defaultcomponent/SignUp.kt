@@ -111,7 +111,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
             .padding(16.dp)
 
     ) {
-        SegmentedStepProgressBar(totalSteps = 4, currentStep = 1, modifier = Modifier.fillMaxWidth())
+        SegmentedStepProgressBar(totalSteps = 3, currentStep = 1, modifier = Modifier.fillMaxWidth())
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -512,5 +512,5 @@ fun GreetingPreview5() {
 @Preview
 @Composable
 fun GreetingPreview6() {
-   SegmentedStepProgressBar(totalSteps = 4, currentStep = 1, modifier = Modifier.fillMaxWidth())
+   SegmentedStepProgressBar(totalSteps = 3, currentStep = 1, modifier = Modifier.fillMaxWidth())
 }
