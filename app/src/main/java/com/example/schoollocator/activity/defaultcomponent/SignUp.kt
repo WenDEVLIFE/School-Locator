@@ -63,6 +63,13 @@ import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.dp
+
 
 class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,12 +109,17 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
             .fillMaxSize()
             .background(Green1)
             .padding(16.dp)
+
     ) {
+        SegmentedStepProgressBar(totalSteps = 4, currentStep = 1, modifier = Modifier.fillMaxWidth())
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(16.dp)
-        ) {
+            modifier = Modifier.padding(16.dp),
+            ) {
+            item{
+                Spacer(modifier = Modifier.height(20.dp))
+            }
 
             // This is for the image
             item {
@@ -424,7 +436,45 @@ fun AppNavigation() {
     }
 }
 
+@Composable
+fun SegmentedStepProgressBar(
+    totalSteps: Int,
+    currentStep: Int,
+    modifier: Modifier = Modifier,
+    activeColor: Color = MaterialTheme.colorScheme.primary,
+    inactiveColor: Color = Color.Gray
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        for (step in 1..totalSteps) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp)
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    // Draw the background color
+                    drawRect(
+                        color = if (step <= currentStep) Color.Green else Color.White,
+                        size = size
+                    )
 
+                    // Draw the rounded rectangle
+                    drawRoundRect(
+                        color = Color.White,
+                        size = size,
+                        cornerRadius = CornerRadius(10.dp.toPx(), 10.dp.toPx()),
+                        style = Stroke(width = 4.dp.toPx())
+                    )
+                }
+            }
+        }
+    }
+}
 
 // This below here  are the previews for the composable functions
 @Preview(showBackground = true)
@@ -457,4 +507,10 @@ fun GreetingPreview5() {
     SchoolLocatorTheme {
         LoadSuccess(navController = rememberNavController(),modifier = Modifier.fillMaxWidth())
     }
+}
+
+@Preview
+@Composable
+fun GreetingPreview6() {
+   SegmentedStepProgressBar(totalSteps = 4, currentStep = 1, modifier = Modifier.fillMaxWidth())
 }
