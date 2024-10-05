@@ -1,22 +1,28 @@
 package com.example.schoollocator.emailAPI
 
+import YahooMail
 import android.content.Context
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// Usage example in your activity or fragment
 fun SendEmail(context: Context) {
-    val apiKey = "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"
-    val sendGridAPI = SendGridAPI(apiKey)
+    val emailSender = YahooMail("newbie_gwapo@yahoo.com", "iwjaqbscebejcvyd")
 
-    val success = sendGridAPI.sendEmail(
-        fromEmail = "newbie_gwapo@yahoo.com",
-        toEmail = "medinajrfrouen@gmail.com",
-        subject = "Test Email",
-        body = "This is a test email sent from Jetpack Compose."
-    )
-    showToast(context, success)
+    CoroutineScope(Dispatchers.IO).launch {
+        val success = emailSender.sendEmail(
+            toEmail = "medinajrfrouen@gmail.com",
+            subject = "Test Email",
+            body = "This is a test email sent from Jetpack Compose."
+        )
+
+        withContext(Dispatchers.Main) {
+            showToast(context, success)
+        }
+    }
 }
-
 
 fun showToast(context: Context, success: Boolean) {
     Toast.makeText(

@@ -57,6 +57,8 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/NOTICE.md"  // Exclude NOTICE.md files
+            excludes += "META-INF/LICENSE.md"   // Exclude LICENSE.md files
         }
     }
 }
@@ -81,16 +83,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
-    // Use the SendGrid Java client without httpclient dependency
-    implementation("com.sendgrid:sendgrid-java:4.10.3") {
-        exclude(group = "org.apache.httpcomponents", module = "httpclient")
-        exclude(group = "org.apache.httpcomponents", module = "httpcore")
-    }
-
-    // Using the Android version of HttpClient
-    implementation("org.apache.httpcomponents:httpclient-android:4.3.5.1")
-
-    implementation("com.google.protobuf:protobuf-java:3.22.3")
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
     // MapLibre dependency
     implementation("org.maplibre.gl:android-sdk:10.0.2")

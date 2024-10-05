@@ -39,6 +39,9 @@ import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.WellKnownTileServer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +75,6 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
             navController.navigate("school")
-            SendEmail(context)
         }
     }
 
@@ -236,6 +238,9 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
             TextButton(
                 onClick = {
                     context.startActivity(Intent(context, SignUp::class.java))
+                    CoroutineScope(Dispatchers.IO).launch {
+                        SendEmail(context)
+                    }
                 }
             ) {
                 Text(
