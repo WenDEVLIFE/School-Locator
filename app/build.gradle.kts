@@ -56,12 +56,12 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
         }
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -71,22 +71,40 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Mapbox dependencies
-    implementation ("com.google.android.gms:play-services-maps:18.1.0")
-    implementation ("com.google.android.gms:play-services-location:18.0.0")
+    // Google Play Services dependencies
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
+
+    // Jetpack Compose dependencies
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
-    // Mapbox dependencies
-    implementation ("org.maplibre.gl:android-sdk:10.0.2")
+    // Use the SendGrid Java client without httpclient dependency
+    implementation("com.sendgrid:sendgrid-java:4.10.3") {
+        exclude(group = "org.apache.httpcomponents", module = "httpclient")
+        exclude(group = "org.apache.httpcomponents", module = "httpcore")
+    }
+
+    // Using the Android version of HttpClient
+    implementation("org.apache.httpcomponents:httpclient-android:4.3.5.1")
+
+    implementation("com.google.protobuf:protobuf-java:3.22.3")
+
+    // MapLibre dependency
+    implementation("org.maplibre.gl:android-sdk:10.0.2")
+
+    // Firebase Firestore
     implementation(libs.firebase.firestore)
 
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.logging.interceptor)
+    // Retrofit dependencies
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.androidx.espresso.core)
 
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,6 +112,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Kotlin runtime
     implementation(kotlin("script-runtime"))
 }
-

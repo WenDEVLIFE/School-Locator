@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.ui.SchoolController
+import com.example.schoollocator.emailAPI.SendEmail
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
@@ -71,6 +72,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
             navController.navigate("school")
+            SendEmail(context)
         }
     }
 
@@ -210,6 +212,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                     if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
                         viewModel.isSuccess.value = true
                         viewModel.LoginDB()
+
                     } else {
                         Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                     }
