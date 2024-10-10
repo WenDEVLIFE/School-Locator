@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// This will send the email
 fun SendEmail(context: Context) {
     val emailSender = YahooMail("newbie_gwapo@yahoo.com", "iwjaqbscebejcvyd")
 
