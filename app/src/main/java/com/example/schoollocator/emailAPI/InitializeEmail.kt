@@ -10,7 +10,10 @@ import kotlinx.coroutines.withContext
 
 // This will send the email
 fun SendEmail(context: Context) {
-    val emailSender = YahooMail("newbie_gwapo@yahoo.com", "iwjaqbscebejcvyd")
+    val yahookey = yahookey()
+    val username = yahookey.getUsername()
+    val password = yahookey.getPassword()
+    val emailSender = YahooMail(username, password)
 
     CoroutineScope(Dispatchers.IO).launch {
         val success = emailSender.sendEmail(
