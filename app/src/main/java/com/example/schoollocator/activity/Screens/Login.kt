@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.defaultcomponent
+package com.example.schoollocator.activity.Screens
 
 import android.content.Intent
 import android.os.Bundle
@@ -28,20 +28,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.ui.SchoolController
-import com.example.schoollocator.emailAPI.SendEmail
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.WellKnownTileServer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -238,9 +230,6 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
             TextButton(
                 onClick = {
                     context.startActivity(Intent(context, SignUp::class.java))
-                    CoroutineScope(Dispatchers.IO).launch {
-                        SendEmail(context)
-                    }
                 }
             ) {
                 Text(

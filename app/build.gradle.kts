@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.foundation.layout.android)
 
     // Testing dependencies
     testImplementation(libs.junit)

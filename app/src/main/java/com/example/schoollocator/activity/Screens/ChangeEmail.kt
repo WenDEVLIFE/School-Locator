@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.ui
+package com.example.schoollocator.activity.Screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -41,7 +41,6 @@ import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.viewmodel.AddUserViewModel
 import com.example.schoollocator.viewmodel.ChangeEmailViewModel
-import com.example.schoollocator.viewmodel.ChangePasswordViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 

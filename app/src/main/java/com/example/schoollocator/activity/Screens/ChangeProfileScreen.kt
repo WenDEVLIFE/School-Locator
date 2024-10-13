@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.ui
+package com.example.schoollocator.activity.Screens
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler

@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.ui
+package com.example.schoollocator.activity.Screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -19,14 +19,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.ui.theme.lightgreen
-import com.example.schoollocator.viewmodel.MessageViewModel
+import com.example.schoollocator.viewmodel.FavoriteViewModel
 
 @Composable
-fun MessageScreen(modifier: Modifier = Modifier,
-                  navController: NavHostController
+fun FavoritesScreen(modifier: Modifier = Modifier,
+                    navController: NavHostController
 ) {
     //  get the view model
-    val viewModel: MessageViewModel = viewModel()
+    val viewModel: FavoriteViewModel = viewModel()
 
     // Go back to home screen
     BackHandler {
@@ -47,25 +47,25 @@ fun MessageScreen(modifier: Modifier = Modifier,
                 .background(lightgreen)
         ) {
             // Top bar
-            TopAppBarState(modifier = Modifier, tittle = "Messages")
+            TopAppBarState(modifier = Modifier, tittle = "Favorites")
             Spacer(modifier = Modifier.size(10.dp))
 
             // Search bar
             SearchBar(
-                viewModel.chatQueryState.value,
-                onQueryChanged = { newQuery ->  viewModel.chatQueryState.value = newQuery },
+                viewModel.seearchFavorites.value,
+                onQueryChanged = { newQuery ->  viewModel.seearchFavorites.value = newQuery },
                 onSearch = { /* Handle search action here */ }
             )
             Spacer(modifier = Modifier.size(10.dp))
 
             // Lazy Column
-            MessageList(modifier = Modifier.weight(1f))
+            FavoriteList(modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Composable
-fun MessageList(modifier: Modifier) {
+fun FavoriteList(modifier: Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize() // Ensure LazyColumn fills the remaining space
@@ -74,7 +74,7 @@ fun MessageList(modifier: Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
         items(20) {
-            Text(text = "Chat$it")
+            Text(text = "Favorites $it")
         }
 
     }
@@ -82,6 +82,6 @@ fun MessageList(modifier: Modifier) {
 
 @Preview
 @Composable
-fun PreviewMessageScreen() {
-    MessageScreen(modifier = Modifier, navController = rememberNavController())
+fun FavoritesScreenPreview() {
+    FavoritesScreen(modifier = Modifier, navController = rememberNavController())
 }

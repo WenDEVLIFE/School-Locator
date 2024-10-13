@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.defaultcomponent
+package com.example.schoollocator.activity.Screens
 
 import android.content.Intent
 import androidx.activity.ComponentActivity

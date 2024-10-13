@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.ui
+package com.example.schoollocator.Apikey
 
 import android.app.Application
 import com.mapbox.mapboxsdk.Mapbox

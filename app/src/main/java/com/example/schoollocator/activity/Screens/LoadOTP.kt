@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.defaultcomponent
+package com.example.schoollocator.activity.Screens
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -20,6 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,10 +34,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
+import com.example.schoollocator.emailAPI.SendEmail
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun LoadOTP(
@@ -41,7 +51,9 @@ fun LoadOTP(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    // get the conntext
+    var isLoading by remember { mutableStateOf(false) }
+
+    // Get the context
     val context = LocalContext.current
 
     // This will get the screen size
@@ -53,6 +65,13 @@ fun LoadOTP(
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
         viewModel.startTimer()
+        isLoading = true
+        CoroutineScope(Dispatchers.IO).launch {
+            SendEmail(context)
+            withContext(Dispatchers.Main) {
+                isLoading = false
+            }
+        }
     }
 
     // Handle back press
@@ -61,11 +80,9 @@ fun LoadOTP(
         try {
             Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
             viewModel.setBackPressed3(true)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     // Navigation and state checks
@@ -95,10 +112,7 @@ fun LoadOTP(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
-
-            item {
-                Spacer(modifier = Modifier.height(20.dp))
-            }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
             // This is for OTP title
             item {
                 Text(
@@ -157,11 +171,9 @@ fun LoadOTP(
                     onClick = {
                         if (viewModel.time.value == 0) {
                             viewModel.startTimer()
-                        }
-                        else {
+                        } else {
                             Toast.makeText(context, "Please wait for the timer to finish", Toast.LENGTH_SHORT).show()
                         }
-
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(20.dp),
@@ -182,7 +194,6 @@ fun LoadOTP(
             item {
                 Button(
                     onClick = {
-
                         // set the boolean to true to show the success screen
                         viewModel.setShowSuccess(true)
                         viewModel.performOTP()
@@ -203,4 +214,7 @@ fun LoadOTP(
             }
         }
     }
+
+    // Show progress dialog
+    ProgressDialog(isLoading = isLoading)
 }

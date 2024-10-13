@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.defaultcomponent
+package com.example.schoollocator.activity.Screens
 
 import android.content.Intent
 import android.os.Bundle
@@ -64,11 +64,8 @@ import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.dp
 
 
 class SignUp : ComponentActivity() {
