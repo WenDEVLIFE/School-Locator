@@ -83,6 +83,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
 
     )
     {
+        Spacer(modifier = Modifier.height(40.dp))
         SegmentedStepProgressBar(totalSteps = 3, currentStep = 3, modifier = Modifier.fillMaxWidth())
 
         Box(

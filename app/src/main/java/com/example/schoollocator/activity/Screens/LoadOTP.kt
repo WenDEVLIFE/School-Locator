@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
+import SendEmail
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -36,7 +37,6 @@ import androidx.navigation.NavController
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
-import com.example.schoollocator.emailAPI.SendEmail
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
@@ -52,7 +52,6 @@ fun LoadOTP(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    var isLoading by remember { mutableStateOf(false) }
 
     // Get the context
     val context = LocalContext.current
@@ -66,12 +65,9 @@ fun LoadOTP(
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
         viewModel.startTimer()
-        isLoading = true
         CoroutineScope(Dispatchers.IO).launch {
             SendEmail(context)
-            withContext(Dispatchers.Main) {
-                isLoading = false
-            }
+
         }
     }
 
@@ -172,14 +168,10 @@ fun LoadOTP(
                     onClick = {
                         if (viewModel.time.value == 0) {
                             viewModel.startTimer()
-                            isLoading = true
                             CoroutineScope(Dispatchers.IO).launch {
                                 SendEmail(context)
-                                withContext(Dispatchers.Main) {
-                                    isLoading = false
-                                }
-                            }
 
+                            }
                         } else {
                             Toast.makeText(context, "Please wait for the timer to finish", Toast.LENGTH_SHORT).show()
                         }
@@ -224,6 +216,4 @@ fun LoadOTP(
         }
     }
 
-    // Show progress dialog
-    ProgressDialog(isLoading = isLoading)
 }

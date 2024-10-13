@@ -109,6 +109,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
             .padding(16.dp)
 
     ) {
+        Spacer(modifier = Modifier.height(40.dp))
         SegmentedStepProgressBar(totalSteps = 3, currentStep = 1, modifier = Modifier.fillMaxWidth())
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
