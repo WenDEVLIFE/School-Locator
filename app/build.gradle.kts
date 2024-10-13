@@ -98,6 +98,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
 
     // Testing dependencies
     testImplementation(libs.junit)

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
 import com.example.schoollocator.emailAPI.SendEmail
 import com.example.schoollocator.ui.theme.Green1
@@ -171,6 +172,14 @@ fun LoadOTP(
                     onClick = {
                         if (viewModel.time.value == 0) {
                             viewModel.startTimer()
+                            isLoading = true
+                            CoroutineScope(Dispatchers.IO).launch {
+                                SendEmail(context)
+                                withContext(Dispatchers.Main) {
+                                    isLoading = false
+                                }
+                            }
+
                         } else {
                             Toast.makeText(context, "Please wait for the timer to finish", Toast.LENGTH_SHORT).show()
                         }

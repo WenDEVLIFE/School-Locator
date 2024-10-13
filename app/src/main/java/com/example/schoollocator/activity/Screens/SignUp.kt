@@ -66,6 +66,7 @@ import com.example.schoollocator.windowEnum.getScreenSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 
 
 class SignUp : ComponentActivity() {
@@ -346,65 +347,6 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
     }
 }
 
-// Otp text field
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun OTPTextField(
-    otpLength: Int = 4,
-    onOtpComplete: (String) -> Unit
-) {
-
-    val context = LocalContext.current
-
-    // remember is used to store the state of the otp values
-    var otpValues by remember { mutableStateOf(List(otpLength) { "" }) }
-    val focusRequesters = List(otpLength) { FocusRequester() }
-    val focusManager = LocalFocusManager.current
-
-    // Row is used to display the otp text fields in a row
-    Row {
-        otpValues.forEachIndexed { index, value ->
-            TextField(
-                value = value,
-                onValueChange = { newValue ->
-                    if (newValue.length <= 1) {
-                        otpValues = otpValues.toMutableList().apply { this[index] = newValue }
-
-                        // Move focus to the next TextField
-                        if (newValue.isNotEmpty() && index < otpLength - 1) {
-                            focusRequesters[index + 1].requestFocus()
-                        }
-
-                        // Call the onOtpComplete function when all the otp values are entered
-                        if (otpValues.all { it.isNotEmpty() }) {
-                            onOtpComplete(otpValues.joinToString(""))
-                        }
-                    }
-                },
-                placeholder = { Text(text = "") },
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .size(60.dp)
-                    .padding(4.dp)
-                    .focusRequester(focusRequesters[index]),
-                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        if (index == otpLength - 1) {
-                            focusManager.clearFocus()
-                        }
-                    }
-                ),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
