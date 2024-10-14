@@ -228,7 +228,7 @@ fun LoadOTP(
     // Show dialog if email was sent successfully
     if (showDialog) {
         if (emailSentSuccess) {
-            AlertDialog("Email sent successfully", dialogState = remember { mutableStateOf(true) })
+            AlertDialog("Email Alert!","Email sent successfully", dialogState = remember { mutableStateOf(true) })
         } else {
             Toast.makeText(context, "Failed to send email", Toast.LENGTH_SHORT).show()
         }
