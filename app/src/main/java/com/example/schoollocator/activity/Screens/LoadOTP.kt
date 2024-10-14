@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.AlertDialog
 import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
 import com.example.schoollocator.ui.theme.Green1
@@ -62,12 +63,18 @@ fun LoadOTP(
     // This is for the view model
     val viewModel: OTPViewModel = viewModel()
 
+    // State to handle email sending result
+    var emailSentSuccess by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
         viewModel.startTimer()
         CoroutineScope(Dispatchers.IO).launch {
-            SendEmail(context)
-
+            SendEmail(context) { success ->
+                emailSentSuccess = success
+                showDialog = true
+            }
         }
     }
 
@@ -169,8 +176,10 @@ fun LoadOTP(
                         if (viewModel.time.value == 0) {
                             viewModel.startTimer()
                             CoroutineScope(Dispatchers.IO).launch {
-                                SendEmail(context)
-
+                                SendEmail(context) { success ->
+                                    emailSentSuccess = success
+                                    showDialog = true
+                                }
                             }
                         } else {
                             Toast.makeText(context, "Please wait for the timer to finish", Toast.LENGTH_SHORT).show()
@@ -216,4 +225,12 @@ fun LoadOTP(
         }
     }
 
+    // Show dialog if email was sent successfully
+    if (showDialog) {
+        if (emailSentSuccess) {
+            AlertDialog("Email sent successfully", dialogState = remember { mutableStateOf(true) })
+        } else {
+            Toast.makeText(context, "Failed to send email", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

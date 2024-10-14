@@ -1,6 +1,9 @@
-import YahooMail
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.example.schoollocator.activity.maincomponent.components.AlertDialog
 import com.example.schoollocator.emailAPI.yahookey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -8,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // This will send the email
-fun SendEmail(context: Context) {
+fun SendEmail(context: Context, onEmailSent: (Boolean) -> Unit) {
     // Show the initial Toast message on the main thread
     CoroutineScope(Dispatchers.Main).launch {
         Toast.makeText(context, "Sending email...", Toast.LENGTH_SHORT).show()
@@ -27,17 +30,10 @@ fun SendEmail(context: Context) {
             body = "This is a test email sent from Jetpack Compose."
         )
 
-        // Show the result Toast on the main thread
+        // Notify the result
         withContext(Dispatchers.Main) {
-            showToast(context, success)
+            onEmailSent(success)
+
         }
     }
-}
-
-fun showToast(context: Context, success: Boolean) {
-    Toast.makeText(
-        context,
-        if (success) "Email sent successfully" else "Failed to send email",
-        Toast.LENGTH_SHORT
-    ).show()
 }
