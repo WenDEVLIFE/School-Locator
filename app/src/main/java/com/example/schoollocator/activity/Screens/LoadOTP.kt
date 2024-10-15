@@ -102,7 +102,7 @@ fun LoadOTP(
 
     LaunchedEffect(viewModel.isBackPressed3.value) {
         if (viewModel.isBackPressed3.value) {
-            navController.navigate("signUp")
+            navController.popBackStack()
         }
     }
 
