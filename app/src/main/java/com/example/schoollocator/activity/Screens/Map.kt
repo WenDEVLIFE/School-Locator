@@ -52,6 +52,7 @@ import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
 import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
+import com.example.schoollocator.activity.maincomponent.components.SearchBar
 import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -270,53 +271,6 @@ fun MapScreen(navController: NavHostController) { // Corrected type annotation
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChanged: (String) -> Unit,
-    onSearch: () -> Unit
-) {
-    val screenSize = getScreenSize()
-
-    val  context = LocalContext.current
-
-    // Search bar
-    TextField(
-        value = query,
-        onValueChange = { newValue -> onQueryChanged(newValue) },
-        label = { Text("Search") },
-        placeholder = { Text("Enter search term") },
-        singleLine = true,
-        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
-        textStyle = TextStyle(color = Color.Black, fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = WhiteCus,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        ),
-        trailingIcon = {
-            IconButton(onClick = {
-                 Toast.makeText(context, "Voice search is not available", Toast.LENGTH_SHORT).show()
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_mic_24),
-                    contentDescription = "Toggle password visibility",
-                    modifier = Modifier.size(
-                        width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
-                        height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
-                    )
-                )
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-    )
-
-}
 
 @Preview
 @Composable

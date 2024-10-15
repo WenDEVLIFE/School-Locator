@@ -228,10 +228,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 
     // Go back to map screen
     BackHandler {
-       navController.navigate("Map") {
-            launchSingleTop = true
-            restoreState = true
-        }
+       navController.popBackStack()
     }
 
     if (dialogState.value) {
