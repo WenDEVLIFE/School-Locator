@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -46,8 +47,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -234,6 +238,35 @@ fun MainMap(modifier: Modifier = Modifier) {
                 onSearch = { /* Handle search action here */ }
             )
         }
+    }
+}
+@Composable
+fun MapScreen(navController: NavHostController) { // Corrected type annotation
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
+
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            // Default or initial content
+            MainMap()
+        }
+    }
+
+    // This is for the dialog state to show the dialog
+    if (dialogState.value) {
+        LogoutDialog(
+            navController = navController,
+        )
+    }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
     }
 }
 

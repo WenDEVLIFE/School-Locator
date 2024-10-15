@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
@@ -234,7 +235,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
     }
 
     if (dialogState.value) {
-        LogoutDialog(navController = navController ,dialogState = dialogState, logoutState = logoutState)
+        LogoutDialog(navController = navController)
     }
 
     // This is for the logout state

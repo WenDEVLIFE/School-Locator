@@ -10,7 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +29,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,7 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.components.NavigationGraph
+import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
@@ -60,7 +57,7 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                NavigationGraph(navController = rememberNavController(), contentPadding = PaddingValues(0.dp), dialogState = remember { mutableStateOf(false) }, logoutState = remember { mutableStateOf(false) })
+              AppNavigation(navController = rememberNavController())
             }
         }
     }
@@ -83,6 +80,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
             navController.navigate("Map")
+            viewModel.isSuccess.value = false
         }
     }
 

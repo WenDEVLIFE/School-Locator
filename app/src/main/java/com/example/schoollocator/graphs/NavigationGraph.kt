@@ -1,11 +1,8 @@
-package com.example.schoollocator.activity.maincomponent.components
+package com.example.schoollocator.graphs
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -21,16 +18,16 @@ import com.example.schoollocator.activity.Screens.FavoritesScreen
 import com.example.schoollocator.activity.Screens.LoadOTP
 import com.example.schoollocator.activity.Screens.LoadSuccess
 import com.example.schoollocator.activity.Screens.LoginForm1
-import com.example.schoollocator.activity.Screens.LogoutDialog
-import com.example.schoollocator.activity.Screens.MainMap
+import com.example.schoollocator.activity.Screens.MapScreen
 import com.example.schoollocator.activity.Screens.MenuScreen
 import com.example.schoollocator.activity.Screens.SchoolScreen
 import com.example.schoollocator.activity.Screens.SignUpForm
 import com.example.schoollocator.activity.Screens.UserScreen
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 
 // This is for the navigation graph
 @Composable
-fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
+fun AppNavigation(navController: NavHostController) {
 
     val context = LocalContext.current
 
@@ -51,12 +48,11 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         }
         // Map Composable
         composable("Map") {
-            MainMap(modifier = Modifier.padding(contentPadding))
+            MapScreen(navController = navController)
         }
-
         // Home Composable
         composable("Home") {
-            MenuScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            MenuScreen( navController = navController)
         }
 
         // Favorite Composable
@@ -66,54 +62,52 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
 
         // User screen composable
         composable("User") {
-            UserScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            UserScreen( navController = navController)
         }
 
         // Add User Composable
         composable("AddUser") {
-            AddUser(modifier = Modifier.padding(contentPadding), navController = navController)
+            AddUser(navController = navController)
         }
 
         // School Composable
         composable("School") {
-            SchoolScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            SchoolScreen( navController = navController)
         }
 
         // Add School
         composable("AddSchool") {
-            AddSchoolScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            AddSchoolScreen( navController = navController)
         }
 
         // Created School Screen
         composable("CreatedSchool") {
-            CreatedSchoolScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            CreatedSchoolScreen( navController = navController)
         }
 
         // Favorites Screen
         composable("Favorites") {
-            FavoritesScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            FavoritesScreen( navController = navController)
         }
 
         // Change password screen
         composable("ChangePassword") {
-            ChangePasswordScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            ChangePasswordScreen( navController = navController)
         }
 
         // Change Profile Screen
         composable("ChangeProfile") {
-            ChangeProfileScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            ChangeProfileScreen( navController = navController)
         }
 
         // Change Email Screen
         composable("ChangeEmail") {
-            ChangeEmailScreen(modifier = Modifier.padding(contentPadding), navController = navController)
+            ChangeEmailScreen( navController = navController)
         }
 
         // Logout Composable
         composable("Logout") {
             LogoutDialog(
-                dialogState = dialogState,
-                logoutState = logoutState,
                 navController = navController
             )
         }
