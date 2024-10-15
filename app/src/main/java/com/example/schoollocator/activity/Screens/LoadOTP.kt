@@ -38,8 +38,10 @@ import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.components.AlertDialog
 import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
+import com.example.schoollocator.database.InsertUserScreen
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel
+import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import kotlinx.coroutines.CoroutineScope
@@ -54,6 +56,7 @@ fun LoadOTP(
     onClick: () -> Unit = {}
 ) {
 
+    val viewModel1: SignUpModel = viewModel()
     // Get the context
     val context = LocalContext.current
 
@@ -66,6 +69,7 @@ fun LoadOTP(
     // State to handle email sending result
     var emailSentSuccess by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var showInsertUserScreen by remember { mutableStateOf(false) }
 
     // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
@@ -207,6 +211,7 @@ fun LoadOTP(
                         // set the boolean to true to show the success screen
                         viewModel.setShowSuccess(true)
                         viewModel.performOTP()
+                        showInsertUserScreen = true
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(20.dp),
@@ -228,9 +233,20 @@ fun LoadOTP(
     // Show dialog if email was sent successfully
     if (showDialog) {
         if (emailSentSuccess) {
-            AlertDialog("Email Alert!","Email sent successfully", dialogState = remember { mutableStateOf(true) })
+            AlertDialog("Email Alert!", "Email sent successfully", dialogState = remember { mutableStateOf(true) })
         } else {
             Toast.makeText(context, "Failed to send email", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // Show InsertUserScreen if the button was pressed
+    if (showInsertUserScreen) {
+        InsertUserScreen(
+            mapOf(
+                "username" to viewModel1.username.value,
+                "email" to viewModel1.email.value,
+                "password" to viewModel1.password.value
+            )
+        )
     }
 }
