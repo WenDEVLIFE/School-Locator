@@ -239,7 +239,10 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 
     // This is for the logout state
     if (logoutState.value) {
-        AppNavigation1()
+        navController.navigate("Login") {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     Column(

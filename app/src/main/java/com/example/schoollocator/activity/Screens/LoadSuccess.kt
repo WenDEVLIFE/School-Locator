@@ -50,11 +50,8 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
     // get the screenn size
     val screenSize = getScreenSize()
 
-    // TODO: Fix the bug on the state and host here in the load screen
     BackHandler {
-        context.startActivity(Intent(context, Login::class.java))
-        (context as? ComponentActivity)?.finish()
-        viewModel.setBackPressed2(true)
+        navController.navigate("Login")
     }
 
     // This will check if the back is pressed
@@ -69,8 +66,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
     // This will check if the back is pressed
     LaunchedEffect(viewModel.isBackPressed2.value) {
         if (viewModel.isBackPressed2.value) {
-            context.startActivity(Intent(context, Login::class.java))
-            (context as? ComponentActivity)?.finish()
+          navController.navigate("Login")
             viewModel.setBackPressed2(true)
         }
     }

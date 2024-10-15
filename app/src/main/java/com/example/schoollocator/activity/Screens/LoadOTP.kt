@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.schoollocator.R
 import com.example.schoollocator.activity.maincomponent.components.AlertDialog
 import com.example.schoollocator.activity.maincomponent.components.OTPTextField

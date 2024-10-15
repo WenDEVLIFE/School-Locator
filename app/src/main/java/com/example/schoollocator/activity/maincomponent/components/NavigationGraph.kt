@@ -2,6 +2,7 @@ package com.example.schoollocator.activity.maincomponent.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,31 +18,45 @@ import com.example.schoollocator.activity.Screens.ChangePasswordScreen
 import com.example.schoollocator.activity.Screens.ChangeProfileScreen
 import com.example.schoollocator.activity.Screens.CreatedSchoolScreen
 import com.example.schoollocator.activity.Screens.FavoritesScreen
+import com.example.schoollocator.activity.Screens.LoadOTP
+import com.example.schoollocator.activity.Screens.LoadSuccess
+import com.example.schoollocator.activity.Screens.LoginForm1
 import com.example.schoollocator.activity.Screens.LogoutDialog
 import com.example.schoollocator.activity.Screens.MainMap
 import com.example.schoollocator.activity.Screens.MenuScreen
 import com.example.schoollocator.activity.Screens.SchoolScreen
+import com.example.schoollocator.activity.Screens.SignUpForm
 import com.example.schoollocator.activity.Screens.UserScreen
 
-// This are for the navigation graph
+// This is for the navigation graph
 @Composable
 fun NavigationGraph(navController: NavHostController, contentPadding: PaddingValues, dialogState: MutableState<Boolean>, logoutState: MutableState<Boolean>) {
 
     val context = LocalContext.current
 
-    NavHost(navController = navController, startDestination = "Map") {
+    NavHost(navController = navController, startDestination = "Login") {
 
+        composable("Login") {
+            LoginForm1(navController = navController, Modifier.fillMaxWidth())
+        }
+        composable("signUp") {
+            SignUpForm(navController = navController, Modifier.fillMaxWidth())
+        }
+        composable("OTP") {
+            LoadOTP(navController = navController, Modifier.fillMaxWidth())
+        }
 
+        composable("success") {
+            LoadSuccess(navController = navController, Modifier.fillMaxWidth())
+        }
         // Map Composable
         composable("Map") {
             MainMap(modifier = Modifier.padding(contentPadding))
-
         }
 
         // Home Composable
         composable("Home") {
             MenuScreen(modifier = Modifier.padding(contentPadding), navController = navController)
-
         }
 
         // Favorite Composable
@@ -50,16 +65,13 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         }
 
         // User screen composable
-        composable("User"){
-
-            UserScreen(modifier = Modifier.padding(contentPadding),navController = navController)
-
+        composable("User") {
+            UserScreen(modifier = Modifier.padding(contentPadding), navController = navController)
         }
 
         // Add User Composable
         composable("AddUser") {
             AddUser(modifier = Modifier.padding(contentPadding), navController = navController)
-
         }
 
         // School Composable
@@ -107,4 +119,3 @@ fun NavigationGraph(navController: NavHostController, contentPadding: PaddingVal
         }
     }
 }
-

@@ -1,6 +1,5 @@
 package com.example.schoollocator.activity.Screens
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -8,10 +7,31 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,10 +45,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.NavigationGraph
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
@@ -41,14 +60,11 @@ class Login : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-
-                // call the app navigation
-                AppNavigation1()
+                NavigationGraph(navController = rememberNavController(), contentPadding = PaddingValues(0.dp), dialogState = remember { mutableStateOf(false) }, logoutState = remember { mutableStateOf(false) })
             }
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
@@ -66,7 +82,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     // launched the  effect
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
-            navController.navigate("school")
+            navController.navigate("Map")
         }
     }
 
@@ -229,7 +245,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
 
             TextButton(
                 onClick = {
-                    context.startActivity(Intent(context, SignUp::class.java))
+                    navController.navigate("signUp")
                 }
             ) {
                 Text(
@@ -243,24 +259,6 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     }
 }
 
-@Composable
-fun AppNavigation1() {
-    val navController = rememberNavController()
-
-    // Our navhost
-    NavHost(navController = navController, startDestination = "login") {
-        
-        // This is for login
-        composable("login") {
-            LoginForm1(navController = navController)
-        }
-
-        // This is for  proceeding to map
-        composable("school") {
-            SchoolController()
-        }
-    }
-}
 
 
 @Preview(showBackground = true)

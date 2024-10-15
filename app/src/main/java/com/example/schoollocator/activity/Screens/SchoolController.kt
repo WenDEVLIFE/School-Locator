@@ -36,7 +36,8 @@ fun SchoolController() {
 
     // This is for the logout state
     if (logoutState.value) {
-        AppNavigation1()
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
     }
 }
 

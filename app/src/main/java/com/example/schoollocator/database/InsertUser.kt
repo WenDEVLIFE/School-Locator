@@ -17,7 +17,7 @@ fun InsertUserScreen(userData: Map<String, Any>) {
     // Observe dialog state and show AlertDialog
     if (userViewModel.dialogState.value) {
         AlertDialog(
-            title = "Notification", // Provide a title here
+            title = "Registration", // Provide a title here
             message = userViewModel.dialogMessage.value,
             dialogState = userViewModel.dialogState,
         )

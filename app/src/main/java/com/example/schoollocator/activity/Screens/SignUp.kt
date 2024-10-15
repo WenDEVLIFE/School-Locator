@@ -66,20 +66,9 @@ import com.example.schoollocator.windowEnum.getScreenSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.navigation.NavHostController
 import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 
-
-class SignUp : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SchoolLocatorTheme {
-                AppNavigation()
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,8 +86,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
 
     // This is for the back press
     BackHandler {
-        context.startActivity(Intent(context, Login::class.java))
-        (context as? ComponentActivity)?.finish()
+        navController.popBackStack()
     }
 
     // This are the  box and lazy column that will compose the UI
@@ -344,34 +332,6 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
 
             item { Spacer(modifier = Modifier.height(10.dp)) }
 
-        }
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppNavigation() {
-
-    // This is for the nav controller
-    val navController = rememberNavController()
-
-    // use navhost to navigate between the composable functions
-    NavHost(navController = navController, startDestination = "signUp") {
-
-        // added the composable functions
-        composable("signUp") {
-            SignUpForm(navController = navController, modifier = Modifier.fillMaxSize())
-        }
-
-        // added the composable functions
-        composable("otp") {
-            LoadOTP(navController = navController, modifier = Modifier.fillMaxSize())
-        }
-
-        // added the composable functions
-        composable("success") {
-            LoadSuccess(navController = navController,modifier = Modifier.fillMaxSize())
         }
     }
 }
