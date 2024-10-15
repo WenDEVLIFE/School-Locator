@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +37,8 @@ class SignUpModel : ViewModel() {
     private val _showOTP = mutableStateOf(false)
     val showOTP: MutableState<Boolean> = _showOTP
 
+    val dialogState = mutableStateOf(false)
+    val dialogMessage = mutableStateOf("")
 
     // This is for the username
     fun setUsername(value: String) {
@@ -62,21 +65,35 @@ class SignUpModel : ViewModel() {
         _passwordVisible.value = !_passwordVisible.value
     }
 
-    fun performSignUp() {
-        viewModelScope.launch {
-            // Simulate a long-running task (like network request)
-            withContext(Dispatchers.IO) {
-                // Perform your network or database operation here
-                // Example: networkRequest()
-                delay(1000) // Simulating delay for demonstration
+
+    // Insert the data from the user
+    fun insertUser(userData: Map<String, Any>) {
+        val db = FirebaseFirestore.getInstance()
+
+        try {
+            db.collection("Users").whereEqualTo("Username", userData["Username"]).get().addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    val addUser = hashMapOf(
+                        "Username" to userData["Username"],
+                        "Password" to userData["Password"],
+                        "Email" to userData["Email"],
+                        "Role" to "User"
+                    )
+
+                    db.collection("Users").add(addUser).addOnSuccessListener {
+                        dialogMessage.value = "User added successfully"
+                        dialogState.value = true
+                    }.addOnFailureListener {
+                        dialogMessage.value = "Failed to add user"
+                        dialogState.value = true
+                    }
+                } else {
+                    dialogMessage.value = "User already exists"
+                    dialogState.value = true
+                }
             }
-
-            // Update the UI on the main thread
-            withContext(Dispatchers.Main) {
-                // Update the showOTP state or other UI state
-
-
-            }
+        } catch (e: Exception) {
+            println("Error: $e")
         }
     }
 
