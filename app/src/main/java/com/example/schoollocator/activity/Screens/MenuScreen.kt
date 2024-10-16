@@ -257,7 +257,9 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 
     // This is for the logout state
     if (logoutState.value) {
-        navController.navigate("Login") // Navigate to login
+        navController.navigate("Login"){
+            popUpTo("Login"){ inclusive = true }
+        } // Navigate to login
         logoutState.value = false // Reset the logout state
     }
 }

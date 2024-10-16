@@ -79,7 +79,11 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     // launched the  effect
     LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
-            navController.navigate("Map")
+            navController.navigate("Map"){
+                popUpTo("Login"){
+                    inclusive = true
+                }
+            }
             viewModel.isSuccess.value = false
         }
     }
@@ -220,6 +224,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                     if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
                         viewModel.isSuccess.value = true
                         viewModel.LoginDB()
+
 
                     } else {
                         Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
