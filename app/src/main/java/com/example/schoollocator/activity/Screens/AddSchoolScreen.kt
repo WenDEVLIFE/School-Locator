@@ -85,12 +85,14 @@ fun AddSchoolScreen(modifier: Modifier = Modifier , navController: NavHostContro
     if (dialogState.value) {
         LogoutDialog(
             navController = navController,
+            dialogState = dialogState,
+            logoutState = logoutState,
+            route = "AddSchool",
         )
     }
 
     // This is for the logout state
     if (logoutState.value) {
-        navController.navigate("Login") // Navigate to login
         logoutState.value = false // Reset the logout state
     }
 }

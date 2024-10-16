@@ -98,12 +98,14 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
     if (dialogState.value) {
         LogoutDialog(
             navController = navController,
+            dialogState = dialogState,
+            logoutState = logoutState,
+            route = "ChangeEmail"
         )
     }
 
     // This is for the logout state
     if (logoutState.value) {
-        navController.navigate("Login") // Navigate to login
         logoutState.value = false // Reset the logout state
     }
 

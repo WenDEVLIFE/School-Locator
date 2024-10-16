@@ -66,10 +66,7 @@ fun AddUser(modifier: Modifier = Modifier,
 
     // Go back to map screen
     BackHandler {
-        navController.navigate("User") {
-            launchSingleTop = true
-            restoreState = true
-        }
+        navController.popBackStack()
     }
 
     Scaffold(
@@ -98,12 +95,14 @@ fun AddUser(modifier: Modifier = Modifier,
     if (dialogState.value) {
         LogoutDialog(
             navController = navController,
+            dialogState = dialogState,
+            logoutState = logoutState,
+            route = "AddUser",
         )
     }
 
     // This is for the logout state
     if (logoutState.value) {
-        navController.navigate("Login") // Navigate to login
         logoutState.value = false // Reset the logout state
     }
 

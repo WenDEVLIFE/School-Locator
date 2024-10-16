@@ -3,6 +3,8 @@ package com.example.schoollocator.graphs
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -30,8 +32,11 @@ import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 fun AppNavigation(navController: NavHostController) {
 
     val context = LocalContext.current
+    val route = "Login"
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
-    NavHost(navController = navController, startDestination = "Login") {
+    NavHost(navController = navController, startDestination = route) {
 
         composable("Login") {
             LoginForm1(navController = navController, Modifier.fillMaxWidth())
@@ -109,7 +114,10 @@ fun AppNavigation(navController: NavHostController) {
         // Logout Composable
         composable("Logout") {
             LogoutDialog(
-                navController = navController
+                navController = navController,
+                dialogState = dialogState,
+                logoutState = logoutState,
+                route = route
             )
         }
     }

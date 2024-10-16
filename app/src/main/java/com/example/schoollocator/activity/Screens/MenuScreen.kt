@@ -145,6 +145,10 @@ fun Menu(
         MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) {
         /* Handle Profile click */
          Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
+            navController.navigate("Favorites") {
+                launchSingleTop = true
+                restoreState = true
+            }
         },
 
         MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) {
@@ -252,14 +256,15 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
     if (dialogState.value) {
         LogoutDialog(
             navController = navController,
+            dialogState = dialogState,
+            logoutState = logoutState,
+            route = "Home"
         )
     }
 
     // This is for the logout state
     if (logoutState.value) {
-        navController.navigate("Login"){
-            popUpTo("Login"){ inclusive = true }
-        } // Navigate to login
+
         logoutState.value = false // Reset the logout state
     }
 }
