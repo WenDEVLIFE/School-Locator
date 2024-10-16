@@ -9,8 +9,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,8 +22,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +40,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -53,59 +60,79 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
     // view model
     val viewModel : ChangeProfileViewModel = viewModel()
 
-
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
     // Go back to home screen
     BackHandler {
-        navController.navigate("Home") {
-            launchSingleTop = true
-            restoreState = true
-        }
+        navController.popBackStack()
     }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(lightgreen)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(lightgreen),
-
-        ) {
-            // Top bar
-            TopAppBarState(modifier = Modifier, tittle = "Change Profile")
-            LazyColumn(
-                modifier = Modifier
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            // Default or initial content
+            Box(
+                modifier = modifier
                     .fillMaxSize()
-                    .padding(10.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                    .background(lightgreen)
             ) {
-                item{
-                    ChangeProfile(modifier = Modifier.align(Alignment.CenterHorizontally))
-                }
-                item {
-                    Button(
-                        onClick = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(lightgreen),
 
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp)
                     ) {
-                        Text(
-                            text = "Update Profile",
-                            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                            color = Green1,
-                            fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
-                        )
+                    // Top bar
+                    TopAppBarState(modifier = Modifier, tittle = "Change Profile")
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                    ) {
+                        item{
+                            ChangeProfile(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        }
+                        item {
+                            Button(
+                                onClick = {
+
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                shape = RoundedCornerShape(20.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(14.dp)
+                            ) {
+                                Text(
+                                    text = "Update Profile",
+                                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                                    color = Green1,
+                                    fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
+    // This is for the dialog state to show the dialog
+    if (dialogState.value) {
+        LogoutDialog(
+            navController = navController,
+        )
+    }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
+    }
+
 }
 
 @Composable

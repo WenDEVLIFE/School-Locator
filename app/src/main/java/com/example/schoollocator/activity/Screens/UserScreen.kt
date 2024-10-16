@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -29,6 +30,9 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
+import com.example.schoollocator.activity.maincomponent.components.SearchBar
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -37,73 +41,7 @@ import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
 
-@Composable
-fun UserScreen(modifier: Modifier = Modifier,
-               navController: NavHostController) {
-    // This is the state of the search query
-    val query = remember { mutableStateOf("") }
 
-    // Go back to home screen
-    BackHandler {
-        navController.navigate("Home") {
-            launchSingleTop = true
-            restoreState = true
-        }
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(lightgreen)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(lightgreen)
-        ) {
-            // Top bar
-            TopAppBarState(modifier = Modifier, tittle = "Users")
-            Spacer(modifier = Modifier.size(10.dp))
-
-            // Search bar
-            SearchBar(
-                query = query.value,
-                onQueryChanged = { newQuery -> query.value = newQuery },
-                onSearch = { /* Handle search action here */ }
-            )
-            Spacer(modifier = Modifier.size(10.dp))
-
-            // Lazy Column
-            UserList(modifier = Modifier.weight(1f))
-        }
-
-
-        // TODO :  add some navigate
-        // Floating action button
-        FloatingActionButton(
-            onClick = {
-                // Handle FAB click
-                navController.navigate("AddUser"){
-                    launchSingleTop = true
-                    restoreState = true
-                }
-
-            },
-            containerColor = materialLightGreen,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 16.dp)
-                .zIndex(10f)  // Ensures it is above other components
-        ) {
-            // Change the icon
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_person_add_alt_1_24),
-                contentDescription = "Add User",
-                tint = materialGreen
-            )
-        }
-    }
-}
 
 @Composable
 fun UserList(modifier: Modifier) {
@@ -118,6 +56,92 @@ fun UserList(modifier: Modifier) {
             Text(text = "Item $it")
         }
 
+    }
+}
+
+@Composable
+fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController) { // Corrected type annotation
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
+    val query = remember { mutableStateOf("") }
+    // Go back to map screen
+    BackHandler {
+        navController.popBackStack()
+    }
+
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            // Default or initial content
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(lightgreen)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(lightgreen)
+                ) {
+                    // Top bar
+                    TopAppBarState(modifier = Modifier, tittle = "Users")
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    // Search bar
+                    SearchBar(
+                        query = query.value,
+                        onQueryChanged = { newQuery -> query.value = newQuery },
+                        onSearch = { /* Handle search action here */ }
+                    )
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    // Lazy Column
+                    UserList(modifier = Modifier.weight(1f))
+                }
+
+
+                // TODO :  add some navigate
+                // Floating action button
+                FloatingActionButton(
+                    onClick = {
+                        // Handle FAB click
+                        navController.navigate("AddUser"){
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                    },
+                    containerColor = materialLightGreen,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 16.dp, bottom = 16.dp)
+                        .zIndex(10f)  // Ensures it is above other components
+                ) {
+                    // Change the icon
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_person_add_alt_1_24),
+                        contentDescription = "Add User",
+                        tint = materialGreen
+                    )
+                }
+            }
+        }
+    }
+
+    // This is for the dialog state to show the dialog
+    if (dialogState.value) {
+        LogoutDialog(
+            navController = navController,
+        )
+    }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
     }
 }
 

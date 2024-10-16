@@ -24,6 +24,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.activity.maincomponent.components.SearchBar
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -37,10 +38,7 @@ fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostCont
 
     // Go back to home screen
     BackHandler {
-        navController.navigate("Home") {
-            launchSingleTop = true
-            restoreState = true
-        }
+        navController.popBackStack()
     }
 
     Box(

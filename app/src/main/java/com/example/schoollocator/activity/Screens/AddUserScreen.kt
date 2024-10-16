@@ -24,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -46,6 +47,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -58,6 +61,8 @@ import com.example.schoollocator.windowEnum.getScreenSize
 @Composable
 fun AddUser(modifier: Modifier = Modifier,
             navController: NavHostController) {
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
     // Go back to map screen
     BackHandler {
@@ -67,17 +72,39 @@ fun AddUser(modifier: Modifier = Modifier,
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(lightgreen)
-    ){
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            // Default or initial content
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(lightgreen)
+            ){
 
-        // Top bar state
-        TopAppBarState(modifier = Modifier, tittle ="Add User")
-        AddUserForm()
+                // Top bar state
+                TopAppBarState(modifier = Modifier, tittle ="Add User")
+                AddUserForm()
 
 
+            }
+        }
+    }
+
+    // This is for the dialog state to show the dialog
+    if (dialogState.value) {
+        LogoutDialog(
+            navController = navController,
+        )
+    }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
     }
 
 }

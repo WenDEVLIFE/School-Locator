@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.activity.maincomponent.components.SearchBar
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.MessageViewModel
 

@@ -10,14 +10,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
+import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
+import com.example.schoollocator.activity.maincomponent.components.SearchBar
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.FavoriteViewModel
 
@@ -27,41 +33,57 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
 ) {
     //  get the view model
     val viewModel: FavoriteViewModel = viewModel()
-
+    val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
+    val logoutState = remember { mutableStateOf(false) } // Initialize logout state
     // Go back to home screen
-    BackHandler {
-        navController.navigate("Home") {
-            launchSingleTop = true
-            restoreState = true
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
+        }
+    ) { contentPadding ->
+        Box(modifier = Modifier.padding(contentPadding)) {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(lightgreen)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(lightgreen)
+                ) {
+                    // Top bar
+                    TopAppBarState(modifier = Modifier, tittle = "Favorites")
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    // Search bar
+                    SearchBar(
+                        viewModel.seearchFavorites.value,
+                        onQueryChanged = { newQuery ->  viewModel.seearchFavorites.value = newQuery },
+                        onSearch = { /* Handle search action here */ }
+                    )
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    // Lazy Column
+                    FavoriteList(modifier = Modifier.weight(1f))
+                }
+            }
         }
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(lightgreen)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(lightgreen)
-        ) {
-            // Top bar
-            TopAppBarState(modifier = Modifier, tittle = "Favorites")
-            Spacer(modifier = Modifier.size(10.dp))
-
-            // Search bar
-            SearchBar(
-                viewModel.seearchFavorites.value,
-                onQueryChanged = { newQuery ->  viewModel.seearchFavorites.value = newQuery },
-                onSearch = { /* Handle search action here */ }
-            )
-            Spacer(modifier = Modifier.size(10.dp))
-
-            // Lazy Column
-            FavoriteList(modifier = Modifier.weight(1f))
-        }
+    // This is for the dialog state to show the dialog
+    if (dialogState.value) {
+        LogoutDialog(
+            navController = navController,
+        )
     }
+
+    // This is for the logout state
+    if (logoutState.value) {
+        navController.navigate("Login") // Navigate to login
+        logoutState.value = false // Reset the logout state
+    }
+
 }
 
 @Composable

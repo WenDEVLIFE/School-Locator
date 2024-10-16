@@ -58,6 +58,7 @@ fun AppNavigation(navController: NavHostController) {
         // Favorite Composable
         composable("Favorite") {
             Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
+            FavoritesScreen( navController = navController)
         }
 
         // User screen composable
