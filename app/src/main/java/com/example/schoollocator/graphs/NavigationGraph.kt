@@ -45,7 +45,7 @@ fun AppNavigation(navController: NavHostController) {
             SignUpForm(navController = navController, Modifier.fillMaxWidth())
         }
         composable("OTP") {
-            LoadOTP(navController = navController, Modifier.fillMaxWidth())
+            LoadOTP(navController = navController, Modifier.fillMaxWidth(), jsonMapString = "")
         }
 
         composable("success") {

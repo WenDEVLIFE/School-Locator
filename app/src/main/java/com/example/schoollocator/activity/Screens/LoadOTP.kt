@@ -49,13 +49,27 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 
 @Composable
 fun LoadOTP(
     navController: NavController,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    jsonMapString: String // Receive the JSON string
 ) {
+
+    // Deserialize the JSON string into a Map
+    val map: Map<String, String> = Json.decodeFromString(jsonMapString)
+
+    val username = map["username"]
+    val email = map["email"]
+    val password = map["password"]
+
+    // Debug or use the values
+    println("Username: $username")
+    println("Email: $email")
+    println("Password: $password")
 
     val viewModel1: SignUpModel = viewModel()
     // Get the context

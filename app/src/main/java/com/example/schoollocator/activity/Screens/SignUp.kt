@@ -1,12 +1,8 @@
 package com.example.schoollocator.activity.Screens
 
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,42 +26,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.activity.maincomponent.components.OTPTextField
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-import androidx.compose.foundation.Canvas
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.navigation.NavHostController
-import com.example.schoollocator.activity.maincomponent.components.OTPTextField
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -310,7 +293,19 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
                 Button(
                     onClick = {
                         if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
-                            navController.navigate("otp")
+
+                            val map = hashMapOf(
+                                "username" to viewModel.username.value,
+                                "email" to viewModel.email.value,
+                                "password" to viewModel.password.value
+                            )
+
+// Serialize map to JSON string
+                            val jsonString = Json.encodeToString(map)
+
+// Pass the JSON string in the navigation route
+                            navController.navigate("otp/$jsonString")
+
                         } else {
                             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                         }
@@ -397,7 +392,7 @@ fun OTPPreview() {
 @Composable
 fun GreetingPreview4() {
     SchoolLocatorTheme {
-        LoadOTP(navController = rememberNavController(), modifier = Modifier.fillMaxWidth())
+        LoadOTP(navController = rememberNavController(), modifier = Modifier.fillMaxWidth(),  onClick = {}, jsonMapString = "")
     }
 }
 
