@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage
 
 class YahooMail(private val username: String, private val password: String) {
 
-    fun sendEmail(toEmail: String, subject: String, body: String): Boolean {
+    fun sendEmail(fromEmail: String, toEmail: String, subject: String, body: String): Boolean {
         val props = Properties().apply {
             put("mail.smtp.auth", "true") // Enable authentication
             put("mail.smtp.starttls.enable", "true") // Enable STARTTLS
@@ -24,7 +24,7 @@ class YahooMail(private val username: String, private val password: String) {
 
         return try {
             val message = MimeMessage(session).apply {
-                setFrom(InternetAddress("SchoolLocator"))
+                setFrom(InternetAddress(username, "School Locator"))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail))
                 setSubject(subject)
                 setText(body)

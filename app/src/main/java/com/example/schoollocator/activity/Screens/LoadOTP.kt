@@ -56,38 +56,26 @@ fun LoadOTP(
     onClick: () -> Unit = {},
     jsonMapString: String // Receive the JSON string
 ) {
-
-    // Deserialize the JSON string into a Map
     val map: Map<String, String> = Json.decodeFromString(jsonMapString)
-
     val username = map["username"]
     val email = map["email"]
     val password = map["password"]
 
-    // Debug or use the values
     println("Username: $username")
     println("Email: $email")
     println("Password: $password")
 
     val code = remember { mutableStateOf(GenerateCode()) }
-    val codeString: MutableState<String> = code
-
     val viewModel1: SignUpModel = viewModel()
-    // Get the context
     val context = LocalContext.current
-
-    // This will get the screen size
     val screenSize = getScreenSize()
-
-    // This is for the view model
     val viewModel: OTPViewModel = viewModel()
 
-    // State to handle email sending result
     var emailSentSuccess by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var showInsertUserScreen by remember { mutableStateOf(false) }
+    var enteredOtp by remember { mutableStateOf("") }
 
-    // Start the timer when the composable is first displayed
     LaunchedEffect(Unit) {
         viewModel.startTimer()
         CoroutineScope(Dispatchers.IO).launch {
@@ -100,9 +88,7 @@ fun LoadOTP(
         }
     }
 
-    // Handle back press
     BackHandler {
-        // Define the action to be taken on back press
         try {
             Toast.makeText(context, "Back button pressed", Toast.LENGTH_SHORT).show()
             viewModel.setBackPressed3(true)
@@ -111,7 +97,6 @@ fun LoadOTP(
         }
     }
 
-    // Navigation and state checks
     LaunchedEffect(viewModel.showSuccess.value) {
         if (viewModel.showSuccess.value) {
             navController.navigate("success")
@@ -124,7 +109,6 @@ fun LoadOTP(
         }
     }
 
-    // Box and LazyColumn together with the items compose the UI
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -132,14 +116,12 @@ fun LoadOTP(
             .padding(16.dp)
     ) {
         SegmentedStepProgressBar(totalSteps = 3, currentStep = 2, modifier = Modifier.fillMaxWidth())
-        // LazyColumn is used to display the items in a vertical list
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
             item { Spacer(modifier = Modifier.height(20.dp)) }
-            // This is for OTP title
             item {
                 Text(
                     text = "Email OTP Verification",
@@ -148,7 +130,6 @@ fun LoadOTP(
                     fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
                 )
             }
-            // This is for the image
             item {
                 Image(
                     painter = painterResource(id = R.drawable.otp),
@@ -162,7 +143,6 @@ fun LoadOTP(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            // text
             item {
                 Text(
                     modifier = Modifier
@@ -176,12 +156,12 @@ fun LoadOTP(
             }
             item { Spacer(modifier = Modifier.height(15.dp)) }
 
-            // otp text field
             item {
-                OTPTextField(otpLength = 4, onOtpComplete = {})
+                OTPTextField(otpLength = 4, onOtpComplete = { otp ->
+                    enteredOtp = otp
+                })
             }
 
-            // This is for OTP title
             item {
                 Text(
                     text = "Time remaining :${viewModel.time.value}",
@@ -191,7 +171,6 @@ fun LoadOTP(
                 )
             }
 
-            // This is for the button registration
             item {
                 Button(
                     onClick = {
@@ -203,7 +182,6 @@ fun LoadOTP(
                                         emailSentSuccess = success
                                         showDialog = true
                                     }
-
                                 }
                             }
                         } else {
@@ -225,18 +203,14 @@ fun LoadOTP(
                 }
             }
 
-            // This is for the button registration
             item {
                 Button(
                     onClick = {
-                      if (viewModel.otp.value == code.value) {
-                          showInsertUserScreen = true
-
-
-
-                      } else {
-                          Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
-                      }
+                        if (enteredOtp == code.value) {
+                            showInsertUserScreen = true
+                        } else {
+                            Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(20.dp),
@@ -255,7 +229,6 @@ fun LoadOTP(
         }
     }
 
-    // Show dialog if email was sent successfully
     if (showDialog) {
         if (emailSentSuccess) {
             AlertDialog("Email Alert!", "Email sent successfully", dialogState = remember { mutableStateOf(true) })
@@ -264,7 +237,6 @@ fun LoadOTP(
         }
     }
 
-    // Show InsertUserScreen if the button was pressed
     if (showInsertUserScreen) {
         val userData = mapOf(
             "username" to username,
@@ -272,6 +244,16 @@ fun LoadOTP(
             "password" to password
         )
         InsertUserScreen(userData)
+
+        AlertDialog(
+            title = "Registration",
+            message = "User registered successfully",
+            dialogState = remember { mutableStateOf(true) }
+        ) {
+            // Navigate to the success screen after the dialog is dismissed
+            navController.navigate("success")
+        }
+
     }
 }
 

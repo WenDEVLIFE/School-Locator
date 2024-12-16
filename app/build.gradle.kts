@@ -111,6 +111,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation("at.favre.lib:bcrypt:0.9.0")
     // Kotlin runtime
     implementation(kotlin("script-runtime"))
 }

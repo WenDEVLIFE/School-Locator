@@ -21,6 +21,7 @@ fun SendEmail(context: Context, email: String, code: String, onEmailSent: (Boole
 
         // Send the email
         val success = emailSender.sendEmail(
+            fromEmail = "School Locator",
             toEmail = email,
             subject = "School Locator Registration Code",
             body = "The registration code is: $code"

@@ -26,22 +26,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Otp text field
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OTPTextField(
     otpLength: Int = 4,
     onOtpComplete: (String) -> Unit
 ) {
-
     val context = LocalContext.current
-
-    // remember is used to store the state of the otp values
     var otpValues by remember { mutableStateOf(List(otpLength) { "" }) }
     val focusRequesters = List(otpLength) { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    // Row is used to display the otp text fields in a row
     Row {
         otpValues.forEachIndexed { index, value ->
             TextField(
@@ -50,12 +45,10 @@ fun OTPTextField(
                     if (newValue.length <= 1) {
                         otpValues = otpValues.toMutableList().apply { this[index] = newValue }
 
-                        // Move focus to the next TextField
                         if (newValue.isNotEmpty() && index < otpLength - 1) {
                             focusRequesters[index + 1].requestFocus()
                         }
 
-                        // Call the onOtpComplete function when all the otp values are entered
                         if (otpValues.all { it.isNotEmpty() }) {
                             onOtpComplete(otpValues.joinToString(""))
                         }

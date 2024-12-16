@@ -3,6 +3,7 @@ package com.example.schoollocator.viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.google.firebase.firestore.FirebaseFirestore
 
 // TODO 1: Added functionns that will pass the OTP to the screen
@@ -66,10 +67,13 @@ class SignUpModel : ViewModel() {
         try {
             db.collection("Users").whereEqualTo("Username", userData["username"]).get().addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
+                    val password = hashPassword(userData["password"].toString())
+                    val username = userData["username"].toString()
+                    val email = userData["email"].toString()
                     val addUser = hashMapOf(
-                        "Username" to userData["username"],
-                        "Password" to userData["password"],
-                        "Email" to userData["email"],
+                        "Username" to username,
+                        "Password" to password,
+                        "Email" to email,
                         "Role" to "User"
                     )
 
@@ -88,6 +92,15 @@ class SignUpModel : ViewModel() {
         } catch (e: Exception) {
             println("Error: $e")
         }
+    }
+
+    fun hashPassword(password: String): String {
+        return BCrypt.withDefaults().hashToString(12, password.toCharArray())
+    }
+
+    fun verifyPassword(password: String, hashedPassword: String): Boolean {
+        val result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword)
+        return result.verified
     }
 
 }
