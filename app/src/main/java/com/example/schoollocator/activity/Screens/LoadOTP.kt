@@ -36,9 +36,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.components.AlertDialog
-import com.example.schoollocator.activity.maincomponent.components.OTPTextField
-import com.example.schoollocator.activity.maincomponent.components.ProgressDialog
+import com.example.schoollocator.components.AlertDialog
+import com.example.schoollocator.components.OTPTextField
+import com.example.schoollocator.components.ProgressDialog
 import com.example.schoollocator.database.InsertUserScreen
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel

@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
-import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
+import com.example.schoollocator.components.BottomNavigationBar
+import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen

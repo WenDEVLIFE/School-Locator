@@ -3,7 +3,7 @@ package com.example.schoollocator.database
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.schoollocator.activity.maincomponent.components.AlertDialog
+import com.example.schoollocator.components.AlertDialog
 import com.example.schoollocator.viewmodel.SignUpModel
 
 @Composable

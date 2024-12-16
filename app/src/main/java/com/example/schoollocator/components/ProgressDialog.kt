@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.components
+package com.example.schoollocator.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator

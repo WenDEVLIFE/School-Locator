@@ -50,9 +50,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.schoollocator.BuildConfig
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.components.BottomNavigationBar
-import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
-import com.example.schoollocator.activity.maincomponent.components.SearchBar
+import com.example.schoollocator.components.BottomNavigationBar
+import com.example.schoollocator.components.LogoutDialog
+import com.example.schoollocator.components.SearchBar
 import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen

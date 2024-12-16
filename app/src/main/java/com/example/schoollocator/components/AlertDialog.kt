@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.components
+package com.example.schoollocator.components
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text

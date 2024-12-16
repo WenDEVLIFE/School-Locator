@@ -3,7 +3,7 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.example.schoollocator.activity.maincomponent.components.AlertDialog
+import com.example.schoollocator.components.AlertDialog
 import com.example.schoollocator.emailAPI.yahookey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

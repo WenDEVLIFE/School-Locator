@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.maincomponent.components
+package com.example.schoollocator.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth

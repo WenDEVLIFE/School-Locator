@@ -25,7 +25,7 @@ import com.example.schoollocator.activity.Screens.MenuScreen
 import com.example.schoollocator.activity.Screens.SchoolScreen
 import com.example.schoollocator.activity.Screens.SignUpForm
 import com.example.schoollocator.activity.Screens.UserScreen
-import com.example.schoollocator.activity.maincomponent.components.LogoutDialog
+import com.example.schoollocator.components.LogoutDialog
 
 // This is for the navigation graph
 @Composable
@@ -44,8 +44,9 @@ fun AppNavigation(navController: NavHostController) {
         composable("signUp") {
             SignUpForm(navController = navController, Modifier.fillMaxWidth())
         }
-        composable("OTP") {
-            LoadOTP(navController = navController, Modifier.fillMaxWidth(), jsonMapString = "")
+        composable("otp/{jsonString}") { backStackEntry ->
+            val jsonString = backStackEntry.arguments?.getString("jsonString")
+            LoadOTP(navController = navController, Modifier.fillMaxWidth(), jsonMapString = jsonString ?: "")
         }
 
         composable("success") {

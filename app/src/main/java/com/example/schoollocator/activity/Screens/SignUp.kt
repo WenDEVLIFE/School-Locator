@@ -43,7 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.activity.maincomponent.components.OTPTextField
+import com.example.schoollocator.components.OTPTextField
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SignUpModel
