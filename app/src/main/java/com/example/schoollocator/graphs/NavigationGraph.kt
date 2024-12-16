@@ -45,6 +45,8 @@ fun AppNavigation(navController: NavHostController) {
             SignUpForm(navController = navController, Modifier.fillMaxWidth())
         }
         composable("otp/{jsonString}") { backStackEntry ->
+
+            // This is how you pass a data using map use jsonString
             val jsonString = backStackEntry.arguments?.getString("jsonString")
             LoadOTP(navController = navController, Modifier.fillMaxWidth(), jsonMapString = jsonString ?: "")
         }

@@ -1,16 +1,9 @@
 package com.example.schoollocator.viewmodel
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 // TODO 1: Added functionns that will pass the OTP to the screen
 // TODO 2: Added function that will perform the sign up
@@ -67,16 +60,16 @@ class SignUpModel : ViewModel() {
 
 
     // Insert the data from the user
-    fun insertUser(userData: Map<String, Any>) {
+    fun insertUser(userData: Map<String, String?>) {
         val db = FirebaseFirestore.getInstance()
 
         try {
-            db.collection("Users").whereEqualTo("Username", userData["Username"]).get().addOnSuccessListener { documents ->
+            db.collection("Users").whereEqualTo("Username", userData["username"]).get().addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
                     val addUser = hashMapOf(
-                        "Username" to userData["Username"],
-                        "Password" to userData["Password"],
-                        "Email" to userData["Email"],
+                        "Username" to userData["username"],
+                        "Password" to userData["password"],
+                        "Email" to userData["email"],
                         "Role" to "User"
                     )
 

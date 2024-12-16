@@ -24,7 +24,7 @@ class YahooMail(private val username: String, private val password: String) {
 
         return try {
             val message = MimeMessage(session).apply {
-                setFrom(InternetAddress(username))
+                setFrom(InternetAddress("SchoolLocator"))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail))
                 setSubject(subject)
                 setText(body)

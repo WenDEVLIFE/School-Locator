@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,11 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.schoollocator.R
 import com.example.schoollocator.components.AlertDialog
 import com.example.schoollocator.components.OTPTextField
-import com.example.schoollocator.components.ProgressDialog
 import com.example.schoollocator.database.InsertUserScreen
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.OTPViewModel
@@ -48,7 +47,6 @@ import com.example.schoollocator.windowEnum.getScreenSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -71,6 +69,9 @@ fun LoadOTP(
     println("Email: $email")
     println("Password: $password")
 
+    val code = remember { mutableStateOf(GenerateCode()) }
+    val codeString: MutableState<String> = code
+
     val viewModel1: SignUpModel = viewModel()
     // Get the context
     val context = LocalContext.current
@@ -90,9 +91,11 @@ fun LoadOTP(
     LaunchedEffect(Unit) {
         viewModel.startTimer()
         CoroutineScope(Dispatchers.IO).launch {
-            SendEmail(context) { success ->
-                emailSentSuccess = success
-                showDialog = true
+            if (email != null) {
+                SendEmail(context, email, code.value) { success ->
+                    emailSentSuccess = success
+                    showDialog = true
+                }
             }
         }
     }
@@ -195,9 +198,12 @@ fun LoadOTP(
                         if (viewModel.time.value == 0) {
                             viewModel.startTimer()
                             CoroutineScope(Dispatchers.IO).launch {
-                                SendEmail(context) { success ->
-                                    emailSentSuccess = success
-                                    showDialog = true
+                                if (email != null) {
+                                    SendEmail(context, email, code.value) { success ->
+                                        emailSentSuccess = success
+                                        showDialog = true
+                                    }
+
                                 }
                             }
                         } else {
@@ -223,10 +229,14 @@ fun LoadOTP(
             item {
                 Button(
                     onClick = {
-                        // set the boolean to true to show the success screen
-                        viewModel.setShowSuccess(true)
-                        viewModel.performOTP()
-                        showInsertUserScreen = true
+                      if (viewModel.otp.value == code.value) {
+                          showInsertUserScreen = true
+
+
+
+                      } else {
+                          Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
+                      }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(20.dp),
@@ -256,12 +266,19 @@ fun LoadOTP(
 
     // Show InsertUserScreen if the button was pressed
     if (showInsertUserScreen) {
-        InsertUserScreen(
-            mapOf(
-                "username" to viewModel1.username.value,
-                "email" to viewModel1.email.value,
-                "password" to viewModel1.password.value
-            )
+        val userData = mapOf(
+            "username" to username,
+            "email" to email,
+            "password" to password
         )
+        InsertUserScreen(userData)
     }
+}
+
+fun GenerateCode(): String {
+    val codeLength = 4
+    val allowedChars = ('0'..'9')
+    return (1..codeLength)
+        .map { allowedChars.random() }
+        .joinToString("")
 }

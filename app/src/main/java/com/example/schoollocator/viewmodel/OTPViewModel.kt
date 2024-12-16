@@ -16,6 +16,8 @@ import kotlinx.coroutines.withContext
 
 class OTPViewModel: ViewModel() {
 
+    val otp: MutableState<String> = mutableStateOf("")
+
     // time and state
     private val _time = mutableIntStateOf(60)
     val time: MutableState<Int> = _time
