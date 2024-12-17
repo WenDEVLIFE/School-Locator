@@ -3,21 +3,22 @@ package com.example.schoollocator.viewmodel
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 
 // TODO 1: Added funtions that will verify the username and password from the firebase
 // TODO 2: Added functions that will set the username and password
 // TODO 3: Added functionns that will pass the username and password to the screen
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel() {
 
     // get the username and password
     private val _username = mutableStateOf("")
@@ -25,7 +26,6 @@ class LoginViewModel : ViewModel() {
 
     private val _password = mutableStateOf("")
     val password: MutableState<String> = _password
-
 
     // This is for the password text field
     var _passwordVisible = mutableStateOf(false)
@@ -49,25 +49,38 @@ class LoginViewModel : ViewModel() {
         _password.value = value
     }
 
-    fun LoginDB(){
+    fun LoginDB(navController: NavHostController) {
 
         val db = Firebase.firestore
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
 
-            // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+        db.collection("Users").whereEqualTo("Username", _username.value).get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+
+                    val password = document.data["Password"].toString()
+                    val role  = document.data["Role"].toString()
+                    val email = document.data["Email"].toString()
+
+
+                    if (verifyPassword(_password.value, password)) {
+                        viewModelScope.launch {
+                            sessionViewModel.login(_username.value, email, role)
+                        }
+
+                        navController.navigate("Map")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
+                }
             }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
             }
+    }
+
+    fun verifyPassword(password: String, hashedPassword: String): Boolean {
+        val result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword)
+        return result.verified
     }
 
 

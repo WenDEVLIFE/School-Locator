@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
+import android.app.Application
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -48,24 +49,28 @@ import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
+import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-              AppNavigation(navController = rememberNavController())
+                val sessionViewModel: SessionViewModel = viewModel(factory = SessionViewModelFactory(application))
+                AppNavigation(navController = rememberNavController(), sessionViewModel = sessionViewModel)
             }
         }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
-   
+fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewModel, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+
+    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(sessionViewModel))
  // Get the screen size
     val screenSize = getScreenSize()
 
@@ -75,9 +80,8 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
     //  Get the view model
     val viewModel: LoginViewModel = viewModel()
 
-
     // launched the  effect
-    LaunchedEffect(viewModel.isSuccess.value) {
+   /* LaunchedEffect(viewModel.isSuccess.value) {
         if (viewModel.isSuccess.value) {
             navController.navigate("Map"){
                 popUpTo("Login"){
@@ -87,6 +91,8 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
             viewModel.isSuccess.value = false
         }
     }
+
+    */
 
     // Box annd all the components text, columns, button and text Field
     Box(
@@ -223,7 +229,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                 onClick = {
                     if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
                         viewModel.isSuccess.value = true
-                        viewModel.LoginDB()
+                        viewModel.LoginDB(navController)
 
 
                     } else {
@@ -267,5 +273,25 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
 @Preview(showBackground = true)
 @Composable
 fun LoginForm1Preview() {
-    LoginForm1(navController = rememberNavController())
+    LoginForm1(navController = rememberNavController() , sessionViewModel = SessionViewModel(Application()))
+}
+
+
+class SessionViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SessionViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return SessionViewModel(application) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+class LoginViewModelFactory(private val sessionViewModel: SessionViewModel) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return LoginViewModel(sessionViewModel) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

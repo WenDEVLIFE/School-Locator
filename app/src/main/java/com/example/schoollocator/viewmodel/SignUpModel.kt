@@ -98,9 +98,5 @@ class SignUpModel : ViewModel() {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray())
     }
 
-    fun verifyPassword(password: String, hashedPassword: String): Boolean {
-        val result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword)
-        return result.verified
-    }
 
 }

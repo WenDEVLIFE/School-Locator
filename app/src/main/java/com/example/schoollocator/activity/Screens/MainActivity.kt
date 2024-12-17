@@ -33,11 +33,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
+import com.example.schoollocator.viewmodel.SessionViewModel
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
