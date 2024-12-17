@@ -30,6 +30,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,18 +56,7 @@ import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-class Login : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SchoolLocatorTheme {
-                val sessionViewModel: SessionViewModel = viewModel(factory = SessionViewModelFactory(application))
-                AppNavigation(navController = rememberNavController(), sessionViewModel = sessionViewModel)
-            }
-        }
-    }
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewModel, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
@@ -93,176 +84,187 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
     }
 
     */
+    // Observe the isLoggedIn state
+    val isLoggedIn by sessionViewModel.isLoggedIn.observeAsState()
 
-    // Box annd all the components text, columns, button and text Field
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Green1)
-            .padding(16.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(16.dp)
+    if (isLoggedIn == true) {
+        navController.navigate("Map") {
+            popUpTo("Login") {
+                inclusive = true
+            }
+        }
+    }
+    else{
+        // Box annd all the components text, columns, button and text Field
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Green1)
+                .padding(16.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.location),
-                contentDescription = "Icon",
-                modifier = Modifier.size(
-                    width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
-                    height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
-                )
-            )
-
-            Spacer(modifier = Modifier.height(26.dp))
-
-            Text(
-                text = "Login",
-                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = Color.White,
-                fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
-            )
-
-            Spacer(modifier = Modifier.height(26.dp))
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                text = "Username",
-                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = Color.White,
-                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-            )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            TextField(
-                value = viewModel.username.value,
-                onValueChange = { viewModel.setUsername(it) },
-                placeholder = { Text(text = "Enter your username") },
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp)
-                    .background(Color.Transparent),
-                textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-                ),
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_person_24),
-                        contentDescription = "Icon",
-                        tint = Color.Black
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                text = "Password",
-                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = Color.White,
-                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-            )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            TextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.setPassword(it) },
-                placeholder = { Text(text = "Enter your password") },
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp)
-                    .background(Color.Transparent),
-                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_key_24),
-                        contentDescription = "Icon",
-                        tint = Color.Black
-                    )
-                },
-                trailingIcon = {
-                    val image = if (viewModel.isPasswordVisible.value)
-                        painterResource(id = R.drawable.see)
-                    else
-                        painterResource(id = R.drawable.eye)
-
-                    IconButton(onClick = { viewModel.passwordToogle() }) {
-                        Icon(
-                            painter = image,
-                            contentDescription = "Toggle password visibility",
-                            modifier = Modifier.size(
-                                width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
-                                height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
-                            )
-                        )
-                    }
-                },
-                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Button(
-                onClick = {
-                    if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
-                        viewModel.isSuccess.value = true
-                        viewModel.LoginDB(navController)
-
-
-                    } else {
-                        Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(16.dp)
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.location),
+                    contentDescription = "Icon",
+                    modifier = Modifier.size(
+                        width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
+                        height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(26.dp))
+
                 Text(
                     text = "Login",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Green1,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            TextButton(
-                onClick = {
-                    navController.navigate("signUp")
-                }
-            ) {
-                Text(
-                    text = "Don't have an acccount? click me to sign up",
-                    fontFamily = MaterialTheme.typography.labelSmall.fontFamily,
                     color = Color.White,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                    fontSize = if (screenSize == ScreenSize.SMALL) 30.sp else 40.sp
                 )
+
+                Spacer(modifier = Modifier.height(26.dp))
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Username",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                TextField(
+                    value = viewModel.username.value,
+                    onValueChange = { viewModel.setUsername(it) },
+                    placeholder = { Text(text = "Enter your username") },
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            painter = painterResource(id = R.drawable.baseline_person_24),
+                            contentDescription = "Icon",
+                            tint = Color.Black
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp),
+                    text = "Password",
+                    fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                    color = Color.White,
+                    fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                TextField(
+                    value = viewModel.password.value,
+                    onValueChange = { viewModel.setPassword(it) },
+                    placeholder = { Text(text = "Enter your password") },
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .background(Color.Transparent),
+                    textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            painter = painterResource(id = R.drawable.baseline_key_24),
+                            contentDescription = "Icon",
+                            tint = Color.Black
+                        )
+                    },
+                    trailingIcon = {
+                        val image = if (viewModel.isPasswordVisible.value)
+                            painterResource(id = R.drawable.see)
+                        else
+                            painterResource(id = R.drawable.eye)
+
+                        IconButton(onClick = { viewModel.passwordToogle() }) {
+                            Icon(
+                                painter = image,
+                                contentDescription = "Toggle password visibility",
+                                modifier = Modifier.size(
+                                    width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
+                                    height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
+                                )
+                            )
+                        }
+                    },
+                    visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = {
+                        if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
+                            viewModel.isSuccess.value = true
+                            viewModel.LoginDB(navController)
+
+
+                        } else {
+                            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = "Login",
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        color = Green1,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                TextButton(
+                    onClick = {
+                        navController.navigate("signUp")
+                    }
+                ) {
+                    Text(
+                        text = "Don't have an acccount? click me to sign up",
+                        fontFamily = MaterialTheme.typography.labelSmall.fontFamily,
+                        color = Color.White,
+                        fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
+                    )
+                }
             }
         }
     }
@@ -273,9 +275,10 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
 @Preview(showBackground = true)
 @Composable
 fun LoginForm1Preview() {
-    LoginForm1(navController = rememberNavController() , sessionViewModel = SessionViewModel(Application()))
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+    LoginForm1(navController = rememberNavController(), sessionViewModel = sessionViewModel)
 }
-
 
 class SessionViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -295,3 +298,4 @@ class LoginViewModelFactory(private val sessionViewModel: SessionViewModel) : Vi
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+

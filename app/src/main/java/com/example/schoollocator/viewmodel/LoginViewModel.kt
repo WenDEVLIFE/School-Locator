@@ -67,7 +67,11 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
                             sessionViewModel.login(_username.value, email, role)
                         }
 
-                        navController.navigate("Map")
+                        navController.navigate("Map"){
+                            popUpTo("Login") {
+                                inclusive = true
+                            }
+                        }
                     } else {
                         Log.d(TAG, "No such document")
                     }

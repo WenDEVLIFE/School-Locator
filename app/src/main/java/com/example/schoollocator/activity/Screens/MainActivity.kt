@@ -34,9 +34,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import com.example.schoollocator.R
+import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -48,14 +52,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                LoadingScreen()
+                
+                // assign or link the session view model here
+                val sessionViewModel: SessionViewModel = viewModel(factory = SessionViewModelFactory(application))
+                val navController = rememberNavController()
+                LoadingScreen(navController = navController)
+                AppNavigation(navController = navController, sessionViewModel = sessionViewModel)
             }
         }
     }
 }
-
 @Composable
-fun Splash(modifier: Modifier = Modifier) {
+fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
     val screenSize = getScreenSize()
     var progress by remember { mutableStateOf(0f) }
     val context = LocalContext.current
@@ -68,9 +76,14 @@ fun Splash(modifier: Modifier = Modifier) {
         }
 
         if (progress >= 1) {
-            Toast.makeText(context, "Loading complete", Toast.LENGTH_SHORT).show()
-            context.startActivity(Intent(context, Login::class.java))
-            (context as? ComponentActivity)?.finish()
+
+            // This is for the navigation of the screen
+            navController.navigate("Login"){
+                    popUpTo("SplashScreen") {
+                        inclusive = true
+                    }
+
+            }
         }
     }
 
@@ -118,8 +131,8 @@ fun Splash(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LoadingScreen() {
-    Splash()
+fun LoadingScreen(navController: NavHostController) {
+    Splash(navController = navController, modifier = Modifier.fillMaxWidth())
 }
 
 
@@ -128,6 +141,6 @@ fun LoadingScreen() {
 @Composable
 fun GreetingPreview() {
     SchoolLocatorTheme {
-        Splash(modifier = Modifier.fillMaxWidth())
+        Splash(navController = rememberNavController(), modifier = Modifier.fillMaxWidth())
     }
 }

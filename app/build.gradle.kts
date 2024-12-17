@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.runtime.livedata)
 
     // Testing dependencies
     testImplementation(libs.junit)

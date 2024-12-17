@@ -24,6 +24,7 @@ import com.example.schoollocator.activity.Screens.MapScreen
 import com.example.schoollocator.activity.Screens.MenuScreen
 import com.example.schoollocator.activity.Screens.SchoolScreen
 import com.example.schoollocator.activity.Screens.SignUpForm
+import com.example.schoollocator.activity.Screens.Splash
 import com.example.schoollocator.activity.Screens.UserScreen
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -31,14 +32,16 @@ import com.example.schoollocator.viewmodel.SessionViewModel
 // This is for the navigation graph
 @Composable
 fun AppNavigation(navController: NavHostController, sessionViewModel: SessionViewModel) {
-
     val context = LocalContext.current
-    val route = "Login"
+    val route = "SplashScreen" // Set the initial route
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
     NavHost(navController = navController, startDestination = route) {
 
+        composable("SplashScreen") {
+            Splash(navController = navController, Modifier.fillMaxWidth())
+        }
         composable("Login") {
             LoginForm1(navController = navController, sessionViewModel = sessionViewModel,Modifier.fillMaxWidth())
         }

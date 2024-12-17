@@ -12,7 +12,7 @@ import androidx.compose.ui.window.Dialog
 @Composable
 fun ProgressDialog(isLoading: Boolean) {
     if (isLoading) {
-        Dialog(onDismissRequest = {}) {
+        Dialog(onDismissRequest = {}, content = {
             Surface(
                 shape = MaterialTheme.shapes.medium,
                 color = MaterialTheme.colorScheme.surface
@@ -21,6 +21,6 @@ fun ProgressDialog(isLoading: Boolean) {
                     modifier = Modifier.padding(16.dp),
                 )
             }
-        }
+        })
     }
 }

@@ -39,7 +39,6 @@ class SessionViewModel(application: Application) : AndroidViewModel(application)
         _email.value = null
         _role.value = null
     }
-
     fun isLoggedIn(): Boolean {
         return sessionManager.isLoggedIn
     }
