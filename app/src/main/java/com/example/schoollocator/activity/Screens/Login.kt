@@ -1,11 +1,7 @@
 package com.example.schoollocator.activity.Screens
 
 import android.app.Application
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +25,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -43,19 +38,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
-import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

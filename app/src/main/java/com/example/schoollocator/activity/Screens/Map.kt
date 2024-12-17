@@ -57,6 +57,7 @@ import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.MapViewModel
+import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -242,7 +243,7 @@ fun MainMap(modifier: Modifier = Modifier) {
     }
 }
 @Composable
-fun MapScreen(navController: NavHostController) { // Corrected type annotation
+fun MapScreen(navController: NavHostController,     sessionViewModel: SessionViewModel) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
@@ -263,7 +264,8 @@ fun MapScreen(navController: NavHostController) { // Corrected type annotation
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Map"
+            route = "Map",
+            sessionViewModel = sessionViewModel
         )
     }
 

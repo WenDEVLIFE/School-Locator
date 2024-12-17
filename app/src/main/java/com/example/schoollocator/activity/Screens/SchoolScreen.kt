@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
+import android.app.Application
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -34,10 +36,11 @@ import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.SchoolViewModel
+import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
 fun SchoolScreen(modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController, sessionViewModel: SessionViewModel
 ) {
       //  get the view model
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
@@ -49,11 +52,7 @@ fun SchoolScreen(modifier: Modifier = Modifier,
             navController.popBackStack()
         }
 
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState)
-        }
-    ) { contentPadding ->
+    Scaffold() { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             // Default or initial content
             Box(
@@ -116,6 +115,7 @@ fun SchoolScreen(modifier: Modifier = Modifier,
             dialogState = dialogState,
             logoutState = logoutState,
             route = "School",
+            sessionViewModel = sessionViewModel
         )
     }
 
@@ -146,6 +146,8 @@ fun SchoolList(modifier: Modifier) {
 @Preview
 @Composable
 fun SchoolScreenPreview() {
-    SchoolScreen(modifier = Modifier, navController = rememberNavController())
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+    SchoolScreen(modifier = Modifier, navController = rememberNavController() , sessionViewModel = sessionViewModel)
 }
 

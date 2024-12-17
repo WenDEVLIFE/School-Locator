@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
+import android.app.Application
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +39,7 @@ import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -60,7 +63,7 @@ fun UserList(modifier: Modifier) {
 }
 
 @Composable
-fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController) { // Corrected type annotation
+fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, sessionViewModel: SessionViewModel) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
     val query = remember { mutableStateOf("") }
@@ -137,7 +140,8 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController) 
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "User"
+            route = "User",
+            sessionViewModel = sessionViewModel
         )
     }
 
@@ -164,5 +168,7 @@ fun TopAppBarState(modifier: Modifier, tittle:String) {
 @Preview
 @Composable
 fun PreviewUserScreen() {
-    UserScreen(modifier = Modifier ,navController = rememberNavController())
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+    UserScreen(modifier = Modifier ,navController = rememberNavController(), sessionViewModel = sessionViewModel)
 }

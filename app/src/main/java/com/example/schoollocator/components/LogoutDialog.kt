@@ -6,13 +6,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
+import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
 fun LogoutDialog(
     navController: NavHostController,
     dialogState: MutableState<Boolean>,
     logoutState: MutableState<Boolean>,
-    route: String
+    route: String,
+    sessionViewModel: SessionViewModel
 ) {
     // This method is used for clearing the navigation controller backstack
     fun clearNavController() {
@@ -39,6 +41,7 @@ fun LogoutDialog(
                         dialogState.value = false // Dismiss the dialog
                         logoutState.value = true  // Trigger the logout state
                         clearNavController()      // Clear the backstack
+                        sessionViewModel.logout() // Call the logout function
                         navController.navigate("Login"){
                             popUpTo(route){
                                 inclusive = true

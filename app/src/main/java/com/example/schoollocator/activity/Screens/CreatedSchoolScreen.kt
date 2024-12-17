@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,10 +43,11 @@ import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.CreatedSchoolViewModel
+import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 
 @Composable
-fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostController) {
+fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostController, sessionViewModel: SessionViewModel) {
 
     // Create an instance of the ViewModel
     val viewModel: CreatedSchoolViewModel = viewModel()
@@ -124,6 +126,7 @@ fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostCont
             dialogState = dialogState,
             logoutState = logoutState,
             route = "CreatedSchool",
+            sessionViewModel = sessionViewModel
         )
     }
 
@@ -152,5 +155,7 @@ fun CreatedSchoolList(modifier: Modifier) {
 @Preview
 @Composable
 fun CreatedSchoolPreview() {
-    CreatedSchoolScreen(modifier = Modifier, navController = rememberNavController())
+    val context = LocalContext.current
+    val sessionViewModel: SessionViewModel = viewModel()
+    CreatedSchoolScreen(modifier = Modifier, navController = rememberNavController(),sessionViewModel = sessionViewModel)
 }

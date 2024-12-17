@@ -1,5 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
+import android.app.Application
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,10 +28,12 @@ import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.FavoriteViewModel
+import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
 fun FavoritesScreen(modifier: Modifier = Modifier,
-                    navController: NavHostController
+                    navController: NavHostController,
+                    sessionViewModel: SessionViewModel
 ) {
     //  get the view model
     val viewModel: FavoriteViewModel = viewModel()
@@ -77,7 +81,8 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Favorites"
+            route = "Favorites",
+            sessionViewModel = sessionViewModel
         )
     }
 
@@ -107,5 +112,7 @@ fun FavoriteList(modifier: Modifier) {
 @Preview
 @Composable
 fun FavoritesScreenPreview() {
-    FavoritesScreen(modifier = Modifier, navController = rememberNavController())
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+    FavoritesScreen(modifier = Modifier, navController = rememberNavController(), sessionViewModel = sessionViewModel)
 }

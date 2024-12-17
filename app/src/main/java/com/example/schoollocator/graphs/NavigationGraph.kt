@@ -60,22 +60,16 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
         }
         // Map Composable
         composable("Map") {
-            MapScreen(navController = navController)
+            MapScreen(navController = navController,sessionViewModel = sessionViewModel)
         }
         // Home Composable
         composable("Home") {
-            MenuScreen( navController = navController)
-        }
-
-        // Favorite Composable
-        composable("Favorite") {
-            Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
-            FavoritesScreen( navController = navController)
+            MenuScreen( navController = navController, sessionViewModel = sessionViewModel)
         }
 
         // User screen composable
         composable("User") {
-            UserScreen( navController = navController)
+            UserScreen( navController = navController, sessionViewModel = sessionViewModel)
         }
 
         // Add User Composable
@@ -85,7 +79,7 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
 
         // School Composable
         composable("School") {
-            SchoolScreen( navController = navController)
+            SchoolScreen( navController = navController,  sessionViewModel = sessionViewModel)
         }
 
         // Add School
@@ -95,12 +89,12 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
 
         // Created School Screen
         composable("CreatedSchool") {
-            CreatedSchoolScreen( navController = navController)
+            CreatedSchoolScreen( navController = navController, sessionViewModel = sessionViewModel)
         }
 
         // Favorites Screen
         composable("Favorites") {
-            FavoritesScreen( navController = navController)
+            FavoritesScreen( navController = navController, sessionViewModel = sessionViewModel)
         }
 
         // Change password screen
@@ -124,7 +118,9 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
                 navController = navController,
                 dialogState = dialogState,
                 logoutState = logoutState,
-                route = route
+                route = route,
+                sessionViewModel = sessionViewModel
+
             )
         }
     }

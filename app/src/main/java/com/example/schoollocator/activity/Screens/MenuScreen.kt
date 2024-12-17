@@ -1,7 +1,7 @@
 package com.example.schoollocator.activity.Screens
 
+import android.app.Application
 import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +45,7 @@ import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -90,7 +91,8 @@ fun Menu(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     dialogState: MutableState<Boolean>,
-    logoutState: MutableState<Boolean>
+    logoutState: MutableState<Boolean>,
+    sessionViewModel: SessionViewModel
 ) {
 
     // for screen size
@@ -227,7 +229,7 @@ fun Menu(
 }
 
 @Composable
-fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) { // Corrected type annotation
+fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, sessionViewModel: SessionViewModel) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
@@ -247,7 +249,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
                 Profile()
 
                 // call the menu
-                Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState) // Ensure Menu takes up remaining space
+                Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState, sessionViewModel = sessionViewModel) // Ensure Menu takes up remaining space
             }
         }
     }
@@ -258,7 +260,8 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Home"
+            route = "Home",
+            sessionViewModel = sessionViewModel
         )
     }
 
@@ -273,8 +276,9 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 @Preview
 @Composable
 fun HomeScreenPreview() {
-
-    MenuScreen(modifier = Modifier ,navController = rememberNavController())
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+    MenuScreen(modifier = Modifier ,navController = rememberNavController(),sessionViewModel = sessionViewModel)
 }
 
 
@@ -288,10 +292,13 @@ fun ProfilePreview() {
 @Preview
 @Composable
 fun MenuPreview(){
+    val context = LocalContext.current
+    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
     Menu(
         modifier = Modifier,
         navController = rememberNavController(),
         dialogState = remember { mutableStateOf(false) },
-        logoutState = remember { mutableStateOf(false) }
+        logoutState = remember { mutableStateOf(false) },
+        sessionViewModel = sessionViewModel
     )
 }

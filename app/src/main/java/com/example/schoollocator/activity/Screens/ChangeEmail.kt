@@ -61,11 +61,7 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
     BackHandler {
         navController.popBackStack()
     }
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState)
-        }
-    ) { contentPadding ->
+    Scaffold() { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             // Default or initial content
             Column(
@@ -94,20 +90,6 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
         }
     }
 
-    // This is for the dialog state to show the dialog
-    if (dialogState.value) {
-        LogoutDialog(
-            navController = navController,
-            dialogState = dialogState,
-            logoutState = logoutState,
-            route = "ChangeEmail"
-        )
-    }
-
-    // This is for the logout state
-    if (logoutState.value) {
-        logoutState.value = false // Reset the logout state
-    }
 
 }
 
