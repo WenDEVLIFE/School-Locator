@@ -55,27 +55,31 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
 
         db.collection("Users").whereEqualTo("Username", _username.value).get()
             .addOnSuccessListener { documents ->
-                for (document in documents) {
+                if (documents.isEmpty) {
+                    Log.d(TAG, "No such document")
+                } else {
+                    for (document in documents) {
+                        val password = document.data["Password"].toString()
+                        val role  = document.data["Role"].toString()
+                        val email = document.data["Email"].toString()
 
-                    val password = document.data["Password"].toString()
-                    val role  = document.data["Role"].toString()
-                    val email = document.data["Email"].toString()
 
-
-                    if (verifyPassword(_password.value, password)) {
-                        viewModelScope.launch {
-                            sessionViewModel.login(_username.value, email, role)
-                        }
-
-                        navController.navigate("Map"){
-                            popUpTo("Login") {
-                                inclusive = true
+                        if (verifyPassword(_password.value, password)) {
+                            viewModelScope.launch {
+                                sessionViewModel.login(_username.value, email, role)
                             }
+
+                            navController.navigate("Map"){
+                                popUpTo("Login") {
+                                    inclusive = true
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "No such document")
                         }
-                    } else {
-                        Log.d(TAG, "No such document")
                     }
                 }
+
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
