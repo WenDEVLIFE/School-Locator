@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.firebase.storage)
 
     // Testing dependencies
     testImplementation(libs.junit)
