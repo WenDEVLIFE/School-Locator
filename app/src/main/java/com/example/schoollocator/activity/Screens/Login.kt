@@ -25,6 +25,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -53,42 +54,26 @@ import com.example.schoollocator.windowEnum.getScreenSize
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewModel, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
-
     val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(sessionViewModel))
- // Get the screen size
     val screenSize = getScreenSize()
-
-    // Get the context
     val context = LocalContext.current
 
-    //  Get the view model
-    val viewModel: LoginViewModel = viewModel()
-
-    // launched the  effect
-   /* LaunchedEffect(viewModel.isSuccess.value) {
-        if (viewModel.isSuccess.value) {
-            navController.navigate("Map"){
-                popUpTo("Login"){
-                    inclusive = true
-                }
-            }
-            viewModel.isSuccess.value = false
-        }
-    }
-
-    */
     // Observe the isLoggedIn state
     val isLoggedIn by sessionViewModel.isLoggedIn.observeAsState()
 
-    if (isLoggedIn == true) {
-        navController.navigate("Map") {
-            popUpTo("Login") {
-                inclusive = true
+
+    // use launched effect for avoiding skipping frames
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn == true) {
+            navController.navigate("Map") {
+                popUpTo("Login") {
+                    inclusive = true
+                }
             }
         }
     }
-    else{
-        // Box annd all the components text, columns, button and text Field
+
+    if (isLoggedIn != true) {
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -133,8 +118,8 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                 Spacer(modifier = Modifier.height(5.dp))
 
                 TextField(
-                    value = viewModel.username.value,
-                    onValueChange = { viewModel.setUsername(it) },
+                    value = loginViewModel.username.value,
+                    onValueChange = { loginViewModel.setUsername(it) },
                     placeholder = { Text(text = "Enter your username") },
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
@@ -175,8 +160,8 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                 Spacer(modifier = Modifier.height(5.dp))
 
                 TextField(
-                    value = viewModel.password.value,
-                    onValueChange = { viewModel.setPassword(it) },
+                    value = loginViewModel.password.value,
+                    onValueChange = { loginViewModel.setPassword(it) },
                     placeholder = { Text(text = "Enter your password") },
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
@@ -193,12 +178,12 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                         )
                     },
                     trailingIcon = {
-                        val image = if (viewModel.isPasswordVisible.value)
+                        val image = if (loginViewModel.isPasswordVisible.value)
                             painterResource(id = R.drawable.see)
                         else
                             painterResource(id = R.drawable.eye)
 
-                        IconButton(onClick = { viewModel.passwordToogle() }) {
+                        IconButton(onClick = { loginViewModel.passwordToogle() }) {
                             Icon(
                                 painter = image,
                                 contentDescription = "Toggle password visibility",
@@ -209,7 +194,7 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                             )
                         }
                     },
-                    visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                    visualTransformation = if (loginViewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
@@ -221,11 +206,9 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
 
                 Button(
                     onClick = {
-                        if (viewModel.username.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
-                            viewModel.isSuccess.value = true
-                            viewModel.LoginDB(navController)
-
-
+                        if (loginViewModel.username.value.isNotEmpty() && loginViewModel.password.value.isNotEmpty()) {
+                            loginViewModel.isSuccess.value = true
+                            loginViewModel.LoginDB(navController)
                         } else {
                             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                         }
@@ -262,7 +245,6 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
         }
     }
 }
-
 
 
 @Preview(showBackground = true)

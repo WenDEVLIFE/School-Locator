@@ -1,30 +1,16 @@
 package com.example.schoollocator.activity.Screens
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,16 +20,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.schoollocator.windowEnum.ScreenSize
-import com.example.schoollocator.windowEnum.getScreenSize
 import com.example.schoollocator.R
 import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SessionViewModel
+import com.example.schoollocator.windowEnum.ScreenSize
+import com.example.schoollocator.windowEnum.getScreenSize
+import com.mapbox.mapboxsdk.Mapbox
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -52,16 +38,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                
-                // assign or link the session view model here
                 val sessionViewModel: SessionViewModel = viewModel(factory = SessionViewModelFactory(application))
                 val navController = rememberNavController()
                 LoadingScreen(navController = navController)
                 AppNavigation(navController = navController, sessionViewModel = sessionViewModel)
+
+                Mapbox.getInstance(this)
             }
         }
     }
 }
+
 @Composable
 fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
     val screenSize = getScreenSize()
@@ -76,13 +63,11 @@ fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
         }
 
         if (progress >= 1) {
-
             // This is for the navigation of the screen
-            navController.navigate("Login"){
-                    popUpTo("SplashScreen") {
-                        inclusive = true
-                    }
-
+            navController.navigate("Login") {
+                popUpTo("SplashScreen") {
+                    inclusive = true
+                }
             }
         }
     }
@@ -97,15 +82,13 @@ fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(16.dp)
         ) {
-
-
             Image(
                 painter = painterResource(id = R.drawable.school_locator),
                 contentDescription = "Icon",
                 modifier = Modifier.size(
                     width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
                     height = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp
-                )// Adjust the size as needed
+                ) // Adjust the size as needed
             )
 
             Text(
@@ -134,7 +117,6 @@ fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
 fun LoadingScreen(navController: NavHostController) {
     Splash(navController = navController, modifier = Modifier.fillMaxWidth())
 }
-
 
 // This is for the preview of the Splash screen
 @Preview

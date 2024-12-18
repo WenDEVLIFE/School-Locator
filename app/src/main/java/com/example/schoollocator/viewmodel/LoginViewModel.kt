@@ -14,10 +14,6 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 
-// TODO 1: Added funtions that will verify the username and password from the firebase
-// TODO 2: Added functions that will set the username and password
-// TODO 3: Added functionns that will pass the username and password to the screen
-
 class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel() {
 
     // get the username and password

@@ -7,42 +7,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
@@ -53,13 +28,11 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
-import com.example.schoollocator.ui.theme.WhiteCus
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.MapViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
-import com.example.schoollocator.windowEnum.ScreenSize
-import com.example.schoollocator.windowEnum.getScreenSize
+import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -96,7 +69,6 @@ fun Map(
     // Check for location permission
     LaunchedEffect(Unit) {
         when {
-
             // Check if permission is granted
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 permissionGranted = true
@@ -105,7 +77,6 @@ fun Map(
                     mapReady = true
                 }
             }
-
             // Request permission if not granted
             else -> {
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -170,6 +141,7 @@ fun Map(
         mapView.onSaveInstanceState(Bundle())
     }
 }
+
 @Composable
 fun MainMap(modifier: Modifier = Modifier) {
     val mapModel: MapViewModel = viewModel()
@@ -209,7 +181,7 @@ fun MainMap(modifier: Modifier = Modifier) {
         FloatingActionButton(
             onClick = {
                 mapboxMap?.let { map ->
-                    mapModel.enableLocationComponent(map,context)
+                    mapModel.enableLocationComponent(map, context)
                 }
             },
             containerColor = materialLightGreen,
@@ -242,8 +214,9 @@ fun MainMap(modifier: Modifier = Modifier) {
         }
     }
 }
+
 @Composable
-fun MapScreen(navController: NavHostController,     sessionViewModel: SessionViewModel) { // Corrected type annotation
+fun MapScreen(navController: NavHostController, sessionViewModel: SessionViewModel) {
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
@@ -274,7 +247,6 @@ fun MapScreen(navController: NavHostController,     sessionViewModel: SessionVie
         logoutState.value = false // Reset the logout state
     }
 }
-
 
 @Preview
 @Composable
