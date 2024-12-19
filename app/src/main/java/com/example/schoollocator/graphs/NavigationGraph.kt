@@ -1,6 +1,5 @@
 package com.example.schoollocator.graphs
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -59,8 +58,9 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
             LoadSuccess(navController = navController, Modifier.fillMaxWidth())
         }
         // Map Composable
-        composable("Map") {
-            MapScreen(navController = navController,sessionViewModel = sessionViewModel)
+        composable("Map/{jsonString}") { backStackEntry ->
+            val jsonString = backStackEntry.arguments?.getString("jsonString")
+            MapScreen(navController = navController,sessionViewModel = sessionViewModel, jsonMapString = jsonString ?: "")
         }
         // Home Composable
         composable("Home") {

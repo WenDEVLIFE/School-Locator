@@ -32,6 +32,29 @@ class SessionViewModel(application: Application) : AndroidViewModel(application)
         _role.value = role
     }
 
+    var usernames: String?
+        get() = sessionManager.username
+        set(value) {
+            sessionManager.username = value
+            _username.value = value
+        }
+
+    var emails: String?
+        get() = sessionManager.email
+        set(value) {
+            sessionManager.email = value
+            _email.value = value
+        }
+
+    var roles: String?
+        get() = sessionManager.role
+        set(value) {
+            sessionManager.role = value
+            _role.value = value
+        }
+
+
+
     fun logout() {
         sessionManager.clearSession()
         _isLoggedIn.value = false

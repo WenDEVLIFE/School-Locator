@@ -32,10 +32,10 @@ import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.MapViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
-import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
+import kotlinx.serialization.json.Json
 
 @Composable
 fun Map(
@@ -216,9 +216,21 @@ fun MainMap(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MapScreen(navController: NavHostController, sessionViewModel: SessionViewModel) {
+fun MapScreen(
+    navController: NavHostController,
+    sessionViewModel: SessionViewModel,
+    jsonMapString: String
+) {
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
+    val map: Map<String, String> = Json.decodeFromString(jsonMapString)
+    val username = map["username"] ?: ""
+    val email = map["email"] ?: ""
+    val role = map["role"] ?: ""
+
+    println("Username: $username")
+    println("Email: $email")
+    println("Role: $role")
 
     Scaffold(
         bottomBar = {

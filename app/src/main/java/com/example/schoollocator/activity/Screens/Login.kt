@@ -50,6 +50,8 @@ import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +67,19 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
     // use launched effect for avoiding skipping frames
     LaunchedEffect(isLoggedIn) {
         if (isLoggedIn == true) {
-            navController.navigate("Map") {
+            val username = sessionViewModel.username.value
+            val email = sessionViewModel.email.value
+            val role = sessionViewModel.role.value
+
+            val map = hashMapOf(
+                "username" to username,
+                "email" to email,
+                "role" to role
+            )
+
+        // Serialize map to JSON string
+            val jsonString = Json.encodeToString(map)
+            navController.navigate("Map/$jsonString") {
                 popUpTo("Login") {
                     inclusive = true
                 }

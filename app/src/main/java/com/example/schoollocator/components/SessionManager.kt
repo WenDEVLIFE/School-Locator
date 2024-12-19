@@ -8,7 +8,7 @@ class SessionManager(context: Context) {
 
     companion object {
         private const val KEY_IS_LOGGED_IN = "is_logged_in"
-        private const val KEY_USERNAME = "username"
+        const val KEY_USERNAME = "username"
         private const val KEY_EMAIL = "email"
         private const val KEY_ROLE = "role"
     }
