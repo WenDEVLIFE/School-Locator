@@ -52,7 +52,11 @@ fun SchoolScreen(modifier: Modifier = Modifier,
             navController.popBackStack()
         }
 
-    Scaffold() { contentPadding ->
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController, dialogState = dialogState, sessionViewModel= sessionViewModel)
+        }
+    ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             // Default or initial content
             Box(

@@ -24,13 +24,22 @@ import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController, dialogState: MutableState<Boolean>) {
+fun BottomNavigationBar(
+    navController: NavHostController,
+    dialogState: MutableState<Boolean>,
+    sessionViewModel: SessionViewModel
+) {
     NavigationBar(containerColor = materialLightGreen) {
         val selectedItem = remember { mutableStateOf("Map") }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
+        val username = sessionViewModel.username.value
+        val email = sessionViewModel.email.value
+        val role = sessionViewModel.role.value
 
         // Update selectedItem based on current route
         LaunchedEffect(currentRoute) {

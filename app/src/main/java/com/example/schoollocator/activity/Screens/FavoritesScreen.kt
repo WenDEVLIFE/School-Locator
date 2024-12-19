@@ -1,7 +1,6 @@
 package com.example.schoollocator.activity.Screens
 
 import android.app.Application
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,7 +41,9 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
     // Go back to home screen
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState)
+            BottomNavigationBar(navController = navController,
+                dialogState = dialogState,
+                sessionViewModel= sessionViewModel)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {

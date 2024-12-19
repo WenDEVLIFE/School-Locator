@@ -117,8 +117,6 @@ fun Map(
                     } ?: run {
                         Log.d("MapDebug", "User location is null.")
                     }
-                } ?: run {
-                    Log.d("MapDebug", "Failed to load style")
                 }
 
                 onMapReady(mapboxMap)
@@ -234,7 +232,9 @@ fun MapScreen(
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState)
+            BottomNavigationBar(navController = navController,
+                dialogState = dialogState,
+                sessionViewModel= sessionViewModel)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {

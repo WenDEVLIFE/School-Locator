@@ -235,7 +235,11 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState)
+            BottomNavigationBar(
+                navController = navController,
+                dialogState = dialogState,
+                sessionViewModel = sessionViewModel
+            )
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
