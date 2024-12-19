@@ -1,8 +1,11 @@
 package com.example.schoollocator.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AddUserViewModel:ViewModel() {
     // get the username and password
@@ -34,6 +37,24 @@ class AddUserViewModel:ViewModel() {
     // This is for the password
     fun setPassword(value: String) {
         _password.value = value
+    }
+
+    fun addUser(context: Context){
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("Users").whereEqualTo("Username",username).get().addOnSuccessListener {
+            if(it.isEmpty){
+                db.collection("Users").add(hashMapOf("Username" to username.value, "Password" to password.value, "Email" to email.value, "Role" to "User")).addOnSuccessListener {
+                    Toast.makeText(context, "User added successfully", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+            else{
+                Toast.makeText(context, "Username already exists", Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 
 }

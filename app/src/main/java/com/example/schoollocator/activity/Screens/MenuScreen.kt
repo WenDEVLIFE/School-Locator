@@ -100,13 +100,6 @@ fun Menu(
 
     // Define the menu items with visibility conditions
     val menuItems = listOf(
-        MenuItem(R.drawable.map, "Map", Icons.Default.KeyboardArrowRight, {
-            navController.navigate("Map") {
-                launchSingleTop = true
-                restoreState = true
-            }
-            Toast.makeText(context, "Map", Toast.LENGTH_SHORT).show()
-        }),
         MenuItem(R.drawable.user, "User", Icons.Default.KeyboardArrowRight, {
             navController.navigate("User") {
                 launchSingleTop = true
