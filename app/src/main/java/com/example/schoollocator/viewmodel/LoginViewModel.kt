@@ -1,12 +1,13 @@
 package com.example.schoollocator.viewmodel
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.google.firebase.Firebase
@@ -47,7 +48,7 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
         _password.value = value
     }
 
-    fun LoginDB(navController: NavHostController) {
+    fun LoginDB(navController: NavHostController, context: Context) {
 
         val db = Firebase.firestore
 
@@ -55,6 +56,7 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
                     Log.d(TAG, "No such document")
+                    Toast.makeText(context, "Invalid Username", Toast.LENGTH_SHORT).show()
                 } else {
                     for (document in documents) {
                         val password = document.data["Password"].toString()
@@ -68,7 +70,7 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
                             }
 
                             val map = hashMapOf(
-                                "username" to username,
+                                "username" to  _username.value,
                                 "email" to email,
                                 "role" to role
                             )
@@ -80,8 +82,11 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
                                     inclusive = true
                                 }
                             }
+
+                            Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
                         } else {
                             Log.d(TAG, "No such document")
+                            Toast.makeText(context, "Invalid Password", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

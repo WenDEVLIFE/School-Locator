@@ -223,7 +223,7 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                     onClick = {
                         if (loginViewModel.username.value.isNotEmpty() && loginViewModel.password.value.isNotEmpty()) {
                             loginViewModel.isSuccess.value = true
-                            loginViewModel.LoginDB(navController)
+                            loginViewModel.LoginDB(navController, context)
                         } else {
                             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                         }

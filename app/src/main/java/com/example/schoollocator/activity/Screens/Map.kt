@@ -249,7 +249,7 @@ fun MapScreen(
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Map",
+            route = "Map/{jsonString}",
             sessionViewModel = sessionViewModel
         )
     }

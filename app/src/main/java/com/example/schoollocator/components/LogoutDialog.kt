@@ -42,13 +42,10 @@ fun LogoutDialog(
                     onClick = {
                         // Perform logout action
                         dialogState.value = false // Dismiss the dialog
-                        logoutState.value = true  // Trigger the logout state
-                        clearNavController()      // Clear the backstack
+                        logoutState.value = true  // Trigger the logout state // Clear the backstack
                         sessionViewModel.logout() // Call the logout function
-                        navController.navigate("Login"){
-                            popUpTo(route){
-                                inclusive = true
-                            }
+                        navController.navigate("Login") {
+                            popUpTo(0) { inclusive = true } // Clear the backstack
                         }
                     }
                 ) {

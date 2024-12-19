@@ -25,6 +25,8 @@ import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.viewmodel.SessionViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun BottomNavigationBar(
@@ -67,7 +69,17 @@ fun BottomNavigationBar(
             selected = selectedItem.value == "Map",
             onClick = {
                 selectedItem.value = "Map"
-                navController.navigate("Map") {
+
+                val map = hashMapOf(
+                    "username" to username,
+                    "email" to email,
+                    "role" to role
+                )
+
+                // Serialize map to JSON string
+                val jsonString = Json.encodeToString(map)
+
+                navController.navigate("Map/$jsonString") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -130,13 +142,13 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorite") materialGreen else materialGreen
+                    targetValue = if (selectedItem.value == "Favorites") materialGreen else materialGreen
                 )
                 Text("Favorite", color = textColor)
             },
-            selected = selectedItem.value == "Favorite",
+            selected = selectedItem.value == "Favorites",
             onClick = {
-                selectedItem.value = "Favorite"
+                selectedItem.value = "Favorites"
                 navController.navigate("Favorites") {
                     launchSingleTop = true
                     restoreState = true
