@@ -94,105 +94,80 @@ fun Menu(
     logoutState: MutableState<Boolean>,
     sessionViewModel: SessionViewModel
 ) {
-
-    // for screen size
+    val role = sessionViewModel.role.value
     val screenSize = getScreenSize()
-
-    // This is for local context
     val context = LocalContext.current
 
-    // This is our list of menu 
+    // Define the menu items with visibility conditions
     val menuItems = listOf(
-
-        MenuItem(R.drawable.map, "Map",Icons.Default.KeyboardArrowRight) {
-        /* Handle Home click */
+        MenuItem(R.drawable.map, "Map", Icons.Default.KeyboardArrowRight, {
             navController.navigate("Map") {
                 launchSingleTop = true
                 restoreState = true
             }
-
             Toast.makeText(context, "Map", Toast.LENGTH_SHORT).show()
-        },
-
-        MenuItem(R.drawable.user, "User",Icons.Default.KeyboardArrowRight) {
-        /* Handle Settings click */
-         Toast.makeText(context, "User", Toast.LENGTH_SHORT).show()
+        }),
+        MenuItem(R.drawable.user, "User", Icons.Default.KeyboardArrowRight, {
             navController.navigate("User") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.schoo, "School",Icons.Default.KeyboardArrowRight) {
-        /* Handle Settings click */
+            Toast.makeText(context, "User", Toast.LENGTH_SHORT).show()
+        }, visible = role != "User"), // Hide for admin
+        MenuItem(R.drawable.schoo, "School", Icons.Default.KeyboardArrowRight, {
             navController.navigate("School") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.schoo, "Created School",Icons.Default.KeyboardArrowRight) {
-        /* Handle Settings click */
+        }, visible = role != "User"), //
+        MenuItem(R.drawable.schoo, "Created School", Icons.Default.KeyboardArrowRight, {
             navController.navigate("CreatedSchool") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.chats, "Messages",Icons.Default.KeyboardArrowRight) {
-        /* Handle Profile click */
+        }, visible = role != "User"),
+        MenuItem(R.drawable.chats, "Messages", Icons.Default.KeyboardArrowRight, {
             Toast.makeText(context, "Messages", Toast.LENGTH_SHORT).show()
-        },
-
-        MenuItem(R.drawable.love, "Favorites",Icons.Default.KeyboardArrowRight) {
-        /* Handle Profile click */
-         Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
+        }),
+        MenuItem(R.drawable.love, "Favorites", Icons.Default.KeyboardArrowRight, {
             navController.navigate("Favorites") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.key, "Change Password",Icons.Default.KeyboardArrowRight) {
-        /* Handle Settings click */
+            Toast.makeText(context, "Favorites", Toast.LENGTH_SHORT).show()
+        }),
+        MenuItem(R.drawable.key, "Change Password", Icons.Default.KeyboardArrowRight, {
             navController.navigate("ChangePassword") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.mail, "Change Email",Icons.Default.KeyboardArrowRight) {
-        /* Handle Settings click */
+        }),
+        MenuItem(R.drawable.mail, "Change Email", Icons.Default.KeyboardArrowRight, {
             navController.navigate("ChangeEmail") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
-
-        MenuItem(R.drawable.images, "Change Profile Picture",Icons.Default.KeyboardArrowRight) { /* Handle Settings click */
+        }),
+        MenuItem(R.drawable.images, "Change Profile Picture", Icons.Default.KeyboardArrowRight, {
             navController.navigate("ChangeProfile") {
                 launchSingleTop = true
                 restoreState = true
             }
-        },
+        }),
 
-        MenuItem(R.drawable.baseline_power_settings_new_24, "Logout",Icons.Default.KeyboardArrowRight) {
-
-        /* Handle Settings click */
-            dialogState.value = true
-        },
     )
-    
+
+    // Filter the menu items based on visibility
+    val visibleMenuItems = menuItems.filter { it.visible }
+
     LazyColumn(
         modifier = modifier
-            .fillMaxSize() // Ensure LazyColumn fills the remaining space
+            .fillMaxSize()
             .padding(11.dp)
             .background(lightgreen),
-        verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        
-        // call the menu items
-        items(menuItems) { item ->
+        items(visibleMenuItems) { item ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -227,7 +202,6 @@ fun Menu(
         }
     }
 }
-
 @Composable
 fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, sessionViewModel: SessionViewModel) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state

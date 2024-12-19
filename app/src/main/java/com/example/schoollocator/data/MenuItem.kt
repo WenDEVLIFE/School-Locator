@@ -8,5 +8,6 @@ data class MenuItem(
     @DrawableRes val icon: Int,
     val label: String,
     val trailingIcon: ImageVector,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val visible: Boolean = true // Add a visible property with a default value of true
 )
