@@ -77,8 +77,9 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
                 "role" to role
             )
 
-        // Serialize map to JSON string
+            // Serialize map to JSON string
             val jsonString = Json.encodeToString(map)
+
             navController.navigate("Map/$jsonString") {
                 popUpTo("Login") {
                     inclusive = true

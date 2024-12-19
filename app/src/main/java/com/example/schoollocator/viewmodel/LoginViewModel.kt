@@ -12,6 +12,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel() {
@@ -65,7 +67,15 @@ class LoginViewModel(private val sessionViewModel: SessionViewModel) : ViewModel
                                 sessionViewModel.login(_username.value, email, role)
                             }
 
-                            navController.navigate("Map"){
+                            val map = hashMapOf(
+                                "username" to username,
+                                "email" to email,
+                                "role" to role
+                            )
+
+                            // Serialize map to JSON string
+                            val jsonString = Json.encodeToString(map)
+                            navController.navigate("Map/$jsonString"){
                                 popUpTo("Login") {
                                     inclusive = true
                                 }
