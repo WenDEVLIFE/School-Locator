@@ -51,10 +51,13 @@ import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
+fun Profile(sessionViewModel: SessionViewModel, modifier: Modifier = Modifier) {
 
     // for screen size
     val screenSize = getScreenSize()
+    val username = sessionViewModel.username.value
+    val email = sessionViewModel.email.value
+    val role = sessionViewModel.role.value
 
     Column(
         modifier = modifier
@@ -82,9 +85,13 @@ fun Profile(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "Furina", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+            if (username != null) {
+                Text(text = username, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+            }
             Spacer(modifier = Modifier.size(4.dp))
-            Text(text = "furina45@gmail.com", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+            if (email != null) {
+                Text(text = email, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+            }
             Spacer(modifier = Modifier.size(4.dp))
         }
     }
@@ -222,7 +229,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             ) {
                 TopAppBarScreen(modifier = Modifier, tittle ="Menu")
                 // call the profile
-                Profile()
+                Profile(sessionViewModel = sessionViewModel )
 
                 // call the menu
                 Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState, sessionViewModel = sessionViewModel) // Ensure Menu takes up remaining space
@@ -260,7 +267,8 @@ fun HomeScreenPreview() {
 @Preview
 @Composable
 fun ProfilePreview() {
-    Profile()
+    val sessionViewModel = SessionViewModel(Application())
+    Profile(sessionViewModel = sessionViewModel)
 }
 
 @Preview
