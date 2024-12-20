@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.components.SearchBar
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.MessageViewModel
 
@@ -48,7 +49,7 @@ fun MessageScreen(modifier: Modifier = Modifier,
                 .background(lightgreen)
         ) {
             // Top bar
-            TopAppBarState(modifier = Modifier, tittle = "Messages")
+            TopAppBarScreen(modifier = Modifier, tittle = "Messages")
             Spacer(modifier = Modifier.size(10.dp))
 
             // Search bar

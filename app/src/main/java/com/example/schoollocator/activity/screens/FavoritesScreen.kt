@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.FavoriteViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -58,7 +59,7 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
                         .background(lightgreen)
                 ) {
                     // Top bar
-                    TopAppBarState(modifier = Modifier, tittle = "Favorites")
+                    TopAppBarScreen(modifier = Modifier, tittle = "Favorites")
                     Spacer(modifier = Modifier.size(10.dp))
 
                     // Search bar

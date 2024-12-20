@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
@@ -70,7 +71,7 @@ fun SchoolScreen(modifier: Modifier = Modifier,
                         .background(lightgreen)
                 ) {
                     // Top bar
-                    TopAppBarState(modifier = Modifier, tittle = "Schools")
+                    TopAppBarScreen(modifier = Modifier, tittle = "Schools")
                     Spacer(modifier = Modifier.size(10.dp))
 
                     // Search bar

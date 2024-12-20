@@ -39,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -66,7 +67,7 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier,
             ){
 
                 // Top bar state
-                TopAppBarState(modifier = Modifier, tittle ="Change Password")
+                TopAppBarScreen(modifier = Modifier, tittle ="Change Password")
 
                 Spacer(modifier = Modifier.height(30.dp))
 

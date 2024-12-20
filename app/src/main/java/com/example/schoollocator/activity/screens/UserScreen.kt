@@ -35,6 +35,7 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -92,7 +93,7 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, 
                         .background(lightgreen)
                 ) {
                     // Top bar
-                    TopAppBarState(modifier = Modifier, tittle = "Users")
+                    TopAppBarScreen(modifier = Modifier, tittle = "Users")
                     Spacer(modifier = Modifier.size(10.dp))
 
                     // Search bar
@@ -153,19 +154,6 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, 
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopAppBarState(modifier: Modifier, tittle:String) {
-    val screenSize = getScreenSize()
-
-    TopAppBar(
-        title = { Text(text = tittle, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 35.sp, color = materialGreen) },
-        modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = materialLightGreen
-        )
-    )
-}
 
 @Preview
 @Composable

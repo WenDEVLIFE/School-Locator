@@ -69,7 +69,6 @@ fun Map(
     // Check for location permission
     LaunchedEffect(Unit) {
         when {
-            // Check if permission is granted
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 permissionGranted = true
                 mapModel.getUserLocation(context) { location ->
@@ -77,7 +76,6 @@ fun Map(
                     mapReady = true
                 }
             }
-            // Request permission if not granted
             else -> {
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
@@ -91,12 +89,10 @@ fun Map(
     AndroidView(
         factory = {
             mapView.apply {
-                onCreate(null)  // Required for lifecycle management
+                onCreate(null) // Required for lifecycle management
             }
         },
         modifier = modifier.fillMaxSize(),
-
-        // Update the MapView
         update = { mapView ->
             mapView.getMapAsync { mapboxMap ->
                 Log.d("MapDebug", "MapboxMap is initialized")
@@ -112,7 +108,6 @@ fun Map(
 
                     mapModel.userLocation.value?.let { location ->
                         val userLatLng = LatLng(location.latitude, location.longitude)
-                        // Add a marker or update map here if needed
                         Log.d("MapDebug", "User location: $userLatLng")
                     } ?: run {
                         Log.d("MapDebug", "User location is null.")
@@ -134,6 +129,7 @@ fun Map(
             mapView.onDestroy()
         }
     }
+
     // Save instance state
     LaunchedEffect(Unit) {
         mapView.onSaveInstanceState(Bundle())
@@ -156,18 +152,13 @@ fun MainMap(modifier: Modifier = Modifier) {
 
         // Floating action button
         FloatingActionButton(
-            onClick = {
-
-            },
+            onClick = { /* Add your button functionality here */ },
             containerColor = materialLightGreen,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 10.dp, bottom = 102.dp)
                 .zIndex(10f)  // Ensures it is above other components
-
         ) {
-
-            // change the icon
             Icon(
                 painter = painterResource(id = R.drawable.schoolocate),
                 contentDescription = "Add School",
@@ -175,7 +166,7 @@ fun MainMap(modifier: Modifier = Modifier) {
             )
         }
 
-        // Floating action button
+        // Floating action button for location
         FloatingActionButton(
             onClick = {
                 mapboxMap?.let { map ->
@@ -188,11 +179,9 @@ fun MainMap(modifier: Modifier = Modifier) {
                 .padding(end = 10.dp, bottom = 30.dp)
                 .zIndex(10f)  // Ensures it is above other components
         ) {
-
-            // change the icon
             Icon(
                 painter = painterResource(id = R.drawable.baseline_gps_fixed_24),
-                contentDescription = "Add School",
+                contentDescription = "Enable Location",
                 tint = materialGreen
             )
         }
@@ -226,10 +215,6 @@ fun MapScreen(
     val email = map["email"] ?: ""
     val role = map["role"] ?: ""
 
-    println("Username: $username")
-    println("Email: $email")
-    println("Role: $role")
-
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController,
@@ -238,7 +223,6 @@ fun MapScreen(
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-            // Default or initial content
             MainMap()
         }
     }

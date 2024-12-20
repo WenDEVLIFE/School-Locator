@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
+import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
@@ -219,6 +220,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
                     .fillMaxSize()
                     .background(lightgreen)
             ) {
+                TopAppBarScreen(modifier = Modifier, tittle ="Menu")
                 // call the profile
                 Profile()
 
