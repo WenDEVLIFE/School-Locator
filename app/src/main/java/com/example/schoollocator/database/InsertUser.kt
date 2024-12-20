@@ -14,7 +14,7 @@ fun InsertUserScreen(userData: Map<String, String?>) {
 
     // Call insertUser function only once
     LaunchedEffect(Unit) {
-        userViewModel.insertUser(userData)
+        userViewModel.insertUser(userData, context)
     }
 
 }

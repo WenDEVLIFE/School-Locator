@@ -1,10 +1,20 @@
 package com.example.schoollocator.viewmodel
 
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModel
 import at.favre.lib.crypto.bcrypt.BCrypt
+import com.example.schoollocator.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 // TODO 1: Added functionns that will pass the OTP to the screen
 // TODO 2: Added function that will perform the sign up
@@ -61,7 +71,7 @@ class SignUpModel : ViewModel() {
 
 
     // Insert the data from the user
-    fun insertUser(userData: Map<String, String?>) {
+    fun insertUser(userData: Map<String, String?>,context: Context) {
         val db = FirebaseFirestore.getInstance()
 
         try {
@@ -70,20 +80,54 @@ class SignUpModel : ViewModel() {
                     val password = hashPassword(userData["password"].toString())
                     val username = userData["username"].toString()
                     val email = userData["email"].toString()
-                    val addUser = hashMapOf(
-                        "Username" to username,
-                        "Password" to password,
-                        "Email" to email,
-                        "Role" to "User"
-                    )
 
-                    db.collection("Users").add(addUser).addOnSuccessListener {
-                        dialogMessage.value = "User added successfully"
-                        dialogState.value = true
-                    }.addOnFailureListener {
-                        dialogMessage.value = "Failed to add user"
-                        dialogState.value = true
-                    }
+                    // Create a storage reference
+                    val storageRef = Firebase.storage.reference
+
+                    // Get the image from the drawable directory
+                    val drawable = ResourcesCompat.getDrawable(
+                        context.resources,
+                        R.drawable.student,
+                        null
+                    )
+                    val bitmap = (drawable as BitmapDrawable).bitmap
+
+                    // Convert the Bitmap into a ByteArray
+                    val baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+                    val data = baos.toByteArray()
+
+                    // Generate a random name for the file
+                    val fileName = UUID.randomUUID().toString()
+
+                    // Create a reference to the file
+                    val fileReference = storageRef.child("Profile/$fileName.png")
+
+                    fileReference.putBytes(data)
+                        .addOnSuccessListener {
+                            fileReference.downloadUrl.addOnSuccessListener { uri ->
+
+                                val addUser = hashMapOf(
+                                    "Username" to username,
+                                    "Password" to password,
+                                    "Email" to email,
+                                    "Role" to "User",
+                                    "Image" to "$fileName.png",
+                                    "Filepath" to uri.toString()
+                                )
+
+                                db.collection("Users").add(addUser).addOnSuccessListener {
+                                    dialogMessage.value = "User added successfully"
+                                    dialogState.value = true
+                                }.addOnFailureListener {
+                                    dialogMessage.value = "Failed to add user"
+                                    dialogState.value = true
+                                }
+                            }.addOnFailureListener {
+                                dialogMessage.value = "Failed to upload image"
+                                dialogState.value = true
+                            }
+                        }
                 } else {
                     dialogMessage.value = "User already exists"
                     dialogState.value = true
