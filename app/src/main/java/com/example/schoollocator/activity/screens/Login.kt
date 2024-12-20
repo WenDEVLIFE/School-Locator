@@ -47,6 +47,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.viewmodel.LoginViewModel
+import com.example.schoollocator.viewmodel.LoginViewModelFactory
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -270,13 +271,5 @@ fun LoginForm1Preview() {
     LoginForm1(navController = rememberNavController(), sessionViewModel = sessionViewModel)
 }
 
-class LoginViewModelFactory(private val sessionViewModel: SessionViewModel) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return LoginViewModel(sessionViewModel) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
+
 
