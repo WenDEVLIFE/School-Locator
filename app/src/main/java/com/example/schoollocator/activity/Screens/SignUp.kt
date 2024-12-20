@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.schoollocator.components.VerifyData
 import com.example.schoollocator.R
 import com.example.schoollocator.components.OTPTextField
 import com.example.schoollocator.ui.theme.Green1
@@ -294,18 +295,48 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
                     onClick = {
                         if (viewModel.username.value.isNotEmpty() && viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()) {
 
+                            if (!VerifyData.checkUsernameHasNoNumber(viewModel.email.value)) {
+                                Toast.makeText(context, "Username must not contain numbers", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+
+                            if (!VerifyData.checkUsernameHasNoSpecialChar(viewModel.email.value)) {
+                                Toast.makeText(context, "Username must not contain special characters", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+
+                            if (!VerifyData.checkEmail(viewModel.email.value)) {
+                                Toast.makeText(context, "Please enter a valid email", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            if (!VerifyData.checkPassword(viewModel.password.value)) {
+                                Toast.makeText(context, "Password must be 8-12 characters long, contain at least one digit, one lowercase letter, one uppercase letter, and one special character", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            if (!VerifyData.checkUsername(viewModel.username.value)) {
+                                Toast.makeText(context, "Username must be at least 6 characters long", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            if (!VerifyData.isPasswordhasUpperCase(viewModel.password.value)) {
+                                Toast.makeText(context, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            if (!VerifyData.isPasswordhasSpecialChar(viewModel.password.value)) {
+                                Toast.makeText(context, "Password must contain at least one special character", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+
                             val map = hashMapOf(
                                 "username" to viewModel.username.value,
                                 "email" to viewModel.email.value,
                                 "password" to viewModel.password.value
                             )
 
-// Serialize map to JSON string
+                            // Serialize map to JSON string
                             val jsonString = Json.encodeToString(map)
 
-// Pass the JSON string in the navigation route
+                            // Pass the JSON string in the navigation route
                             navController.navigate("otp/$jsonString")
-
                         } else {
                             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                         }

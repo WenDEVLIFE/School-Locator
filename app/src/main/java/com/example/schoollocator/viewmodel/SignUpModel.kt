@@ -15,10 +15,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 import java.util.UUID
-
-// TODO 1: Added functionns that will pass the OTP to the screen
-// TODO 2: Added function that will perform the sign up
-// TODO 3: Added function that will pass the value of username, email, and password to the screen
 class SignUpModel : ViewModel() {
 
     // username and state
