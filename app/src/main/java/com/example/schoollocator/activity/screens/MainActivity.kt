@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,6 +27,7 @@ import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
 import com.example.schoollocator.viewmodel.SessionViewModel
+import com.example.schoollocator.viewmodel.SessionViewModelFactoryN
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 import com.mapbox.mapboxsdk.Mapbox
@@ -38,7 +39,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                val sessionViewModel: SessionViewModel = viewModel(factory = SessionViewModelFactory(application))
+                val sessionViewModel: SessionViewModel = viewModel(
+                    factory = SessionViewModelFactoryN(application)
+                )
                 val navController = rememberNavController()
                 LoadingScreen(navController = navController)
                 AppNavigation(navController = navController, sessionViewModel = sessionViewModel)

@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler

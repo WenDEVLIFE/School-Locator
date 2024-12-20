@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -126,6 +126,7 @@ fun Map(
 
     // Lifecycle management
     DisposableEffect(Unit) {
+        mapView.onCreate(null)
         onDispose {
             mapView.onStop()
             mapView.onPause()
@@ -133,7 +134,6 @@ fun Map(
             mapView.onDestroy()
         }
     }
-
     // Save instance state
     LaunchedEffect(Unit) {
         mapView.onSaveInstanceState(Bundle())

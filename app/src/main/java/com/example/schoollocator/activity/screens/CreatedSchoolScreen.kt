@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background

@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.schoollocator.components.SessionManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class SessionViewModel(application: Application) : AndroidViewModel(application) {
     private val sessionManager = SessionManager(application)
@@ -26,43 +28,24 @@ class SessionViewModel(application: Application) : AndroidViewModel(application)
         sessionManager.username = username
         sessionManager.email = email
         sessionManager.role = role
-        _isLoggedIn.value = true
-        _username.value = username
-        _email.value = email
-        _role.value = role
+
+        updateLiveData()
     }
-
-    var usernames: String?
-        get() = sessionManager.username
-        set(value) {
-            sessionManager.username = value
-            _username.value = value
-        }
-
-    var emails: String?
-        get() = sessionManager.email
-        set(value) {
-            sessionManager.email = value
-            _email.value = value
-        }
-
-    var roles: String?
-        get() = sessionManager.role
-        set(value) {
-            sessionManager.role = value
-            _role.value = value
-        }
-
-
 
     fun logout() {
         sessionManager.clearSession()
-        _isLoggedIn.value = false
-        _username.value = null
-        _email.value = null
-        _role.value = null
+        updateLiveData()
     }
-    fun isLoggedIn(): Boolean {
+
+    fun checkLoginStatus(): Boolean {
         return sessionManager.isLoggedIn
     }
+
+    private fun updateLiveData() {
+        _isLoggedIn.value = sessionManager.isLoggedIn
+        _username.value = sessionManager.username
+        _email.value = sessionManager.email
+        _role.value = sessionManager.role
+    }
+
 }

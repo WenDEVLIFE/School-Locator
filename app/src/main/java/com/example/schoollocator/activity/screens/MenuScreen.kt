@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import android.app.Application
 import android.widget.Toast
@@ -55,12 +55,12 @@ fun Profile(modifier: Modifier = Modifier) {
     // for screen size
     val screenSize = getScreenSize()
 
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth() // Ensure Profile fills the width
             .background(materialLightGreen)
             .padding(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -76,7 +76,10 @@ fun Profile(modifier: Modifier = Modifier) {
         }
 
         //This is where the user info will display
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Spacer(modifier = Modifier.size(20.dp))
             Text(text = "Furina", style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
             Spacer(modifier = Modifier.size(4.dp))
@@ -247,11 +250,10 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    val context = LocalContext.current
-    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    MenuScreen(modifier = Modifier ,navController = rememberNavController(),sessionViewModel = sessionViewModel)
+    val navController = rememberNavController()
+    val sessionViewModel = SessionViewModel(Application())
+    MenuScreen(modifier = Modifier, navController = navController, sessionViewModel = sessionViewModel)
 }
-
 
 @Preview
 @Composable
@@ -259,15 +261,14 @@ fun ProfilePreview() {
     Profile()
 }
 
-
 @Preview
 @Composable
-fun MenuPreview(){
-    val context = LocalContext.current
-    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
+fun MenuPreview() {
+    val navController = rememberNavController()
+    val sessionViewModel = SessionViewModel(Application())
     Menu(
         modifier = Modifier,
-        navController = rememberNavController(),
+        navController = navController,
         dialogState = remember { mutableStateOf(false) },
         logoutState = remember { mutableStateOf(false) },
         sessionViewModel = sessionViewModel

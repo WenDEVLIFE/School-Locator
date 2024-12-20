@@ -1,7 +1,5 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
-import android.content.Intent
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

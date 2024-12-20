@@ -1,4 +1,4 @@
-package com.example.schoollocator.activity.Screens
+package com.example.schoollocator.activity.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -39,22 +39,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
-import com.example.schoollocator.components.BottomNavigationBar
-import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
-import com.example.schoollocator.viewmodel.AddUserViewModel
-import com.example.schoollocator.viewmodel.ChangeEmailViewModel
+import com.example.schoollocator.viewmodel.ChangePasswordViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
 @Composable
-fun ChangeEmailScreen(modifier: Modifier = Modifier,
-                       navController: NavHostController
-){
-
-    val viewModel: AddUserViewModel = viewModel()
+fun ChangePasswordScreen(modifier: Modifier = Modifier,
+                         navController: NavHostController
+) {
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
     // Go back to map screen
@@ -71,7 +66,7 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
             ){
 
                 // Top bar state
-                TopAppBarState(modifier = Modifier, tittle ="Change Email")
+                TopAppBarState(modifier = Modifier, tittle ="Change Password")
 
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -82,34 +77,33 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
                     contentAlignment = androidx.compose.ui.Alignment.Center
 
                 ) {
-                    ChangeEmailForm()
+                    ChangePasswordForm()
                 }
 
 
             }
+
         }
     }
-
-
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChangeEmailForm(modifier: Modifier = Modifier){
+fun ChangePasswordForm(modifier: Modifier = Modifier){
 
     // for screen size
     val screenSize = getScreenSize()
 
     // This is the view model
-    val viewModel: ChangeEmailViewModel = viewModel()
+    val viewModel: ChangePasswordViewModel = viewModel()
 
     LazyColumn(
         modifier = modifier
             .fillMaxSize() // Ensure LazyColumn fills the remaining space
             .padding(11.dp)
             .background(lightgreen),
-        verticalArrangement = if (screenSize == ScreenSize.SMALL) Arrangement.spacedBy(10.dp) else Arrangement.spacedBy(20.dp) // Add spacing between items
+        verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
         item {
             Spacer(modifier = Modifier.height(26.dp))
@@ -120,105 +114,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                text = "Old Email",
-                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
-                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-            )
-        }
-
-
-        item {
-            TextField(
-                value = viewModel.Oldemail.value,
-                onValueChange = { viewModel.Oldemail.value =(it) },
-                placeholder = { Text(text = "Enter your old email") },
-
-                // added rounded shape
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp)
-                    .background(Color.Transparent),
-                textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-                ),
-
-                // This is to add the icon to the text field
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_email_24),
-                        contentDescription = "Icon",
-                        tint = Color.Black
-                    )
-                },
-
-                // This is for the colors of the text field
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                text = "New Email",
-                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
-                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
-            )
-        }
-
-
-        item {
-            TextField(
-                value = viewModel.Newemail.value,
-                onValueChange = { viewModel.Newemail.value =(it) },
-                placeholder = { Text(text = "Enter your new email") },
-
-                // added rounded shape
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(14.dp)
-                    .background(Color.Transparent),
-                textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = if (screenSize == ScreenSize.SMALL) 12.sp else 15.sp
-                ),
-
-                // This is to add the icon to the text field
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(id = R.drawable.baseline_email_24),
-                        contentDescription = "Icon",
-                        tint = Color.Black
-                    )
-                },
-
-                // This is for the colors of the text field
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                text = "Password",
+                text = "Old Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 color = materialGreen,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
@@ -226,10 +122,14 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
         }
 
         item {
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        item {
             TextField(
-                value = viewModel.Password.value,
-                onValueChange = { viewModel.Password.value = (it) },
-                placeholder = { Text(text = "Enter your password") },
+                value = viewModel.oldPassword.value,
+                onValueChange = { viewModel.oldPassword.value = (it) },
+                placeholder = { Text(text = "Enter old your password") },
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -245,12 +145,12 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     )
                 },
                 trailingIcon = {
-                    val image = if (viewModel.Passwordvisibility.value)
+                    val image = if (viewModel.isPasswordVisible.value)
                         painterResource(id = R.drawable.see)
                     else
                         painterResource(id = R.drawable.eye)
 
-                    IconButton(onClick = { viewModel.onPasswordVisibilityClick() }) {
+                    IconButton(onClick = { viewModel.onPasswordVisibilityChange() }) {
                         Icon(
                             painter = image,
                             contentDescription = "Toggle password visibility",
@@ -261,7 +161,72 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                         )
                     }
                 },
-                visualTransformation = if (viewModel.Passwordvisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
+
+
+        item {
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        item {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = "New Password",
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                color = materialGreen,
+                fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+        item {
+            TextField(
+                value = viewModel.newPassword.value,
+                onValueChange = { viewModel.newPassword.value = (it) },
+                placeholder = { Text(text = "Enter new your password") },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(14.dp)
+                    .background(Color.Transparent),
+                textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.padding(end = 10.dp),
+                        painter = painterResource(id = R.drawable.baseline_key_24),
+                        contentDescription = "Icon",
+                        tint = Color.Black
+                    )
+                },
+                trailingIcon = {
+                    val image = if (viewModel.isPasswordVisible.value)
+                        painterResource(id = R.drawable.see)
+                    else
+                        painterResource(id = R.drawable.eye)
+
+                    IconButton(onClick = { viewModel.onPasswordVisibilityChange() }) {
+                        Icon(
+                            painter = image,
+                            contentDescription = "Toggle password visibility",
+                            modifier = Modifier.size(
+                                width = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp,
+                                height = if (screenSize == ScreenSize.SMALL) 20.dp else 24.dp
+                            )
+                        )
+                    }
+                },
+                visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
@@ -286,7 +251,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     .padding(14.dp)
             ) {
                 Text(
-                    text = "Update Email",
+                    text = "Update Password",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                     color = Green1,
                     fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
@@ -294,10 +259,11 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
             }
         }
     }
+
 }
 
 @Preview
 @Composable
-fun ChangeEmailScreenPreview(){
-    ChangeEmailScreen(modifier = Modifier, navController = rememberNavController())
+fun ChangePasswordScreenPreview(){
+    ChangePasswordScreen(modifier = Modifier, navController = rememberNavController())
 }
