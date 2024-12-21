@@ -1,6 +1,5 @@
 package com.example.schoollocator.activity.screens
 
-import android.app.Application
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.example.schoollocator.R
 import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
@@ -65,7 +66,7 @@ fun Profile(modifier: Modifier = Modifier) {
     val imageUrl by menuViewModel.imageUrl.collectAsState()
 
     LaunchedEffect(Unit) {
-        menuViewModel.fetchImageUrl()
+        menuViewModel.fetchImageUrl(username)
     }
 
     Column(
@@ -77,7 +78,7 @@ fun Profile(modifier: Modifier = Modifier) {
     ) {
         Box(
             modifier = Modifier
-                .size(80.dp)
+                .size(150.dp)
                 .clip(CircleShape)
         ) {
             if (imageUrl != null) {
@@ -85,6 +86,7 @@ fun Profile(modifier: Modifier = Modifier) {
                     painter = rememberImagePainter(imageUrl),
                     contentDescription = "Profile Image",
                     modifier = Modifier.fillMaxSize()
+                   // size(50.dp)
                 )
             } else {
                 // Placeholder or default image
