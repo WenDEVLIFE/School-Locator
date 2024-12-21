@@ -47,7 +47,7 @@ fun SchoolScreen(modifier: Modifier = Modifier,
     val sessionViewModel: SessionViewModel = viewModel()
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
-    val viewModel:SchoolViewModel= viewModel()
+    val viewModel: SchoolViewModel= viewModel()
 
 
         // Go back to home screen

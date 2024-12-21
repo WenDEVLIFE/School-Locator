@@ -17,6 +17,7 @@ class MenuViewModel: ViewModel() {
     private val _imageUrl = MutableStateFlow<String?>(null)
     val imageUrl: StateFlow<String?> get() = _imageUrl
 
+    // This is used to fetch the image url
     fun fetchImageUrl(username: String?) {
         viewModelScope.launch {
 
