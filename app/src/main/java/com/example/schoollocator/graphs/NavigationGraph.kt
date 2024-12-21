@@ -30,7 +30,7 @@ import com.example.schoollocator.viewmodel.SessionViewModel
 
 // This is for the navigation graph
 @Composable
-fun AppNavigation(navController: NavHostController, sessionViewModel: SessionViewModel) {
+fun AppNavigation(navController: NavHostController) {
     val context = LocalContext.current
     val route = "SplashScreen" // Set the initial route
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
@@ -42,7 +42,7 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
             Splash(navController = navController, Modifier.fillMaxWidth())
         }
         composable("Login") {
-            LoginForm1(navController = navController, sessionViewModel = sessionViewModel,Modifier.fillMaxWidth())
+            LoginForm1(navController = navController)
         }
         composable("signUp") {
             SignUpForm(navController = navController, Modifier.fillMaxWidth())
@@ -60,16 +60,16 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
         // Map Composable
         composable("Map/{jsonString}") { backStackEntry ->
             val jsonString = backStackEntry.arguments?.getString("jsonString")
-            MapScreen(navController = navController,sessionViewModel = sessionViewModel, jsonMapString = jsonString ?: "")
+            MapScreen(navController = navController, jsonMapString = jsonString ?: "")
         }
         // Home Composable
         composable("Home") {
-            MenuScreen( navController = navController, sessionViewModel = sessionViewModel)
+            MenuScreen( navController = navController )
         }
 
         // User screen composable
         composable("User") {
-            UserScreen( navController = navController, sessionViewModel = sessionViewModel)
+            UserScreen( navController = navController)
         }
 
         // Add User Composable
@@ -79,7 +79,7 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
 
         // School Composable
         composable("School") {
-            SchoolScreen( navController = navController,  sessionViewModel = sessionViewModel)
+            SchoolScreen( navController = navController)
         }
 
         // Add School
@@ -89,12 +89,12 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
 
         // Created School Screen
         composable("CreatedSchool") {
-            CreatedSchoolScreen( navController = navController, sessionViewModel = sessionViewModel)
+            CreatedSchoolScreen( navController = navController)
         }
 
         // Favorites Screen
         composable("Favorites") {
-            FavoritesScreen( navController = navController, sessionViewModel = sessionViewModel)
+            FavoritesScreen( navController = navController)
         }
 
         // Change password screen
@@ -119,8 +119,6 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
                 dialogState = dialogState,
                 logoutState = logoutState,
                 route = route,
-                sessionViewModel = sessionViewModel
-
             )
         }
     }

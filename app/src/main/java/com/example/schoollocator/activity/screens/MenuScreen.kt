@@ -24,7 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
@@ -46,40 +49,53 @@ import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.viewmodel.MenuViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
-@Composable
-fun Profile(sessionViewModel: SessionViewModel, modifier: Modifier = Modifier) {
 
-    // for screen size
+@Composable
+fun Profile(modifier: Modifier = Modifier) {
+    val sessionViewModel: SessionViewModel = viewModel()
+    val menuViewModel: MenuViewModel = viewModel()
     val screenSize = getScreenSize()
     val username = sessionViewModel.username.value
     val email = sessionViewModel.email.value
-    val role = sessionViewModel.role.value
+    val imageUrl by menuViewModel.imageUrl.collectAsState()
+
+    LaunchedEffect(Unit) {
+        menuViewModel.fetchImageUrl()
+    }
 
     Column(
         modifier = modifier
-            .fillMaxWidth() // Ensure Profile fills the width
+            .fillMaxWidth()
             .background(materialLightGreen)
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .size(80.dp) // Adjust size as needed
+                .size(80.dp)
                 .clip(CircleShape)
         ) {
-            // This is for the profile logo
-            Image(
-                painter = painterResource(id = R.drawable.furina),
-                contentDescription = "Logo",
-                modifier = Modifier.fillMaxSize()
-            )
+            if (imageUrl != null) {
+                Image(
+                    painter = rememberImagePainter(imageUrl),
+                    contentDescription = "Profile Image",
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                // Placeholder or default image
+                Image(
+                    painter = painterResource(id = R.drawable.furina),
+                    contentDescription = "Default Logo",
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
-        //This is where the user info will display
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -102,9 +118,9 @@ fun Menu(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     dialogState: MutableState<Boolean>,
-    logoutState: MutableState<Boolean>,
-    sessionViewModel: SessionViewModel
+    logoutState: MutableState<Boolean>
 ) {
+    val sessionViewModel: SessionViewModel = viewModel()
     val role = sessionViewModel.role.value
     val screenSize = getScreenSize()
     val context = LocalContext.current
@@ -207,7 +223,7 @@ fun Menu(
     }
 }
 @Composable
-fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, sessionViewModel: SessionViewModel) { // Corrected type annotation
+fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController,) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
 
@@ -216,7 +232,6 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             BottomNavigationBar(
                 navController = navController,
                 dialogState = dialogState,
-                sessionViewModel = sessionViewModel
             )
         }
     ) { contentPadding ->
@@ -229,10 +244,10 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             ) {
                 TopAppBarScreen(modifier = Modifier, tittle ="Menu")
                 // call the profile
-                Profile(sessionViewModel = sessionViewModel )
+                Profile()
 
                 // call the menu
-                Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState, sessionViewModel = sessionViewModel) // Ensure Menu takes up remaining space
+                Menu(modifier = Modifier.weight(1f),navController,  dialogState = dialogState, logoutState = logoutState) // Ensure Menu takes up remaining space
             }
         }
     }
@@ -243,8 +258,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Home",
-            sessionViewModel = sessionViewModel
+            route = "Home"
         )
     }
 
@@ -255,32 +269,37 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController, 
     }
 }
 
+fun DisplayImage(){
+
+}
+
 // This is for the preview only
 @Preview
 @Composable
 fun HomeScreenPreview() {
     val navController = rememberNavController()
-    val sessionViewModel = SessionViewModel(Application())
-    MenuScreen(modifier = Modifier, navController = navController, sessionViewModel = sessionViewModel)
+    Menu(
+        modifier = Modifier,
+        navController = navController,
+        dialogState = remember { mutableStateOf(false) },
+        logoutState = remember { mutableStateOf(false) }
+    )
 }
 
 @Preview
 @Composable
 fun ProfilePreview() {
-    val sessionViewModel = SessionViewModel(Application())
-    Profile(sessionViewModel = sessionViewModel)
+    Profile()
 }
 
 @Preview
 @Composable
 fun MenuPreview() {
     val navController = rememberNavController()
-    val sessionViewModel = SessionViewModel(Application())
     Menu(
         modifier = Modifier,
         navController = navController,
         dialogState = remember { mutableStateOf(false) },
-        logoutState = remember { mutableStateOf(false) },
-        sessionViewModel = sessionViewModel
+        logoutState = remember { mutableStateOf(false) }
     )
 }

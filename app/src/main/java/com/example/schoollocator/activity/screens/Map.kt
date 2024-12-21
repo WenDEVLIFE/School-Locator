@@ -49,6 +49,7 @@ fun Map(
     // ViewModel
     val mapModel: MapViewModel = viewModel()
 
+
     // Permission launcher
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -205,7 +206,6 @@ fun MainMap(modifier: Modifier = Modifier) {
 @Composable
 fun MapScreen(
     navController: NavHostController,
-    sessionViewModel: SessionViewModel,
     jsonMapString: String
 ) {
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
@@ -218,8 +218,7 @@ fun MapScreen(
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController,
-                dialogState = dialogState,
-                sessionViewModel= sessionViewModel)
+                dialogState = dialogState,)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
@@ -234,7 +233,6 @@ fun MapScreen(
             dialogState = dialogState,
             logoutState = logoutState,
             route = "Map/{jsonString}",
-            sessionViewModel = sessionViewModel
         )
     }
 

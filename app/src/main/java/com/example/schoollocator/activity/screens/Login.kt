@@ -56,7 +56,8 @@ import kotlinx.serialization.json.Json
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewModel, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+    val sessionViewModel: SessionViewModel = viewModel()
     val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(sessionViewModel))
     val screenSize = getScreenSize()
     val context = LocalContext.current
@@ -267,8 +268,7 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
 @Composable
 fun LoginForm1Preview() {
     val context = LocalContext.current
-    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    LoginForm1(navController = rememberNavController(), sessionViewModel = sessionViewModel)
+    LoginForm1(navController = rememberNavController())
 }
 
 

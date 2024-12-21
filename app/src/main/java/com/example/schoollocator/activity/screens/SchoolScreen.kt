@@ -41,12 +41,14 @@ import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
 fun SchoolScreen(modifier: Modifier = Modifier,
-    navController: NavHostController, sessionViewModel: SessionViewModel
+    navController: NavHostController
 ) {
       //  get the view model
+    val sessionViewModel: SessionViewModel = viewModel()
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
-       val viewModel:SchoolViewModel= viewModel()
+    val viewModel:SchoolViewModel= viewModel()
+
 
         // Go back to home screen
         BackHandler {
@@ -55,7 +57,7 @@ fun SchoolScreen(modifier: Modifier = Modifier,
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController, dialogState = dialogState, sessionViewModel= sessionViewModel)
+            BottomNavigationBar(navController = navController, dialogState = dialogState)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
@@ -120,7 +122,6 @@ fun SchoolScreen(modifier: Modifier = Modifier,
             dialogState = dialogState,
             logoutState = logoutState,
             route = "School",
-            sessionViewModel = sessionViewModel
         )
     }
 
@@ -153,6 +154,6 @@ fun SchoolList(modifier: Modifier) {
 fun SchoolScreenPreview() {
     val context = LocalContext.current
     val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    SchoolScreen(modifier = Modifier, navController = rememberNavController() , sessionViewModel = sessionViewModel)
+    SchoolScreen(modifier = Modifier, navController = rememberNavController())
 }
 

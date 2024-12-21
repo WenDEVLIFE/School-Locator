@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.schoollocator.R
@@ -31,10 +32,10 @@ import kotlinx.serialization.json.Json
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    dialogState: MutableState<Boolean>,
-    sessionViewModel: SessionViewModel
+    dialogState: MutableState<Boolean>
 ) {
     NavigationBar(containerColor = materialLightGreen) {
+        val sessionViewModel: SessionViewModel = viewModel()
         val selectedItem = remember { mutableStateOf("Map") }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

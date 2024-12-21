@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -16,9 +17,9 @@ fun LogoutDialog(
     navController: NavHostController,
     dialogState: MutableState<Boolean>,
     logoutState: MutableState<Boolean>,
-    route: String,
-    sessionViewModel: SessionViewModel
+    route: String
 ) {
+    val sessionViewModel: SessionViewModel = viewModel()
     // This method is used for clearing the navigation controller backstack
     fun clearNavController() {
         navController.navigate(route) {
@@ -71,7 +72,6 @@ fun PreviewLogoutDialog() {
     // Preview the dialog
     val dialogState = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
     val logoutState = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
-    val sessionViewModel = SessionViewModel(Application())
     val navController = rememberNavController()
-    LogoutDialog(navController, dialogState, logoutState, "map", sessionViewModel = sessionViewModel)
+    LogoutDialog(navController, dialogState, logoutState, "map")
 }

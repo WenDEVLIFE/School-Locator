@@ -39,7 +39,7 @@ import com.example.schoollocator.viewmodel.CreatedSchoolViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
 
 @Composable
-fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostController, sessionViewModel: SessionViewModel) {
+fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostController,) {
 
     // Create an instance of the ViewModel
     val viewModel: CreatedSchoolViewModel = viewModel()
@@ -55,7 +55,6 @@ fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostCont
             BottomNavigationBar(
                 navController = navController,
                 dialogState = dialogState,
-                sessionViewModel = sessionViewModel
             )
         }
     ) { contentPadding ->
@@ -122,7 +121,6 @@ fun CreatedSchoolScreen(modifier: Modifier = Modifier, navController:NavHostCont
             dialogState = dialogState,
             logoutState = logoutState,
             route = "CreatedSchool",
-            sessionViewModel = sessionViewModel
         )
     }
 
@@ -153,5 +151,5 @@ fun CreatedSchoolList(modifier: Modifier) {
 fun CreatedSchoolPreview() {
     val context = LocalContext.current
     val sessionViewModel: SessionViewModel = viewModel()
-    CreatedSchoolScreen(modifier = Modifier, navController = rememberNavController(),sessionViewModel = sessionViewModel)
+    CreatedSchoolScreen(modifier = Modifier, navController = rememberNavController(),)
 }
