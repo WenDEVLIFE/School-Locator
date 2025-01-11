@@ -46,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.viewmodel.LoginViewModelFactory
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -94,7 +95,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Green1)
+                .background(darkblue)
                 .padding(16.dp)
         ) {
             Column(
