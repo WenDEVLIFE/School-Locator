@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("io.coil-kt:coil-compose:2.0.0")
+
 
     // Google Play Services dependencies
     implementation("com.google.android.gms:play-services-maps:18.1.0")

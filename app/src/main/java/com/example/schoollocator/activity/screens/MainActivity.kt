@@ -39,12 +39,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SchoolLocatorTheme {
-                val sessionViewModel: SessionViewModel = viewModel(
-                    factory = SessionViewModelFactoryN(application)
-                )
                 val navController = rememberNavController()
                 LoadingScreen(navController = navController)
-                AppNavigation(navController = navController, sessionViewModel = sessionViewModel)
+                AppNavigation(navController = navController)
 
                 Mapbox.getInstance(this)
             }

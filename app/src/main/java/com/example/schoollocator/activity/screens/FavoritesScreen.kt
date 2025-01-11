@@ -33,7 +33,6 @@ import com.example.schoollocator.viewmodel.SessionViewModel
 @Composable
 fun FavoritesScreen(modifier: Modifier = Modifier,
                     navController: NavHostController,
-                    sessionViewModel: SessionViewModel
 ) {
     //  get the view model
     val viewModel: FavoriteViewModel = viewModel()
@@ -43,8 +42,7 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController,
-                dialogState = dialogState,
-                sessionViewModel= sessionViewModel)
+                dialogState = dialogState)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
@@ -83,8 +81,7 @@ fun FavoritesScreen(modifier: Modifier = Modifier,
             navController = navController,
             dialogState = dialogState,
             logoutState = logoutState,
-            route = "Favorites",
-            sessionViewModel = sessionViewModel
+            route = "Favorites"
         )
     }
 
@@ -116,5 +113,5 @@ fun FavoriteList(modifier: Modifier) {
 fun FavoritesScreenPreview() {
     val context = LocalContext.current
     val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    FavoritesScreen(modifier = Modifier, navController = rememberNavController(), sessionViewModel = sessionViewModel)
+    FavoritesScreen(modifier = Modifier, navController = rememberNavController())
 }

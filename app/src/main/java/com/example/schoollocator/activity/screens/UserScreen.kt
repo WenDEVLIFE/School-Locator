@@ -1,6 +1,5 @@
 package com.example.schoollocator.activity.screens
 
-import android.app.Application
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,13 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -36,15 +31,9 @@ import com.example.schoollocator.components.BottomNavigationBar
 import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.SearchBar
 import com.example.schoollocator.components.TopAppBarScreen
-import com.example.schoollocator.ui.theme.Typography
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
-import com.example.schoollocator.viewmodel.SessionViewModel
-import com.example.schoollocator.windowEnum.ScreenSize
-import com.example.schoollocator.windowEnum.getScreenSize
-
-
 
 
 @Composable
@@ -64,7 +53,7 @@ fun UserList(modifier: Modifier) {
 }
 
 @Composable
-fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, sessionViewModel: SessionViewModel) { // Corrected type annotation
+fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController) { // Corrected type annotation
     val dialogState = remember { mutableStateOf(false) } // Initialize dialog state
     val logoutState = remember { mutableStateOf(false) } // Initialize logout state
     val query = remember { mutableStateOf("") }
@@ -76,8 +65,7 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, 
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController = navController,
-                dialogState = dialogState,
-                sessionViewModel= sessionViewModel)
+                dialogState = dialogState)
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
@@ -144,7 +132,6 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             dialogState = dialogState,
             logoutState = logoutState,
             route = "User",
-            sessionViewModel = sessionViewModel
         )
     }
 
@@ -158,7 +145,5 @@ fun UserScreen(modifier: Modifier = Modifier, navController: NavHostController, 
 @Preview
 @Composable
 fun PreviewUserScreen() {
-    val context = LocalContext.current
-    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    UserScreen(modifier = Modifier ,navController = rememberNavController(), sessionViewModel = sessionViewModel)
+    UserScreen(modifier = Modifier ,navController = rememberNavController())
 }

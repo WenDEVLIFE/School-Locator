@@ -46,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.viewmodel.LoginViewModelFactory
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -56,7 +57,8 @@ import kotlinx.serialization.json.Json
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewModel, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+    val sessionViewModel: SessionViewModel = viewModel()
     val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(sessionViewModel))
     val screenSize = getScreenSize()
     val context = LocalContext.current
@@ -93,7 +95,7 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Green1)
+                .background(darkblue)
                 .padding(16.dp)
         ) {
             Column(
@@ -267,8 +269,7 @@ fun LoginForm1(navController: NavHostController, sessionViewModel: SessionViewMo
 @Composable
 fun LoginForm1Preview() {
     val context = LocalContext.current
-    val sessionViewModel = SessionViewModel(context.applicationContext as Application)
-    LoginForm1(navController = rememberNavController(), sessionViewModel = sessionViewModel)
+    LoginForm1(navController = rememberNavController())
 }
 
 
