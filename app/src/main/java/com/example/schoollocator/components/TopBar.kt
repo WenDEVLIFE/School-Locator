@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import com.example.schoollocator.ui.theme.Typography
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
 
@@ -24,12 +26,12 @@ fun TopAppBarScreen(modifier: Modifier, tittle:String) {
                 text = tittle,
                 style = Typography.bodySmall,
                 fontSize = if (screenSize == ScreenSize.SMALL) 25.sp else 35.sp,
-                color = materialGreen
+                color = white900
             )
         },
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = materialLightGreen
+            containerColor = darkblue
         )
     )
 }
