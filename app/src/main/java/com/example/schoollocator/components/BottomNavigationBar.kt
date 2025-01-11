@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.darkblue
+import com.example.schoollocator.ui.theme.darkblue800
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
 import com.example.schoollocator.ui.theme.white900
@@ -65,7 +66,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") white900 else white900
+                    targetValue = if (selectedItem.value == "Map") darkblue800 else darkblue800
                 )
                 Text("Map", color = textColor)
             },
@@ -88,11 +89,11 @@ fun BottomNavigationBar(
                 }
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green,
-                unselectedIconColor = white900,
+                selectedIconColor = darkblue800,
+                unselectedIconColor = darkblue800,
                 selectedTextColor = white900,
                 unselectedTextColor = white900,
-                indicatorColor = white900
+                indicatorColor = darkblue800
             )
         )
 
@@ -110,7 +111,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") white900 else white900
+                    targetValue = if (selectedItem.value == "Home") darkblue800 else darkblue800
                 )
                 Text("Menu", color = textColor)
             },
@@ -123,11 +124,11 @@ fun BottomNavigationBar(
                 }
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green,
-                unselectedIconColor = Color.Black,
+                selectedIconColor = darkblue800,
+                unselectedIconColor =darkblue800,
                 selectedTextColor = white900,
                 unselectedTextColor = white900,
-                indicatorColor = white900
+                indicatorColor = darkblue800
             )
         )
 
@@ -145,7 +146,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorites") white900 else white900
+                    targetValue = if (selectedItem.value == "Favorites") darkblue800 else darkblue800
                 )
                 Text("Favorite", color = textColor)
             },
@@ -158,11 +159,11 @@ fun BottomNavigationBar(
                 }
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green,
-                unselectedIconColor = Color.Black,
+                selectedIconColor = darkblue800,
+                unselectedIconColor = darkblue800,
                 selectedTextColor = white900,
                 unselectedTextColor = white900,
-                indicatorColor = white900
+                indicatorColor = darkblue800
             )
         )
 
@@ -170,7 +171,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Logout") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Logout") white900 else white900
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_power_settings_new_24),
@@ -180,7 +181,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Logout") white900 else white900
+                    targetValue = if (selectedItem.value == "Logout") darkblue800 else darkblue800
                 )
                 Text("Logout", color = textColor)
             },
@@ -190,11 +191,11 @@ fun BottomNavigationBar(
                 dialogState.value = true // Show the dialog
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.Green,
-                unselectedIconColor = Color.Black,
+                selectedIconColor = darkblue800,
+                unselectedIconColor = darkblue800,
                 selectedTextColor = white900,
                 unselectedTextColor = white900,
-                indicatorColor = white900
+                indicatorColor = darkblue800
             )
         )
     }
