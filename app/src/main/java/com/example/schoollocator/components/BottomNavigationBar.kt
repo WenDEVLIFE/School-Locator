@@ -23,8 +23,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.viewmodel.SessionViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -34,7 +36,7 @@ fun BottomNavigationBar(
     navController: NavHostController,
     dialogState: MutableState<Boolean>
 ) {
-    NavigationBar(containerColor = materialLightGreen) {
+    NavigationBar(containerColor = darkblue) {
         val sessionViewModel: SessionViewModel = viewModel()
         val selectedItem = remember { mutableStateOf("Map") }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -53,7 +55,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Map") white900 else white900
                 )
                 Icon(
                     imageVector = Icons.Default.LocationOn,
@@ -63,7 +65,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") materialGreen else materialGreen
+                    targetValue = if (selectedItem.value == "Map") white900 else white900
                 )
                 Text("Map", color = textColor)
             },
@@ -87,10 +89,10 @@ fun BottomNavigationBar(
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
-                unselectedIconColor = materialGreen,
-                selectedTextColor = materialGreen,
-                unselectedTextColor = materialGreen,
-                indicatorColor = Green1
+                unselectedIconColor = white900,
+                selectedTextColor = white900,
+                unselectedTextColor = white900,
+                indicatorColor = white900
             )
         )
 
@@ -98,7 +100,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Home") white900 else white900
                 )
                 Icon(
                     imageVector = Icons.Default.Menu,
@@ -108,7 +110,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") materialGreen else materialGreen
+                    targetValue = if (selectedItem.value == "Home") white900 else white900
                 )
                 Text("Menu", color = textColor)
             },
@@ -123,9 +125,9 @@ fun BottomNavigationBar(
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
-                selectedTextColor = materialGreen,
-                unselectedTextColor = materialGreen,
-                indicatorColor = Green1
+                selectedTextColor = white900,
+                unselectedTextColor = white900,
+                indicatorColor = white900
             )
         )
 
@@ -133,7 +135,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorite") Color.Green else materialGreen
+                    targetValue = if (selectedItem.value == "Favorite") white900 else white900
                 )
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
@@ -143,7 +145,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorites") materialGreen else materialGreen
+                    targetValue = if (selectedItem.value == "Favorites") white900 else white900
                 )
                 Text("Favorite", color = textColor)
             },
@@ -158,9 +160,9 @@ fun BottomNavigationBar(
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
-                selectedTextColor = materialGreen,
-                unselectedTextColor = materialGreen,
-                indicatorColor = Green1
+                selectedTextColor = white900,
+                unselectedTextColor = white900,
+                indicatorColor = white900
             )
         )
 
@@ -178,7 +180,7 @@ fun BottomNavigationBar(
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Logout") materialGreen else materialGreen
+                    targetValue = if (selectedItem.value == "Logout") white900 else white900
                 )
                 Text("Logout", color = textColor)
             },
@@ -190,9 +192,9 @@ fun BottomNavigationBar(
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Green,
                 unselectedIconColor = Color.Black,
-                selectedTextColor = materialGreen,
-                unselectedTextColor = materialGreen,
-                indicatorColor = Green1
+                selectedTextColor = white900,
+                unselectedTextColor = white900,
+                indicatorColor = white900
             )
         )
     }
