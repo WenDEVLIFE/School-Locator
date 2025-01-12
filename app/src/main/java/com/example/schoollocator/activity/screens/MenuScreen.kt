@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,9 +32,11 @@ import com.example.schoollocator.components.LogoutDialog
 import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.data.MenuItem
 import com.example.schoollocator.ui.theme.Typography
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
 import com.example.schoollocator.ui.theme.materialLightGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.viewmodel.MenuViewModel
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
@@ -55,7 +58,7 @@ fun Profile(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(materialLightGreen)
+            .background(white900)
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -80,11 +83,11 @@ fun Profile(modifier: Modifier = Modifier) {
         ) {
             Spacer(modifier = Modifier.size(20.dp))
             if (username != null) {
-                Text(text = username, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+                Text(text = username, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = Color.Black)
             }
             Spacer(modifier = Modifier.size(4.dp))
             if (email != null) {
-                Text(text = email, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = materialGreen)
+                Text(text = email, style = Typography.bodySmall, fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp, color = Color.Black)
             }
             Spacer(modifier = Modifier.size(4.dp))
         }
@@ -162,7 +165,7 @@ fun Menu(
         modifier = modifier
             .fillMaxSize()
             .padding(11.dp)
-            .background(lightgreen),
+            .background(white900),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(visibleMenuItems) { item ->
@@ -170,7 +173,7 @@ fun Menu(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
-                    .background(lightgreen)
+                    .background(white900)
                     .padding(16.dp)
                     .clickable { item.onClick() },
                 verticalAlignment = Alignment.CenterVertically
@@ -179,7 +182,7 @@ fun Menu(
                     painter = painterResource(id = item.icon),
                     contentDescription = item.label,
                     modifier = Modifier.size(if (screenSize == ScreenSize.SMALL) 32.dp else 48.dp),
-                    tint = materialGreen
+                    tint = darkblue
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
@@ -187,14 +190,14 @@ fun Menu(
                     style = Typography.bodyLarge,
                     fontFamily = Typography.bodyLarge.fontFamily,
                     fontSize = if (screenSize == ScreenSize.SMALL) 16.sp else 20.sp,
-                    color = materialGreen
+                    color = darkblue
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     imageVector = item.trailingIcon,
                     contentDescription = null,
                     modifier = Modifier.size(if (screenSize == ScreenSize.SMALL) 32.dp else 48.dp),
-                    tint = materialGreen
+                    tint = darkblue
                 )
             }
         }
@@ -219,7 +222,7 @@ fun MenuScreen(modifier: Modifier = Modifier, navController: NavHostController,)
             Column(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(lightgreen)
+                    .background(white900)
             ) {
                 TopAppBarScreen(modifier = Modifier, tittle ="Menu")
                 // call the profile
