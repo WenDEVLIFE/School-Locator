@@ -42,8 +42,13 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.WhiteCus
+import com.example.schoollocator.ui.theme.darkblue
+import com.example.schoollocator.ui.theme.darkblue800
+import com.example.schoollocator.ui.theme.gray900
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.viewmodel.ChangePasswordViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -64,7 +69,7 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier,
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(lightgreen)
+                    .background(white900)
             ){
 
                 // Top bar state
@@ -109,8 +114,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
     LazyColumn(
         modifier = modifier
             .fillMaxSize() // Ensure LazyColumn fills the remaining space
-            .padding(11.dp)
-            .background(lightgreen),
+            .padding(11.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between items
     ) {
         item {
@@ -124,7 +128,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                     .padding(start = 16.dp),
                 text = "Old Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
+                color = Color.Black,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -171,7 +175,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 },
                 visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
+                    containerColor = gray900,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -190,7 +194,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                     .padding(start = 16.dp),
                 text = "New Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
+                color = Color.Black,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -236,7 +240,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 },
                 visualTransformation = if (viewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
+                    containerColor = gray900,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -252,7 +256,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 onClick = {
 
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                colors = ButtonDefaults.buttonColors(containerColor = darkblue800),
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -261,7 +265,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 Text(
                     text = "Update Password",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Green1,
+                    color = darkblue,
                     fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
                 )
             }
