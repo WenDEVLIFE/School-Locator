@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
+import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -70,7 +71,13 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
             ){
 
                 // Top bar state
-                TopAppBarScreen(modifier = Modifier, tittle ="Change Email")
+                TopAppBarScreenWithBackBtn(
+                    modifier = Modifier,
+                    tittle = "Change Email",
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -88,6 +95,8 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
             }
         }
     }
+
+
 
 
 }

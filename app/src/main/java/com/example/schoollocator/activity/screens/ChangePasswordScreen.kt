@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
+import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -67,7 +68,13 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier,
             ){
 
                 // Top bar state
-                TopAppBarScreen(modifier = Modifier, tittle ="Change Password")
+                TopAppBarScreenWithBackBtn(
+                    modifier = Modifier,
+                    tittle = "Change Password",
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(30.dp))
 

@@ -39,6 +39,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
+import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
@@ -78,7 +79,13 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
 
                     ) {
                     // Top bar
-                    TopAppBarScreen(modifier = Modifier, tittle = "Change Profile")
+                    TopAppBarScreenWithBackBtn(
+                        modifier = Modifier,
+                        tittle = "Change Profile",
+                        onBackClick = {
+                            navController.popBackStack()
+                        }
+                    )
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
