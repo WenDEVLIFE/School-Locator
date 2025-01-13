@@ -256,7 +256,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 onClick = {
 
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = darkblue800),
+                colors = ButtonDefaults.buttonColors(containerColor = darkblue),
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -265,7 +265,7 @@ fun ChangePasswordForm(modifier: Modifier = Modifier){
                 Text(
                     text = "Update Password",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = darkblue,
+                    color = white900,
                     fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
                 )
             }
