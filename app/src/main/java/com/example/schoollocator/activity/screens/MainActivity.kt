@@ -26,6 +26,7 @@ import com.example.schoollocator.R
 import com.example.schoollocator.graphs.AppNavigation
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.viewmodel.SessionViewModel
 import com.example.schoollocator.viewmodel.SessionViewModelFactoryN
 import com.example.schoollocator.windowEnum.ScreenSize
@@ -76,14 +77,14 @@ fun Splash(navController: NavHostController, modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
-            .background(Green1) // Apply the Green1 color here
+            .background(darkblue) // Apply the Green1 color here
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(16.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.school_locator),
+                painter = painterResource(id = R.drawable.logo2_transparent),
                 contentDescription = "Icon",
                 modifier = Modifier.size(
                     width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
