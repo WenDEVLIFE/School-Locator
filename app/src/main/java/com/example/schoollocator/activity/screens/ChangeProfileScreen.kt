@@ -41,8 +41,11 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
+import com.example.schoollocator.ui.theme.darkblue800
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.viewmodel.ChangeProfileViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -70,12 +73,12 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
             Box(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(lightgreen)
+                    .background(white900)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(lightgreen),
+                        .background(white900),
 
                     ) {
                     // Top bar
@@ -100,7 +103,7 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
                                 onClick = {
 
                                 },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                colors = ButtonDefaults.buttonColors(containerColor = darkblue),
                                 shape = RoundedCornerShape(20.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -109,7 +112,7 @@ fun ChangeProfileScreen(modifier: Modifier = Modifier,
                                 Text(
                                     text = "Update Profile",
                                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                                    color = Green1,
+                                    color = white900,
                                     fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
                                 )
                             }
@@ -149,7 +152,7 @@ fun ChangeProfile(modifier: Modifier = Modifier) {
                  //imageVector = Icons.Default.Edit, // Use a predefined icon
                  painter = painterResource(id= R.drawable.baseline_photo_camera_24),
                  contentDescription = "Edit Profile",
-                 tint = materialGreen,
+                 tint = white900,
                  modifier = Modifier
                      .align(Alignment.BottomEnd)
                      .padding(8.dp)
