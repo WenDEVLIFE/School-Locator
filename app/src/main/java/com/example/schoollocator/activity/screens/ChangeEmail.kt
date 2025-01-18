@@ -42,8 +42,11 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.TopAppBarScreen
 import com.example.schoollocator.components.TopAppBarScreenWithBackBtn
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
+import com.example.schoollocator.ui.theme.gray900
 import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.ui.theme.materialGreen
+import com.example.schoollocator.ui.theme.white900
 import com.example.schoollocator.viewmodel.AddUserViewModel
 import com.example.schoollocator.viewmodel.ChangeEmailViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
@@ -67,7 +70,7 @@ fun ChangeEmailScreen(modifier: Modifier = Modifier,
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(lightgreen)
+                    .background(white900)
             ){
 
                 // Top bar state
@@ -116,7 +119,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
         modifier = modifier
             .fillMaxSize() // Ensure LazyColumn fills the remaining space
             .padding(11.dp)
-            .background(lightgreen),
+            .background(white900),
         verticalArrangement = if (screenSize == ScreenSize.SMALL) Arrangement.spacedBy(10.dp) else Arrangement.spacedBy(20.dp) // Add spacing between items
     ) {
         item {
@@ -130,7 +133,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     .padding(start = 16.dp),
                 text = "Old Email",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
+                color = Color.Black,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -165,7 +168,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
 
                 // This is for the colors of the text field
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
+                    containerColor = gray900,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -179,7 +182,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     .padding(start = 16.dp),
                 text = "New Email",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
+                color = Color.Black,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -214,7 +217,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
 
                 // This is for the colors of the text field
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
+                    containerColor = gray900,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -228,7 +231,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                     .padding(start = 16.dp),
                 text = "Password",
                 fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                color = materialGreen,
+                color = Color.Black,
                 fontSize = if (screenSize == ScreenSize.SMALL) 22.sp else 25.sp
             )
         }
@@ -271,7 +274,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                 },
                 visualTransformation = if (viewModel.Passwordvisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
+                    containerColor = gray900,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
@@ -287,7 +290,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                 onClick = {
 
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                colors = ButtonDefaults.buttonColors(containerColor = darkblue),
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -296,7 +299,7 @@ fun ChangeEmailForm(modifier: Modifier = Modifier){
                 Text(
                     text = "Update Email",
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
-                    color = Green1,
+                    color = white900,
                     fontSize = if (screenSize == ScreenSize.SMALL) 20.sp else 25.sp
                 )
             }
