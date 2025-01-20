@@ -2,9 +2,12 @@ package com.example.schoollocator.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -36,7 +39,7 @@ fun AdminBottomNavigation(
 ) {
     NavigationBar(containerColor = darkblue) {
         val sessionViewModel: SessionViewModel = viewModel()
-        val selectedItem = remember { mutableStateOf("Map") }
+        val selectedItem = remember { mutableStateOf("Schools") }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -46,30 +49,30 @@ fun AdminBottomNavigation(
 
         // Update selectedItem based on current route
         LaunchedEffect(currentRoute) {
-            selectedItem.value = currentRoute ?: "Map"
+            selectedItem.value = currentRoute ?: "Schools"
         }
 
         // Map NavigationBarItem
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") white900 else white900
+                    targetValue = if (selectedItem.value == "Schools") white900 else white900
                 )
                 Icon(
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Map",
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Schools",
                     tint = iconColor
                 )
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Map") darkblue800 else darkblue800
+                    targetValue = if (selectedItem.value == "Schools") darkblue800 else darkblue800
                 )
-                Text("Map", color = textColor)
+                Text("Schools", color = textColor)
             },
-            selected = selectedItem.value == "Map",
+            selected = selectedItem.value == "Schools",
             onClick = {
-                selectedItem.value = "Map"
+                selectedItem.value = "Schools"
 
                 val map = hashMapOf(
                     "username" to username,
@@ -98,24 +101,24 @@ fun AdminBottomNavigation(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") white900 else white900
+                    targetValue = if (selectedItem.value == "Users") white900 else white900
                 )
                 Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Home",
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Users",
                     tint = iconColor
                 )
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Home") darkblue800 else darkblue800
+                    targetValue = if (selectedItem.value == "Users") darkblue800 else darkblue800
                 )
-                Text("Menu", color = textColor)
+                Text("Users", color = textColor)
             },
-            selected = selectedItem.value == "Home",
+            selected = selectedItem.value == "Users",
             onClick = {
-                selectedItem.value = "Home"
-                navController.navigate("Home") {
+                selectedItem.value = "Users"
+                navController.navigate("Users") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -133,24 +136,24 @@ fun AdminBottomNavigation(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorite") white900 else white900
+                    targetValue = if (selectedItem.value == "Account") white900 else white900
                 )
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Favorite",
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = "Account",
                     tint = iconColor
                 )
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Favorites") darkblue800 else darkblue800
+                    targetValue = if (selectedItem.value == "Account") darkblue800 else darkblue800
                 )
-                Text("Favorite", color = textColor)
+                Text("Account", color = textColor)
             },
-            selected = selectedItem.value == "Favorites",
+            selected = selectedItem.value == "Account",
             onClick = {
-                selectedItem.value = "Favorites"
-                navController.navigate("Favorites") {
+                selectedItem.value = "Account"
+                navController.navigate("Account") {
                     launchSingleTop = true
                     restoreState = true
                 }
