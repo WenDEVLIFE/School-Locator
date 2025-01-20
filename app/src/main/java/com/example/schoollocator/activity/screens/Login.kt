@@ -47,6 +47,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.darkblue
+import com.example.schoollocator.ui.theme.gray900
 import com.example.schoollocator.viewmodel.LoginViewModel
 import com.example.schoollocator.viewmodel.LoginViewModelFactory
 import com.example.schoollocator.viewmodel.SessionViewModel
@@ -104,7 +105,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                 modifier = Modifier.padding(16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.location),
+                    painter = painterResource(id = R.drawable.logo2_transparent),
                     contentDescription = "Icon",
                     modifier = Modifier.size(
                         width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,
@@ -157,7 +158,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                         )
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.White,
+                        containerColor = gray900,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     )
@@ -214,7 +215,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                     },
                     visualTransformation = if (loginViewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.White,
+                        containerColor = gray900,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     )
