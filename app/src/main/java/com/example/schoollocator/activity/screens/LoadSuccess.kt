@@ -31,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.Green1
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.viewmodel.SuccessViewModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -72,7 +73,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Green1)
+            .background(darkblue)
             .padding(16.dp),
 
     )
@@ -83,7 +84,7 @@ fun LoadSuccess(navController: NavController, modifier: Modifier = Modifier, onC
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Green1)
+                .background(darkblue)
                 .padding(16.dp),
         contentAlignment = Alignment.Center
         ){
