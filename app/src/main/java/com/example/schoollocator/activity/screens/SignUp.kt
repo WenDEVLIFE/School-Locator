@@ -47,6 +47,7 @@ import com.example.schoollocator.R
 import com.example.schoollocator.components.OTPTextField
 import com.example.schoollocator.ui.theme.Green1
 import com.example.schoollocator.ui.theme.SchoolLocatorTheme
+import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.viewmodel.SignUpModel
 import com.example.schoollocator.windowEnum.ScreenSize
 import com.example.schoollocator.windowEnum.getScreenSize
@@ -77,7 +78,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Green1)
+            .background(darkblue)
             .padding(16.dp)
 
     ) {
@@ -95,7 +96,7 @@ fun SignUpForm(navController: NavController, modifier: Modifier, onClick: () -> 
             // This is for the image
             item {
                 Image(
-                    painter = painterResource(id = R.drawable.location),
+                    painter = painterResource(id = R.drawable.logo2_transparent),
                     contentDescription = "Icon",
                     modifier = Modifier.size(
                         width = if (screenSize == ScreenSize.SMALL) 150.dp else 204.dp,

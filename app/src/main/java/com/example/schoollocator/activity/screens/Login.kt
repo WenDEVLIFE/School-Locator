@@ -158,7 +158,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                         )
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = gray900,
+                        containerColor =  Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     )
@@ -215,7 +215,7 @@ fun LoginForm1(navController: NavHostController, modifier: Modifier = Modifier, 
                     },
                     visualTransformation = if (loginViewModel.isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = gray900,
+                        containerColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     )
