@@ -20,9 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.schoollocator.R
 import com.example.schoollocator.ui.theme.darkblue
 import com.example.schoollocator.ui.theme.darkblue800
@@ -74,16 +76,7 @@ fun AdminBottomNavigation(
             onClick = {
                 selectedItem.value = "Schools"
 
-                val map = hashMapOf(
-                    "username" to username,
-                    "email" to email,
-                    "role" to role
-                )
-
-                // Serialize map to JSON string
-                val jsonString = Json.encodeToString(map)
-
-                navController.navigate("Map/$jsonString") {
+                navController.navigate("School") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -118,7 +111,7 @@ fun AdminBottomNavigation(
             selected = selectedItem.value == "Users",
             onClick = {
                 selectedItem.value = "Users"
-                navController.navigate("Users") {
+                navController.navigate("User") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -153,7 +146,7 @@ fun AdminBottomNavigation(
             selected = selectedItem.value == "Account",
             onClick = {
                 selectedItem.value = "Account"
-                navController.navigate("Account") {
+                navController.navigate("Home") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -199,4 +192,12 @@ fun AdminBottomNavigation(
             )
         )
     }
+
+}
+
+@Preview
+@Composable
+fun PreviewAdminBottomNavigation() {
+    // Preview the bottom navigation
+    AdminBottomNavigation(navController = rememberNavController(), dialogState = remember { mutableStateOf(false) })
 }
