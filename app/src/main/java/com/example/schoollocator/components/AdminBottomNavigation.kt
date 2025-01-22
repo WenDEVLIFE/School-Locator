@@ -33,7 +33,6 @@ import com.example.schoollocator.viewmodel.SessionViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-// TODO : Added Bottom Navigation for Admin
 @Composable
 fun AdminBottomNavigation(
     navController: NavHostController,
