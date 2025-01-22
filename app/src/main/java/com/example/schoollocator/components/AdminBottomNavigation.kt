@@ -50,7 +50,7 @@ fun AdminBottomNavigation(
 
         // Update selectedItem based on current route
         LaunchedEffect(currentRoute) {
-            selectedItem.value = currentRoute ?: "Schools"
+            selectedItem.value = currentRoute ?: "Your Schools"
         }
 
         // Map NavigationBarItem
@@ -69,7 +69,7 @@ fun AdminBottomNavigation(
                 val textColor by animateColorAsState(
                     targetValue = if (selectedItem.value == "Schools") darkblue800 else darkblue800
                 )
-                Text("Schools", color = textColor)
+                Text("Your Schools", color = textColor)
             },
             selected = selectedItem.value == "Schools",
             onClick = {
@@ -93,24 +93,24 @@ fun AdminBottomNavigation(
         NavigationBarItem(
             icon = {
                 val iconColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Users") white900 else white900
+                    targetValue = if (selectedItem.value == "Chats") white900 else white900
                 )
                 Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Users",
+                    painter = painterResource(R.drawable.baseline_chat_24),
+                    contentDescription = "Chats",
                     tint = iconColor
                 )
             },
             label = {
                 val textColor by animateColorAsState(
-                    targetValue = if (selectedItem.value == "Users") darkblue800 else darkblue800
+                    targetValue = if (selectedItem.value == "Chats") darkblue800 else darkblue800
                 )
-                Text("Users", color = textColor)
+                Text("Chats", color = textColor)
             },
-            selected = selectedItem.value == "Users",
+            selected = selectedItem.value == "Chats",
             onClick = {
-                selectedItem.value = "Users"
-                navController.navigate("User") {
+                selectedItem.value = "Chats"
+                navController.navigate("Chats") {
                     launchSingleTop = true
                     restoreState = true
                 }
