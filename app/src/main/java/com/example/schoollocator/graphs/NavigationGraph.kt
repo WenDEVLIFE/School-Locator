@@ -21,6 +21,7 @@ import com.example.schoollocator.activity.screens.LoadSuccess
 import com.example.schoollocator.activity.screens.LoginForm1
 import com.example.schoollocator.activity.screens.MapScreen
 import com.example.schoollocator.activity.screens.MenuScreen
+import com.example.schoollocator.activity.screens.MessageScreen
 import com.example.schoollocator.activity.screens.SchoolScreen
 import com.example.schoollocator.activity.screens.SignUpForm
 import com.example.schoollocator.activity.screens.Splash
@@ -110,6 +111,11 @@ fun AppNavigation(navController: NavHostController) {
         // Change Email Screen
         composable("ChangeEmail") {
             ChangeEmailScreen( navController = navController)
+        }
+
+        // Message Screen
+        composable("Chats") {
+            MessageScreen( navController = navController)
         }
 
         // Logout Composable

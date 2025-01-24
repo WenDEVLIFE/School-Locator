@@ -127,8 +127,12 @@ fun Menu(
                 restoreState = true
             }
         }, visible = role != "User"),
-        MenuItem(R.drawable.chats, "Messages", Icons.Default.KeyboardArrowRight, {
-            Toast.makeText(context, "Messages", Toast.LENGTH_SHORT).show()
+        MenuItem(R.drawable.chats, "Chats", Icons.Default.KeyboardArrowRight, {
+
+            navController.navigate("Chats") {
+                launchSingleTop = true
+                restoreState = true
+            }
         }),
         MenuItem(R.drawable.love, "Favorites", Icons.Default.KeyboardArrowRight, {
             navController.navigate("Favorites") {
