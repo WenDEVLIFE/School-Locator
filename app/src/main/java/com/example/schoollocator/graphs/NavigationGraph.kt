@@ -21,13 +21,12 @@ import com.example.schoollocator.activity.screens.LoadSuccess
 import com.example.schoollocator.activity.screens.LoginForm1
 import com.example.schoollocator.activity.screens.MapScreen
 import com.example.schoollocator.activity.screens.MenuScreen
-import com.example.schoollocator.activity.screens.MessageScreen
+import com.example.schoollocator.activity.screens.ChatScreen
 import com.example.schoollocator.activity.screens.SchoolScreen
 import com.example.schoollocator.activity.screens.SignUpForm
 import com.example.schoollocator.activity.screens.Splash
 import com.example.schoollocator.activity.screens.UserScreen
 import com.example.schoollocator.components.LogoutDialog
-import com.example.schoollocator.viewmodel.SessionViewModel
 
 // This is for the navigation graph
 @Composable
@@ -115,7 +114,7 @@ fun AppNavigation(navController: NavHostController) {
 
         // Message Screen
         composable("Chats") {
-            MessageScreen( navController = navController)
+            ChatScreen( navController = navController)
         }
 
         // Logout Composable

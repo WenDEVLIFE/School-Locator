@@ -24,8 +24,8 @@ import com.example.schoollocator.ui.theme.lightgreen
 import com.example.schoollocator.viewmodel.MessageViewModel
 
 @Composable
-fun MessageScreen(modifier: Modifier = Modifier,
-                  navController: NavHostController
+fun ChatScreen(modifier: Modifier = Modifier,
+               navController: NavHostController
 ) {
     //  get the view model
     val viewModel: MessageViewModel = viewModel()
@@ -85,5 +85,5 @@ fun MessageList(modifier: Modifier) {
 @Preview
 @Composable
 fun PreviewMessageScreen() {
-    MessageScreen(modifier = Modifier, navController = rememberNavController())
+    ChatScreen(modifier = Modifier, navController = rememberNavController())
 }
